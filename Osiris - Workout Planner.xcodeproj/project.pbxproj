@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		010295C32D12326600F6AB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 010295AA2D12326500F6AB51 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 010295B12D12326500F6AB51;
+			remoteInfo = "Osiris - Workout Planner";
+		};
+		010295CD2D12326600F6AB51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 010295AA2D12326500F6AB51 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 010295B12D12326500F6AB51;
+			remoteInfo = "Osiris - Workout Planner";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		010295B22D12326500F6AB51 /* Osiris - Workout Planner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Osiris - Workout Planner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		010295C22D12326600F6AB51 /* Osiris - Workout PlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Osiris - Workout PlannerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		010295CC2D12326600F6AB51 /* Osiris - Workout PlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Osiris - Workout PlannerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		010295B42D12326500F6AB51 /* Osiris - Workout Planner */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Osiris - Workout Planner";
+			sourceTree = "<group>";
+		};
+		010295C52D12326600F6AB51 /* Osiris - Workout PlannerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Osiris - Workout PlannerTests";
+			sourceTree = "<group>";
+		};
+		010295CF2D12326600F6AB51 /* Osiris - Workout PlannerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Osiris - Workout PlannerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		010295AF2D12326500F6AB51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295BF2D12326600F6AB51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295C92D12326600F6AB51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		010295A92D12326500F6AB51 = {
+			isa = PBXGroup;
+			children = (
+				010295B42D12326500F6AB51 /* Osiris - Workout Planner */,
+				010295C52D12326600F6AB51 /* Osiris - Workout PlannerTests */,
+				010295CF2D12326600F6AB51 /* Osiris - Workout PlannerUITests */,
+				010295B32D12326500F6AB51 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		010295B32D12326500F6AB51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				010295B22D12326500F6AB51 /* Osiris - Workout Planner.app */,
+				010295C22D12326600F6AB51 /* Osiris - Workout PlannerTests.xctest */,
+				010295CC2D12326600F6AB51 /* Osiris - Workout PlannerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		010295B12D12326500F6AB51 /* Osiris - Workout Planner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 010295D62D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout Planner" */;
+			buildPhases = (
+				010295AE2D12326500F6AB51 /* Sources */,
+				010295AF2D12326500F6AB51 /* Frameworks */,
+				010295B02D12326500F6AB51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				010295B42D12326500F6AB51 /* Osiris - Workout Planner */,
+			);
+			name = "Osiris - Workout Planner";
+			packageProductDependencies = (
+			);
+			productName = "Osiris - Workout Planner";
+			productReference = 010295B22D12326500F6AB51 /* Osiris - Workout Planner.app */;
+			productType = "com.apple.product-type.application";
+		};
+		010295C12D12326600F6AB51 /* Osiris - Workout PlannerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 010295D92D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout PlannerTests" */;
+			buildPhases = (
+				010295BE2D12326600F6AB51 /* Sources */,
+				010295BF2D12326600F6AB51 /* Frameworks */,
+				010295C02D12326600F6AB51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				010295C42D12326600F6AB51 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				010295C52D12326600F6AB51 /* Osiris - Workout PlannerTests */,
+			);
+			name = "Osiris - Workout PlannerTests";
+			packageProductDependencies = (
+			);
+			productName = "Osiris - Workout PlannerTests";
+			productReference = 010295C22D12326600F6AB51 /* Osiris - Workout PlannerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		010295CB2D12326600F6AB51 /* Osiris - Workout PlannerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 010295DC2D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout PlannerUITests" */;
+			buildPhases = (
+				010295C82D12326600F6AB51 /* Sources */,
+				010295C92D12326600F6AB51 /* Frameworks */,
+				010295CA2D12326600F6AB51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				010295CE2D12326600F6AB51 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				010295CF2D12326600F6AB51 /* Osiris - Workout PlannerUITests */,
+			);
+			name = "Osiris - Workout PlannerUITests";
+			packageProductDependencies = (
+			);
+			productName = "Osiris - Workout PlannerUITests";
+			productReference = 010295CC2D12326600F6AB51 /* Osiris - Workout PlannerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		010295AA2D12326500F6AB51 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					010295B12D12326500F6AB51 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					010295C12D12326600F6AB51 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 010295B12D12326500F6AB51;
+					};
+					010295CB2D12326600F6AB51 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 010295B12D12326500F6AB51;
+					};
+				};
+			};
+			buildConfigurationList = 010295AD2D12326500F6AB51 /* Build configuration list for PBXProject "Osiris - Workout Planner" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 010295A92D12326500F6AB51;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 010295B32D12326500F6AB51 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				010295B12D12326500F6AB51 /* Osiris - Workout Planner */,
+				010295C12D12326600F6AB51 /* Osiris - Workout PlannerTests */,
+				010295CB2D12326600F6AB51 /* Osiris - Workout PlannerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		010295B02D12326500F6AB51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295C02D12326600F6AB51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295CA2D12326600F6AB51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		010295AE2D12326500F6AB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295BE2D12326600F6AB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		010295C82D12326600F6AB51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		010295C42D12326600F6AB51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 010295B12D12326500F6AB51 /* Osiris - Workout Planner */;
+			targetProxy = 010295C32D12326600F6AB51 /* PBXContainerItemProxy */;
+		};
+		010295CE2D12326600F6AB51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 010295B12D12326500F6AB51 /* Osiris - Workout Planner */;
+			targetProxy = 010295CD2D12326600F6AB51 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		010295D42D12326600F6AB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		010295D52D12326600F6AB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		010295D72D12326600F6AB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Osiris - Workout Planner/Preview Content\"";
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-Planner";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		010295D82D12326600F6AB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Osiris - Workout Planner/Preview Content\"";
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-Planner";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		010295DA2D12326600F6AB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-PlannerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Osiris - Workout Planner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Osiris - Workout Planner";
+			};
+			name = Debug;
+		};
+		010295DB2D12326600F6AB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-PlannerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Osiris - Workout Planner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Osiris - Workout Planner";
+			};
+			name = Release;
+		};
+		010295DD2D12326600F6AB51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-PlannerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Osiris - Workout Planner";
+			};
+			name = Debug;
+		};
+		010295DE2D12326600F6AB51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UZ7YK2F2PH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hadi.Osiris---Workout-PlannerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Osiris - Workout Planner";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		010295AD2D12326500F6AB51 /* Build configuration list for PBXProject "Osiris - Workout Planner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				010295D42D12326600F6AB51 /* Debug */,
+				010295D52D12326600F6AB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		010295D62D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout Planner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				010295D72D12326600F6AB51 /* Debug */,
+				010295D82D12326600F6AB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		010295D92D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout PlannerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				010295DA2D12326600F6AB51 /* Debug */,
+				010295DB2D12326600F6AB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		010295DC2D12326600F6AB51 /* Build configuration list for PBXNativeTarget "Osiris - Workout PlannerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				010295DD2D12326600F6AB51 /* Debug */,
+				010295DE2D12326600F6AB51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 010295AA2D12326500F6AB51 /* Project object */;
+}
