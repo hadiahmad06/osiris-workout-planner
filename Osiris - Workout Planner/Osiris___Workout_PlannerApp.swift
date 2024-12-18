@@ -3,7 +3,7 @@
 import SwiftUI
 
 @main
-struct ___PACKAGENAME:identifier___App: App {
+struct Osiris_Workout_PlannerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
