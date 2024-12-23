@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCwIdnS87qA0j0Uel-j4CR-Mmnv9bAyGRE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>297180289298</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>hadi.Osiris</string>
+	<key>PROJECT_ID</key>
+	<string>osiris-4f9df</string>
+	<key>STORAGE_BUCKET</key>
+	<string>osiris-4f9df.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:297180289298:ios:e8449581dc26e364007bcb</string>
+</dict>
+</plist>
