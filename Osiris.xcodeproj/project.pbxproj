@@ -10,6 +10,7 @@
 		015BAFCF2D1BEAE20006BA54 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFCE2D1BEAE20006BA54 /* FirebaseAuth */; };
 		015BAFD12D1BEAE20006BA54 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFD02D1BEAE20006BA54 /* FirebaseCore */; };
 		015BAFD32D1BEAE20006BA54 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFD22D1BEAE20006BA54 /* FirebaseFirestore */; };
+		015BB0E92D1C30990006BA54 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 015BB0E82D1C30990006BA54 /* README.md */; };
 		01A65DCD2D1BA466009B5E25 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DCC2D1BA466009B5E25 /* FirebaseAuth */; };
 		01A65DCF2D1BA466009B5E25 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DCE2D1BA466009B5E25 /* FirebaseCore */; };
 		01A65DD12D1BA466009B5E25 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DD02D1BA466009B5E25 /* FirebaseFirestore */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		015BB0E82D1C30990006BA54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		01C91AE82D1222D30014D964 /* Osiris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Osiris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91AF92D1222D40014D964 /* OsirisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91B032D1222D40014D964 /* OsirisUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 				01C91B062D1222D40014D964 /* OsirisUITests */,
 				01C91AE92D1222D30014D964 /* Products */,
 				771CBD8A12CDCCC2BC4CFF10 /* Pods */,
+				015BB0E82D1C30990006BA54 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -232,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015BB0E92D1C30990006BA54 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
