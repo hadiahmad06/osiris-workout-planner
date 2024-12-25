@@ -19,7 +19,7 @@ struct WorkoutView: View {
                 // Rounded rectangle with the top hidden and bottom curves visible
                 RoundedRectangle(cornerRadius: 50)
                     .frame(height: 300)
-                    .foregroundColor(GlobalColorManager.backgroundAccent)
+                    .foregroundColor(AssetsManager.backgroundAccent)
                     .offset(y: -75)  // Move the rectangle up to hide the top part
                     .clipped() // Ensure that only the bottom curve is visible
                 
@@ -32,7 +32,7 @@ struct WorkoutView: View {
                             .font(.title)
                         HStack {
                             Image(systemName: "clock")
-                                .foregroundColor(GlobalColorManager.accentColorMain)
+                                .foregroundColor(AssetsManager.accentColorMain)
                                 .font(.system(size: 25))
                                 .padding()
                             TimerView(timerManager: timerManager)
@@ -58,9 +58,9 @@ struct WorkoutView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 15)
                                         .frame(width: 80, height: 30)
-                                        .foregroundStyle(GlobalColorManager.accentColorMain)
+                                        .foregroundStyle(AssetsManager.accentColorMain)
                                     Text(buttonText)
-                                        .foregroundColor(GlobalColorManager.buttonTextColor)
+                                        .foregroundColor(AssetsManager.buttonTextColor)
                                         .font(.system(size: 18))
                                         .padding()
                                 }
@@ -72,14 +72,14 @@ struct WorkoutView: View {
                 }
             }
             .frame(height: 75) // Ensure the geometry takes up full height
-            .background(GlobalColorManager.backgroundColor)
+            .background(AssetsManager.backgroundColor)
             
             // Additional content below the rectangle
             Spacer()
             Text("WorkoutView")
             
         }
-        .background(GlobalColorManager.backgroundColor)
+        .background(AssetsManager.backgroundColor)
     }
 }
 
@@ -90,7 +90,7 @@ struct ExerciseView: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(GlobalColorManager.backgroundAccent)
+                .fill(AssetsManager.backgroundAccent)
         }
     }
 }

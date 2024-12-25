@@ -25,18 +25,18 @@ struct StartupView: View {
     var body: some View {
         VStack{
             //Spacer()
-            Image(systemName: "figure.strengthtraining.traditional")
+            AssetsManager.logo
                 .font(.system(size: 120))
-                .foregroundColor(GlobalColorManager.accentColorMain)
+                .foregroundColor(AssetsManager.accentColorMain)
             ZStack(alignment: .leading) {
                 // Background of the loading bar
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(GlobalColorManager.accentColorSecondary)
+                    .fill(AssetsManager.accentColorSecondary)
                     .frame(width: maxWidth, height: height)
                 
                 // Animated fill of the loading bar
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(GlobalColorManager.accentColorMain)
+                    .fill(AssetsManager.accentColorMain)
                     .frame(width: maxWidth * progress, height: height)
                     .animation(.easeInOut(duration: duration), value: progress)
             }
@@ -46,7 +46,7 @@ struct StartupView: View {
             //Spacer()
             
         }
-        .background(GlobalColorManager.backgroundColor)
+        .background(AssetsManager.backgroundColor)
     }
 }
 

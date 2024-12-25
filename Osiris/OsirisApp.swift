@@ -2,26 +2,31 @@
 
 
 import SwiftUI
-import FirebaseCore
+import Firebase
 
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
-  }
-}
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//  func application(_ application: UIApplication,
+//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//    FirebaseApp.configure()
+//
+//    return true
+//  }
+//}
 
 @main
-struct Osiris_Workout_PlannerApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+struct OsirisApp: App {
+    @StateObject var viewModel = AuthViewModel()
+    //@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
-            SetupView()
-            //ContentView()
+            ControllerView()
+                .environmentObject(viewModel)
         }
     }
 }

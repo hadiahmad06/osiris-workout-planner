@@ -8,31 +8,65 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
+    @StateObject var viewModel = AuthViewModel()
     
     var body: some View {
         VStack {
-            Text("Sign In")
-                .font(.system(size: 20))
-                .fontWeight(.bold)
-            
-            InputView(text: $username,
-                      placeholder: "Email")
-            
-            InputView(text: $password,
-                      placeholder: "Password")
+            AssetsManager.logo
+                .resizable()
+                .scaledToFill()
+                .frame(width:100, height:100)
+                .foregroundStyle(AssetsManager.accentColorMain)
+                .padding(.vertical, 50)
+            VStack{
+                InputView(text: $email,
+                          placeholder: "Email")
                 
-            Button(action: {}) {
-                Text("Sign In")
-                    .font(.system(size: 20))
+                InputView(text: $password,
+                          placeholder: "Password",
+                          isSecureField: true)
             }
-            .background(GlobalColorManager.buttonColor)
+            .padding(.horizontal, 15)
+            .padding(.top, 10)
+            .background(AssetsManager.backgroundAccent)
+            .cornerRadius(25)
+            .padding(.horizontal, 40)
+            
+            Button(action: {
+                Task {
+                    try await viewModel.signIn(withEmail: email, password: password)
+                }
+            }) {
+                HStack {
+                    Text("SIGN IN")
+                        .font(.system(size: 20))
+                    Image(systemName: "arrow.right")
+                }
+                .foregroundStyle(AssetsManager.buttonTextColor)
+            }
+            .frame(width: 200, height: 50)
+            .background(AssetsManager.buttonColor)
             .cornerRadius(24)
-            .padding(.top, 24)
+            .padding(.top, 30)
+            
             Spacer()
+            
+            NavigationLink { // NOT COMPLETE
+                RegistrationView()
+                    .navigationBarBackButtonHidden(true)
+            } label: {
+                HStack{
+                    Text("Don't have an account?")
+                    Text("Sign up")
+                        .fontWeight(.semibold)
+                }
+                .foregroundStyle(AssetsManager.textColorSecondary)
+            }
+            
         }
-        .background(GlobalColorManager.backgroundColor)
+        .background(AssetsManager.backgroundColor)
     }
 }
 
