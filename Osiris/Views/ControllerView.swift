@@ -9,22 +9,31 @@ import SwiftUI
 
 struct ControllerView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @State var showLoginView: Bool = false
+    
     
     var body: some View {
         Group {
             if viewModel.userSession != nil {
                 ContentView()
             } else {
-                RegistrationView()
+                if(showLoginView) {
+                    LoginView(showLoginView: $showLoginView)
+                } else {
+                    RegistrationView(showLoginView: $showLoginView)
+                }
             }
         }
         //.edgesIgnoringSafeArea(.all)
     }
 }
 
+//extension ControllerView {
+//    static var EXAMPLE_CONTROLLER_VIEW: ControllerView = ControllerView()
+//}
+
 struct ControllerView_Previews: PreviewProvider {
     static var previews: some View {
         ControllerView()
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
     }
 }

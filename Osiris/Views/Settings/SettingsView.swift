@@ -70,5 +70,6 @@ struct SettingsView: View {
 struct SettingsView_Preview: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
     }
 }

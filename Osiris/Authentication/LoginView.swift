@@ -10,10 +10,12 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @StateObject var viewModel = AuthViewModel()
+    @EnvironmentObject var viewModel: AuthViewModel
+    @Binding var showLoginView: Bool
     
     var body: some View {
         VStack {
+            Spacer()
             AssetsManager.logo
                 .resizable()
                 .scaledToFill()
@@ -36,7 +38,9 @@ struct LoginView: View {
             
             Button(action: {
                 Task {
-                    try await viewModel.signIn(withEmail: email, password: password)
+                    try await viewModel.signIn(
+                        withEmail: self.email,
+                        password: self.password)
                 }
             }) {
                 HStack {
@@ -53,9 +57,8 @@ struct LoginView: View {
             
             Spacer()
             
-            NavigationLink { // NOT COMPLETE
-                RegistrationView()
-                    .navigationBarBackButtonHidden(true)
+            Button {
+                showLoginView = false
             } label: {
                 HStack{
                     Text("Don't have an account?")
@@ -63,9 +66,7 @@ struct LoginView: View {
                         .fontWeight(.semibold)
                 }
                 .foregroundStyle(AssetsManager.textColorSecondary)
-                
             }
-            
             Spacer()
         }
         .frame(minHeight: UIScreen.main.bounds.height)
@@ -75,6 +76,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(showLoginView: .constant(true))
+            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
     }
 }

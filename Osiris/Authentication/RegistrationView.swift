@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct RegistrationView: View {
-@State private var email: String = ""
-@State private var username: String = ""
-@State private var nickname: String = ""
-@State private var password: String = ""
-//@Environment(\.dismiss) var dismiss
-@EnvironmentObject var viewModel: AuthViewModel
+    @State private var email: String = ""
+    @State private var username: String = ""
+    @State private var nickname: String = ""
+    @State private var password: String = ""
+    @EnvironmentObject var viewModel: AuthViewModel
+    @Binding var showLoginView: Bool
 
-var body: some View {
+
+    var body: some View {
         VStack {
             Spacer()
             AssetsManager.logo
@@ -46,6 +47,11 @@ var body: some View {
             
             Button(action: {
                 Task {
+                    try await viewModel.signIn(
+                        withEmail: self.email,
+                        password: self.password)
+                }
+                Task {
                     try await viewModel.createUser(
                         withEmail: self.email,
                         password: self.password,
@@ -67,9 +73,8 @@ var body: some View {
             
             Spacer()
             
-            NavigationLink { // NOT COMPLETE
-                LoginView()
-                    .navigationBarBackButtonHidden(true)
+            Button {
+                showLoginView = true
             } label: {
                 HStack{
                     Text("Already have an account?")
@@ -81,12 +86,13 @@ var body: some View {
             Spacer()
         }
         .frame(maxHeight: UIScreen.main.bounds.height)
-        .background(AssetsManager.backgroundColor)        
+        .background(AssetsManager.backgroundColor)
     }
 }
 
 struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {
-        RegistrationView()
+        RegistrationView(showLoginView: .constant(false))
+            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
     }
 }
