@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		015BAFCF2D1BEAE20006BA54 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFCE2D1BEAE20006BA54 /* FirebaseAuth */; };
+		015BAFD12D1BEAE20006BA54 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFD02D1BEAE20006BA54 /* FirebaseCore */; };
+		015BAFD32D1BEAE20006BA54 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 015BAFD22D1BEAE20006BA54 /* FirebaseFirestore */; };
 		01A65DCD2D1BA466009B5E25 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DCC2D1BA466009B5E25 /* FirebaseAuth */; };
 		01A65DCF2D1BA466009B5E25 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DCE2D1BA466009B5E25 /* FirebaseCore */; };
 		01A65DD12D1BA466009B5E25 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 01A65DD02D1BA466009B5E25 /* FirebaseFirestore */; };
-		2FD5053613E603A5322E1140 /* Pods_Osiris.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58792260C9B96E0CFCAB7610 /* Pods_Osiris.framework */; };
-		56897B6195C522979471A4BC /* Pods_OsirisTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A945995EC1DA3FA50F63B394 /* Pods_OsirisTests.framework */; };
-		596D901B028CECB58F1B7C12 /* Pods_Osiris_OsirisUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F932D4474F22E308F0CC11 /* Pods_Osiris_OsirisUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,15 +36,6 @@
 		01C91AE82D1222D30014D964 /* Osiris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Osiris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91AF92D1222D40014D964 /* OsirisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91B032D1222D40014D964 /* OsirisUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E62A39981FE550588B1780B /* Pods-Osiris.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Osiris.release.xcconfig"; path = "Target Support Files/Pods-Osiris/Pods-Osiris.release.xcconfig"; sourceTree = "<group>"; };
-		225798BBB04DE9A4E34E7C39 /* Pods-Osiris-OsirisUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Osiris-OsirisUITests.release.xcconfig"; path = "Target Support Files/Pods-Osiris-OsirisUITests/Pods-Osiris-OsirisUITests.release.xcconfig"; sourceTree = "<group>"; };
-		4C7D9359B1AF2AC6368744B0 /* Pods-OsirisTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OsirisTests.release.xcconfig"; path = "Target Support Files/Pods-OsirisTests/Pods-OsirisTests.release.xcconfig"; sourceTree = "<group>"; };
-		58792260C9B96E0CFCAB7610 /* Pods_Osiris.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Osiris.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		92D0ADEF2B4F2C2E78564EB2 /* Pods-Osiris.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Osiris.debug.xcconfig"; path = "Target Support Files/Pods-Osiris/Pods-Osiris.debug.xcconfig"; sourceTree = "<group>"; };
-		A945995EC1DA3FA50F63B394 /* Pods_OsirisTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OsirisTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3010D4BE6B6C7154153EC06 /* Pods-Osiris-OsirisUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Osiris-OsirisUITests.debug.xcconfig"; path = "Target Support Files/Pods-Osiris-OsirisUITests/Pods-Osiris-OsirisUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		F0F932D4474F22E308F0CC11 /* Pods_Osiris_OsirisUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Osiris_OsirisUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F67FE125E0947076A3D61AF5 /* Pods-OsirisTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OsirisTests.debug.xcconfig"; path = "Target Support Files/Pods-OsirisTests/Pods-OsirisTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,10 +61,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FD5053613E603A5322E1140 /* Pods_Osiris.framework in Frameworks */,
+				015BAFCF2D1BEAE20006BA54 /* FirebaseAuth in Frameworks */,
 				01A65DD12D1BA466009B5E25 /* FirebaseFirestore in Frameworks */,
 				01A65DCF2D1BA466009B5E25 /* FirebaseCore in Frameworks */,
+				015BAFD12D1BEAE20006BA54 /* FirebaseCore in Frameworks */,
 				01A65DCD2D1BA466009B5E25 /* FirebaseAuth in Frameworks */,
+				015BAFD32D1BEAE20006BA54 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56897B6195C522979471A4BC /* Pods_OsirisTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +81,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				596D901B028CECB58F1B7C12 /* Pods_Osiris_OsirisUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +95,6 @@
 				01C91B062D1222D40014D964 /* OsirisUITests */,
 				01C91AE92D1222D30014D964 /* Products */,
 				771CBD8A12CDCCC2BC4CFF10 /* Pods */,
-				2CB371FE42BCC3ECA0F75F36 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,25 +108,9 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2CB371FE42BCC3ECA0F75F36 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				58792260C9B96E0CFCAB7610 /* Pods_Osiris.framework */,
-				F0F932D4474F22E308F0CC11 /* Pods_Osiris_OsirisUITests.framework */,
-				A945995EC1DA3FA50F63B394 /* Pods_OsirisTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		771CBD8A12CDCCC2BC4CFF10 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				92D0ADEF2B4F2C2E78564EB2 /* Pods-Osiris.debug.xcconfig */,
-				0E62A39981FE550588B1780B /* Pods-Osiris.release.xcconfig */,
-				D3010D4BE6B6C7154153EC06 /* Pods-Osiris-OsirisUITests.debug.xcconfig */,
-				225798BBB04DE9A4E34E7C39 /* Pods-Osiris-OsirisUITests.release.xcconfig */,
-				F67FE125E0947076A3D61AF5 /* Pods-OsirisTests.debug.xcconfig */,
-				4C7D9359B1AF2AC6368744B0 /* Pods-OsirisTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -148,11 +122,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01C91B0D2D1222D40014D964 /* Build configuration list for PBXNativeTarget "Osiris" */;
 			buildPhases = (
-				AE1554FF42CDC347B43EA83E /* [CP] Check Pods Manifest.lock */,
 				01C91AE42D1222D30014D964 /* Sources */,
 				01C91AE52D1222D30014D964 /* Frameworks */,
 				01C91AE62D1222D30014D964 /* Resources */,
-				05AB6D01BBBCF9AE6B09763C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,7 +142,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01C91B102D1222D40014D964 /* Build configuration list for PBXNativeTarget "OsirisTests" */;
 			buildPhases = (
-				00CC81F00C6CBD8F89DE27C0 /* [CP] Check Pods Manifest.lock */,
 				01C91AF52D1222D40014D964 /* Sources */,
 				01C91AF62D1222D40014D964 /* Frameworks */,
 				01C91AF72D1222D40014D964 /* Resources */,
@@ -192,11 +163,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01C91B132D1222D40014D964 /* Build configuration list for PBXNativeTarget "OsirisUITests" */;
 			buildPhases = (
-				4337C5A29FD7653BD871BB28 /* [CP] Check Pods Manifest.lock */,
 				01C91AFF2D1222D40014D964 /* Sources */,
 				01C91B002D1222D40014D964 /* Frameworks */,
 				01C91B012D1222D40014D964 /* Resources */,
-				C1A296D3834325F471DEBF4F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,6 +213,7 @@
 			mainGroup = 01C91ADF2D1222D20014D964;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				015BAFCD2D1BEAE20006BA54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 01C91AE92D1222D30014D964 /* Products */;
@@ -280,110 +250,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		00CC81F00C6CBD8F89DE27C0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OsirisTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		05AB6D01BBBCF9AE6B09763C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Osiris/Pods-Osiris-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Osiris/Pods-Osiris-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Osiris/Pods-Osiris-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4337C5A29FD7653BD871BB28 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Osiris-OsirisUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AE1554FF42CDC347B43EA83E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Osiris-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C1A296D3834325F471DEBF4F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Osiris-OsirisUITests/Pods-Osiris-OsirisUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Osiris-OsirisUITests/Pods-Osiris-OsirisUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Osiris-OsirisUITests/Pods-Osiris-OsirisUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		01C91AE42D1222D30014D964 /* Sources */ = {
@@ -543,7 +409,6 @@
 		};
 		01C91B0E2D1222D40014D964 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92D0ADEF2B4F2C2E78564EB2 /* Pods-Osiris.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -558,6 +423,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -576,7 +442,6 @@
 		};
 		01C91B0F2D1222D40014D964 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E62A39981FE550588B1780B /* Pods-Osiris.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -591,6 +456,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -608,7 +474,6 @@
 		};
 		01C91B112D1222D40014D964 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F67FE125E0947076A3D61AF5 /* Pods-OsirisTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -630,7 +495,6 @@
 		};
 		01C91B122D1222D40014D964 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C7D9359B1AF2AC6368744B0 /* Pods-OsirisTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -652,7 +516,6 @@
 		};
 		01C91B142D1222D40014D964 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3010D4BE6B6C7154153EC06 /* Pods-Osiris-OsirisUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -669,7 +532,6 @@
 		};
 		01C91B152D1222D40014D964 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 225798BBB04DE9A4E34E7C39 /* Pods-Osiris-OsirisUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -726,6 +588,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		015BAFCD2D1BEAE20006BA54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.6.0;
+			};
+		};
 		01A65DCB2D1BA466009B5E25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -737,6 +607,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		015BAFCE2D1BEAE20006BA54 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 015BAFCD2D1BEAE20006BA54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		015BAFD02D1BEAE20006BA54 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 015BAFCD2D1BEAE20006BA54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		015BAFD22D1BEAE20006BA54 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 015BAFCD2D1BEAE20006BA54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		01A65DCC2D1BA466009B5E25 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 01A65DCB2D1BA466009B5E25 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

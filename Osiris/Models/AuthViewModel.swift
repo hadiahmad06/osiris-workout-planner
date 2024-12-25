@@ -70,3 +70,8 @@ class AuthViewModel: ObservableObject {
     }
     
 }
+
+// For XCode previews
+extension AuthViewModel {
+    static var EXAMPLE_VIEW_MODEL = AuthViewModel()
+}

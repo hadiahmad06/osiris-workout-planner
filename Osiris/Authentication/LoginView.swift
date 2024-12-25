@@ -63,9 +63,12 @@ struct LoginView: View {
                         .fontWeight(.semibold)
                 }
                 .foregroundStyle(AssetsManager.textColorSecondary)
+                
             }
             
+            Spacer()
         }
+        .frame(minHeight: UIScreen.main.bounds.height)
         .background(AssetsManager.backgroundColor)
     }
 }

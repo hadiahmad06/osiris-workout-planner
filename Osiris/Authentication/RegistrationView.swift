@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State private var email: String = ""
-    @State private var username: String = ""
-    @State private var nickname: String = ""
-    @State private var password: String = ""
-    //@Environment(\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: AuthViewModel
-    
-    var body: some View {
+@State private var email: String = ""
+@State private var username: String = ""
+@State private var nickname: String = ""
+@State private var password: String = ""
+//@Environment(\.dismiss) var dismiss
+@EnvironmentObject var viewModel: AuthViewModel
+
+var body: some View {
         VStack {
+            Spacer()
             AssetsManager.logo
                 .resizable()
                 .scaledToFill()
@@ -64,6 +65,8 @@ struct RegistrationView: View {
             .cornerRadius(24)
             .padding(.top, 30)
             
+            Spacer()
+            
             NavigationLink { // NOT COMPLETE
                 LoginView()
                     .navigationBarBackButtonHidden(true)
@@ -75,8 +78,10 @@ struct RegistrationView: View {
                 }
                 .foregroundStyle(AssetsManager.textColorSecondary)
             }
+            Spacer()
         }
-        .background(AssetsManager.backgroundColor)
+        .frame(maxHeight: UIScreen.main.bounds.height)
+        .background(AssetsManager.backgroundColor)        
     }
 }
 

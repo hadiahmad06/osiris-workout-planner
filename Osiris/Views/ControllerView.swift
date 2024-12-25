@@ -18,12 +18,13 @@ struct ControllerView: View {
                 RegistrationView()
             }
         }
-        .edgesIgnoringSafeArea(.all)
+        //.edgesIgnoringSafeArea(.all)
     }
 }
 
 struct ControllerView_Previews: PreviewProvider {
     static var previews: some View {
         ControllerView()
+            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
     }
 }
