@@ -41,6 +41,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		015BB0EA2D1C33460006BA54 /* GithubAssets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = GithubAssets;
+			sourceTree = "<group>";
+		};
 		01C91AEA2D1222D30014D964 /* Osiris */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Osiris;
@@ -92,6 +97,7 @@
 		01C91ADF2D1222D20014D964 = {
 			isa = PBXGroup;
 			children = (
+				015BB0EA2D1C33460006BA54 /* GithubAssets */,
 				01C91AEA2D1222D30014D964 /* Osiris */,
 				01C91AFC2D1222D40014D964 /* OsirisTests */,
 				01C91B062D1222D40014D964 /* OsirisUITests */,
@@ -134,6 +140,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				015BB0EA2D1C33460006BA54 /* GithubAssets */,
 				01C91AEA2D1222D30014D964 /* Osiris */,
 			);
 			name = Osiris;

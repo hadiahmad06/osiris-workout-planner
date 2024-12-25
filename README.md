@@ -10,6 +10,8 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - Users can sign up and log in using Firebase Authentication.
    - Authentication state is managed through the `AuthViewModel`, which tracks whether a user is logged in or not.
    - Firebase Auth handles user sessions, including storing and fetching user-specific data securely.
+   
+![Sign up screen screenshot](GithubAssets/signup_screen.png)
 
 ### 2. **Firebase Integration**
    - Firebase is used to store and sync user data, including workout logs and user preferences.
