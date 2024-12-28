@@ -2,6 +2,8 @@
 
 ## Overview
 
+(This project is a work in progress)
+
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
 ## Features Implemented
@@ -21,6 +23,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ## To Do
 
 ### 1. **AI Exercise Recommendation System**
+   - Create my own model based on CoreML that can do the following:
    - New users can provide information regarding what equipment they have access to, their goals, and other factors. Then, exercises are filtered by some of those factors, while the more open-ended factors are processed through a RAG model. A workout plan is created and shared with the user. If the user is not satisfied with an exercise, they can replace them manually, or automatically with a prompt:
    - Users can replace exercises with alternative exercises based on their issues. eg: User struggles doing Bodyweight Dips, the app could recommend Close Grip Bench Press, an exercise that is easier to learn (lower rating), but still strengthens the same or similar muscle groups. 
     

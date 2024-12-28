@@ -44,15 +44,15 @@ var daysOfWeek: [Object] = [
 ]
 
 var workoutPlans: [WorkoutPlan] = [
-    WorkoutPlan(text: "Plan 1"),
-    WorkoutPlan(text: "Plan 2"),
-    WorkoutPlan(text: "Plan 3"),
-    WorkoutPlan(text: "Plan 4"),
-    WorkoutPlan(text: "Plan 5"),
-    WorkoutPlan(text: "Plan 6"),
-    WorkoutPlan(text: "Plan 7"),
-    WorkoutPlan(text: "Plan 8"),
-    WorkoutPlan(text: "Plan 9")]
+    WorkoutPlan(id: "awd", text: "Plan 1"),
+    WorkoutPlan(id: "awd", text: "Plan 2"),
+    WorkoutPlan(id: "awd", text: "Plan 3"),
+    WorkoutPlan(id: "awd", text: "Plan 4"),
+    WorkoutPlan(id: "awd", text: "Plan 5"),
+    WorkoutPlan(id: "awd", text: "Plan 6"),
+    WorkoutPlan(id: "awd", text: "Plan 7"),
+    WorkoutPlan(id: "awd", text: "Plan 8"),
+    WorkoutPlan(id: "awd", text: "Plan 9")]
 var friends = ["John", "Emma", "Liam"]
 
 
@@ -207,89 +207,6 @@ struct SocialView: View {
         .padding()
         .navigationBarTitle("Social", displayMode: .inline)
     }
-}
-
-struct TodayView: View {
-    var body: some View {
-        VStack {
-            // Display Dates for This Week (Sunday-Saturday)
-//            Text("This Week's Dates")
-//                .foregroundColor(AssetsManager.textColor)
-//                .font(.title)
-//                .fontWeight(.bold)
-//                .padding(.top)
-
-            HStack {
-                //var color : Color = AssetsManager.accentColorSecondary
-                // Use ForEach with enumerated to get both index and value
-                //ForEach(Array(daysOfWeek.enumerated()), id: \.element.text) { _, day in
-                ForEach(daysOfWeek) { day in
-                    Text(day.text)
-                        .foregroundColor(AssetsManager.textColor)
-                        .font(.headline)
-                        .frame(width: 15, height: 15)
-                        .padding(12)
-                        .background(day.color)
-                        .cornerRadius(25)
-                }
-            }
-            .padding()
-
-            // Display 4 Customizable Workout Plan Boxes
-//            Text("Customize Your Workout Plans")
-//                .foregroundColor(AssetsManager.buttonTextColor)
-//                .font(.title2)
-//                .fontWeight(.semibold)
-//                .padding(.top)
-            VStack {
-                ForEach(0..<3) { row in
-                    HStack {
-                        ForEach(0..<3) { column in
-                            let index = row * 3 + column
-                            if index < workoutPlans.count {
-                                Button(action: {}) {
-                                    Text(workoutPlans[index].text)
-                                        .foregroundColor(AssetsManager.buttonTextColor)
-                                        .font(.headline)
-                                        .frame(width: 100, height: 100)
-                                        .background(AssetsManager.cardBackgroundColor)
-                                        .cornerRadius(10)
-                                        .padding(5)
-                                }
-                                .frame(maxWidth: .infinity)
-                            }
-                        }
-                    }
-                }
-            }
-            Spacer()
-
-//            Button(action: {
-//                // Action to create a custom workout
-//            }) {
-//                Text("Create Custom Workout")
-//                    .font(.title2)
-//                    .padding()
-//                    .frame(maxWidth: .infinity)
-//                    .background(AssetsManager.buttonColor)
-//                    .foregroundColor(AssetsManager.buttonTextColor)
-//                    .cornerRadius(10)
-//                    .padding(.top)
-//            }
-        }
-        .padding()
-        .navigationBarTitle("Today", displayMode: .inline)
-    }
-
-//    func getDayOfWeek(_ index: Int) -> String {
-//        let calendar = Calendar.current
-//        let today = Date()
-//        let startOfWeek = calendar.date(byAdding: .day, value: -calendar.component(.weekday, from: today) + 1, to: today)!
-//        let dayOfWeek = calendar.date(byAdding: .day, value: index, to: startOfWeek)!
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "EEE"
-//        return formatter.string(from: dayOfWeek)
-//    }
 }
 
 struct HomeView: View {

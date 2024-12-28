@@ -24,7 +24,7 @@ struct SetupView: View {
             case .friends:
                 FriendsView()
             case .ai:
-                AIView()
+                AISetupView()
             }
             HStack {
                 
@@ -113,7 +113,7 @@ struct FriendsView: View {
     }
 }
 
-struct AIView: View {
+struct AISetupView: View {
     var body: some View {
         VStack{
             Text("ai")

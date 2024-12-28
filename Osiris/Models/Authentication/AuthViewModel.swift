@@ -13,6 +13,7 @@ import FirebaseFirestore
 
 @MainActor
 class AuthViewModel: ObservableObject {
+    //@ var logViewModel = LogViewModel()
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     
@@ -24,7 +25,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func signIn(withEmail email: String, password: String) async throws {
+    func signIn(withEmail email: String, password: String) async throws { //current bug, signing in doesnt fetch data correctly
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
@@ -39,7 +40,8 @@ class AuthViewModel: ObservableObject {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
             let user = User(id: result.user.uid, username: username, nickname: nickname, email: email)
-//            let user = User(from: result.user)
+            
+            // Encode and save user data to Firestore
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             await fetchUser()
@@ -63,9 +65,9 @@ class AuthViewModel: ObservableObject {
     }
     
     func fetchUser() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { print("fetch failed, signing out"); signOut(); return }
         
-        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
+        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { print("fetch failed, signing out"); signOut(); return }
         self.currentUser = try? snapshot.data(as: User.self)
     }
     

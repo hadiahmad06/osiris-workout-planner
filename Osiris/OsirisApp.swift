@@ -17,7 +17,6 @@ import Firebase
 @main
 struct OsirisApp: App {
     @StateObject var viewModel = AuthViewModel()
-    //@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
         FirebaseApp.configure()

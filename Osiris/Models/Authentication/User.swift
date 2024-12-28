@@ -12,6 +12,8 @@ struct User: Identifiable, Codable {
     let username: String
     let nickname: String
     let email: String
+    let log: Log
+    let plans: [WorkoutPlan]
     
     var initial: String {
         return nickname.first!.uppercased()
@@ -22,6 +24,8 @@ struct User: Identifiable, Codable {
         self.username = username
         self.nickname = nickname
         self.email = email
+        self.log = Log(id: id)
+        self.plans = []
     }
     
     private var _bodyweightMetric: Double = 0 // measured in kg
