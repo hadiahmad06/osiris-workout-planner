@@ -6,6 +6,17 @@
 
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
+### Recently updated files 
+   - WorkoutEntry.swift -> removed DateEntry structure, opted for a separate dictionary keeping track of streaks
+   - AuthViewModel -> added functions to add and update log and properties of log
+   - TodayView -> attempted to create weekly view (not perfectly functioning)
+   - LoginView -> button becomes fully opaque when fields are correctly filled
+   - RegistrationView -> ditto
+   - Log
+   - ContentView
+   - User
+   
+
 ## Features Implemented
 
 ### 1. **Authentication System**
@@ -19,11 +30,14 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - Firebase is used to store and sync user data, including workout logs and user preferences.
    - Firebase Authentication handles user session management.
    - Workout plans are stored in Firebase Cloud Firestore, allowing users to retrieve their data across different devices.
+   
+### 3. **User Interface**
+   - Created a user interface with SwiftUI 
 
 ## To Do
 
 ### 1. **AI Exercise Recommendation System**
-   - Create my own model based on CoreML that can do the following:
+   - Create my own model based on CoreML or use an API with OpenAI or Google's Gemini that can do the following:
    - New users can provide information regarding what equipment they have access to, their goals, and other factors. Then, exercises are filtered by some of those factors, while the more open-ended factors are processed through a RAG model. A workout plan is created and shared with the user. If the user is not satisfied with an exercise, they can replace them manually, or automatically with a prompt:
    - Users can replace exercises with alternative exercises based on their issues. eg: User struggles doing Bodyweight Dips, the app could recommend Close Grip Bench Press, an exercise that is easier to learn (lower rating), but still strengthens the same or similar muscle groups. 
     

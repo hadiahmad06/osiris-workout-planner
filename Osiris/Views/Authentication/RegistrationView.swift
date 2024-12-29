@@ -67,6 +67,8 @@ struct RegistrationView: View {
                 .foregroundStyle(AssetsManager.buttonTextColor)
             }
             .frame(width: 225, height: 50)
+            .disabled(!formIsValid)
+            .opacity(formIsValid ? 1.0 : 0.5)
             .background(AssetsManager.buttonColor)
             .cornerRadius(24)
             .padding(.top, 30)
@@ -87,6 +89,17 @@ struct RegistrationView: View {
         }
         .frame(maxHeight: UIScreen.main.bounds.height)
         .background(AssetsManager.backgroundColor)
+    }
+}
+
+extension RegistrationView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty &&
+        email.contains("@") &&
+        !username.isEmpty &&
+        !nickname.isEmpty &&
+        !password.isEmpty &&
+        password.count >= 6
     }
 }
 
