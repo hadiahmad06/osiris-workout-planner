@@ -75,9 +75,9 @@ struct TodayView: View {
             VStack {
                 Button(action: {
                     Task {
-//                        if let selectedDate = selectedDate {
-//                            await viewModel.addStreakStatus(date: selectedDate, streakStatus: .skipped)
-//                        }
+                        //if let selectedDate = selectedDate {
+                        await viewModel.updateStreak(date: selectedDate, status: .skipped)
+                        //}
                     }
                 }) {
                     Text("Set Rest Day")

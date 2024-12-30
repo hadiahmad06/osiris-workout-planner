@@ -117,16 +117,31 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func updateStreaks(streaks: [Date:StreakStatus]) {
-        //todo
-    }
+//    func updateStreak() {
+//        //todo
+//    }
     
-    func addStreakStatus(date: Date, streakStatus: StreakStatus) async {
+    func updateStreak(date: Date, status: StreakStatus) async {
         do {
-            let normalizedDate = Log.calendar().startOfDay(for: date)
-            currentLog!.streaks[normalizedDate] = streakStatus
-            let encodedStreaks = try Firestore.Encoder().encode(currentLog!.streaks)
-            try await Firestore.firestore().collection("logs").document(currentLog!.id).updateData(encodedStreaks)
+            let streak = Streak(status: status, date: date)
+            
+            let dateID = "\(streak.date.timeIntervalSince1970)"
+            
+            // Check if the streak for this date already exists in Firestore
+            let ref = Firestore.firestore().collection("logs").document(currentLog!.id).collection("streaks").document(dateID)
+            
+            // Attempt to fetch the document
+            let documentSnapshot = try await ref.getDocument()
+            
+            if documentSnapshot.exists { // update already made streak entry
+                let encodedStreak = try Firestore.Encoder().encode(streak)
+                try await ref.updateData(encodedStreak)
+                print("Streak updated successfully!")
+            } else { // create new streak entry
+                let encodedStreak = try Firestore.Encoder().encode(streak)
+                try await ref.setData(encodedStreak)
+                print("Streak added successfully!")
+            }
         } catch {
             print("DEBUG: Failed to update log with error \(error.localizedDescription)")
         }
@@ -173,9 +188,9 @@ class AuthViewModel: ObservableObject {
         // (ignore the time part)
         let normalizedDate = Log.calendar().startOfDay(for: date)
         
-        for (storedDate, streakStatus) in currentLog?.streaks ?? [:] {
-            if Log.calendar().isDate(storedDate, inSameDayAs: normalizedDate) {
-                return streakStatus
+        for streak in currentLog!.streaks {
+            if Log.calendar().isDate(streak.date, inSameDayAs: normalizedDate) {
+                return streak.status
             }
         }
         

@@ -6,7 +6,7 @@
 
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
-### Recently updated files 
+### Recently updated files you12/29
    - WorkoutEntry.swift -> removed DateEntry structure, opted for a separate dictionary keeping track of streaks
    - AuthViewModel -> added functions to add and update log and properties of log
    - TodayView -> attempted to create weekly view (not perfectly functioning)

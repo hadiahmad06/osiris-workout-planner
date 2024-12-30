@@ -20,15 +20,20 @@ enum StreakStatus: Codable {
     }
 }
 
-//struct Streak: Codable {
-//    var status: StreakStatus
-//    var date: Date
-//}
+struct Streak: Codable {
+    var status: StreakStatus
+    var date: Date
+    
+    init(status: StreakStatus, date: Date) {
+        self.status = status
+        self.date = Log.calendar().startOfDay(for: date)
+    }
+}
 
 struct Log: Codable {
     var id: String
     var entries: [WorkoutEntry] // All workout entries
-    var streaks: [Date:StreakStatus]
+    var streaks: [Streak]
     
     static func calendar() -> Foundation.Calendar {
         return Foundation.Calendar(identifier: .gregorian)
@@ -37,7 +42,7 @@ struct Log: Codable {
     init(id: String) {
         self.id = id
         self.entries = []
-        self.streaks = [:]
+        self.streaks = []
     }
     
     static func isSameDay(date1: Date, date2: Date) -> Bool {
