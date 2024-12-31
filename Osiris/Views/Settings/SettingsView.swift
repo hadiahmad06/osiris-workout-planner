@@ -52,9 +52,9 @@ struct SettingsView: View {
                                             title: "Sign Out",
                                             color: .red)
                         }
-                        Button(action: {}) {
+                        Button(action: { Task { await viewModel.deactivateAccount() } }) {
                             SettingsRowView(imageName: "xmark.circle.fill",
-                                            title: "Delete Account",
+                                            title: "Deactivate Account",
                                             color: .red)
                         }
                     }

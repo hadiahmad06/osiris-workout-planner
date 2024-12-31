@@ -10,7 +10,7 @@ import Foundation
 struct TodayView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var weekOffset = 0
-    @State private var selectedDate = Date()
+    @State private var selectedDate = Log.calendar().startOfDay(for: Date())
     var body: some View {
         VStack {
             // Display Dates for This Week (Sunday-Saturday)
@@ -75,27 +75,26 @@ struct TodayView: View {
             VStack {
                 Button(action: {
                     Task {
-//                        if let selectedDate = selectedDate {
-//                            await viewModel.addStreakStatus(date: selectedDate, streakStatus: .skipped)
-//                        }
+                        viewModel.currentLog!.updateStreak(date: selectedDate, status: .skipped)
+                            //await viewModel.addStreakStatus(date: selectedDate, streakStatus: .skipped)
                     }
                 }) {
                     Text("Set Rest Day")
                         .font(.title)
                         .foregroundColor(AssetsManager.buttonTextColor)
-                        .padding(.horizontal, 80)
-                        .padding(.vertical, 30)
+                        .frame(width:200, height: 80)
                         .background(AssetsManager.cardBackgroundColor)
                         .cornerRadius(50)
                 }
                 Button(action: {
-                    //viewModel.addDataEntry(id: "EXAMPLE", date: selectedDate, status: .pending)
+                    Task {
+                        await viewModel.addStreakStatus(date: selectedDate, status: .pending)
+                    }
                 }) {
-                    Text("Add Plan")
+                    Image(systemName: "plus")
                         .font(.title)
                         .foregroundColor(AssetsManager.buttonTextColor)
-                        .padding(.horizontal, 80)
-                        .padding(.vertical, 30)
+                        .frame(width:200, height: 80)
                         .background(AssetsManager.cardBackgroundColor)
                         .cornerRadius(50)
                 }

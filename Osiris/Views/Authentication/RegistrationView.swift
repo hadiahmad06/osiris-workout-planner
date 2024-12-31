@@ -14,6 +14,7 @@ struct RegistrationView: View {
     @State private var password: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var showLoginView: Bool
+//    @Binding var authErrorMessage: String
 
 
     var body: some View {
@@ -72,6 +73,12 @@ struct RegistrationView: View {
             .background(AssetsManager.buttonColor)
             .cornerRadius(24)
             .padding(.top, 30)
+            
+            Text(viewModel.authErrorMessage)
+                .foregroundStyle(Color.red)
+                .fontWeight(.bold)
+                .padding(.top, 10)
+                .frame(alignment: .center)
             
             Spacer()
             

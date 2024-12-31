@@ -40,6 +40,12 @@ struct Log: Codable {
         self.streaks = [:]
     }
     
+    mutating func updateStreak(date: Date, status: StreakStatus) {
+        self.streaks[Log.calendar().startOfDay(for: date)] = status
+    }
+    
+//    static func
+    
     static func isSameDay(date1: Date, date2: Date) -> Bool {
         return Log.calendar().isDate(date1, inSameDayAs: date2)
     }

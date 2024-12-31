@@ -6,16 +6,30 @@
 
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
-### Recently updated files 
-   - WorkoutEntry.swift -> removed DateEntry structure, opted for a separate dictionary keeping track of streaks
-   - AuthViewModel -> added functions to add and update log and properties of log
-   - TodayView -> attempted to create weekly view (not perfectly functioning)
-   - LoginView -> button becomes fully opaque when fields are correctly filled
-   - RegistrationView -> ditto
-   - Log
-   - ContentView
-   - User
+## Recent Updates
+
+### Dec 30, 2024
+   - `AuthViewModel` -> attempted to update streaks in log, but failed
+   - `Log` -> created new property of `Log`, `streaks`, of type `[Date:StreakStatus]`
+   - `AuthViewModel` -> added new property of `AuthViewModel`, `authErrorMessage`, which is updated in `fetchUser()`
+   - `LoginView` -> successfully implemented `authErrorMessage` into the UI
+   - `RegistrationView` -> ditto
+   - `TodayView` -> added temporary buttons to test using `AuthViewModel`, more specifically `updateStreak()` and `getWeekStatuses()`
+   - Plans: I plan to remove `streaks` and instead change `WorkoutEntry` to use optional types and store a status. Only 2 statuses should be stored, `.skipped` and `.completed`, the other 2 can be inferred by the program and do not need to be stored. I also plan to implement a pop up view on `TodayView` soon that allows the user to select a workout plan or rest day for the selected date.
+
+### Dec 29, 2024
+   - `WorkoutEntry` -> removed DateEntry structure, opted for a separate dictionary keeping track of streaks
+   - `AuthViewModel` -> added functions to add and update log and properties of log
+   - `TodayView` -> attempted to create weekly view (not perfectly functioning)
+   - `LoginView` -> button becomes fully opaque when fields are correctly filled
+   - `RegistrationView` -> ditto
+   - `Log`
+   - `ContentView`
+   - `User`
    
+### Dec 28th and prior
+   - look at commits i didnt write this down
+        
 
 ## Features Implemented
 
@@ -23,6 +37,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - Users can sign up and log in using Firebase Authentication.
    - Authentication state is managed through the `AuthViewModel`, which tracks whether a user is logged in or not.
    - Firebase Auth handles user sessions, including storing and fetching user-specific data securely.
+   - Data stored:
+        User data: Username, nickname, email
+        Workout Logs: streak data, workout entries
+            Workout Entries: sets and reps of each exercise, total time, reference to workout plan associated with entry
+            
    
 <img src="GithubAssets/signup_screen.png" alt="Sign up screen screenshot" width="200"/>
 

@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
+import SwiftUI
 
 protocol AuthenticationFormProtocol {
     var formIsValid: Bool { get }
@@ -22,17 +23,19 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var currentLog: Log?
     
+    @Published var authErrorMessage: String
+    
     init() {
+        authErrorMessage = ""
         self.userSession = Auth.auth().currentUser
         
         Task {
             await fetchUser()
             
-            if !(currentUser?.isActive ?? false) {
-                signOut()
-            }
+//            if !(currentUser?.isActive ?? false) {
+//                signOut()
+//            }
         }
-        
     }
     
     func signIn(withEmail email: String, password: String) async throws { //current bug, signing in doesnt fetch data correctly
@@ -80,23 +83,52 @@ class AuthViewModel: ObservableObject {
     func deactivateAccount() async {
         currentUser?.isActive = false
         await updateUser()
+        signOut()
     }
     
     func fetchUser() async {
-        guard let uid = Auth.auth().currentUser?.uid else { print("fetch failed, signing out"); signOut(); return }
+        // attempt to get uid
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("fetch failed, signing out")
+            signOut()
+            return
+        }
         
-        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
+        // fetch user
+        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else {
+            print("Failed to fetch user data")
+            return
+        }
         
+        // attempt to decode user
         if let user = try? snapshot.data(as: User.self) {
+            // if user is active, continue
             if user.isActive {
                 self.currentUser = user
                 print("DEBUG: USER FETCHED")
-                guard let logSnapshot = try? await Firestore.firestore().collection("logs").document(user.logID).getDocument() else { return }
-                self.currentLog = try? logSnapshot.data(as: Log.self)
-                print("DEBUG: LOG FETCHED")
+                
+                // fetch log
+                guard let logSnapshot = try? await Firestore.firestore().collection("logs").document(user.logID).getDocument() else {
+                    print("Failed to fetch log data for user")
+                    return
+                }
+                
+                // attempt to decode log
+                if let log = try? logSnapshot.data(as: Log.self) {
+                    self.currentLog = log
+                    print("DEBUG: LOG FETCHED")
+                } else {
+                    print("Failed to decode log data")
+                }
+            } else {
+                print("User is not active")
+                authErrorMessage = "Your account has been suspended. Please contact support."
+                signOut()
+                
             }
+        } else {
+            print("Failed to decode user data")
         }
-        // self.currentUser = try? snapshot.data(as: User.self)
     }
     
     func updateUser() async {
@@ -117,18 +149,21 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func updateStreaks(streaks: [Date:StreakStatus]) {
-        //todo
-    }
+//    func updateStreaks(streaks: [Date:StreakStatus]) {
+//        //todo
+//    }
     
-    func addStreakStatus(date: Date, streakStatus: StreakStatus) async {
+    func addStreakStatus(date: Date, status: StreakStatus) async {
         do {
+            currentLog!.updateStreak(date: date, status: status)
+            // local update
+            let encodedStreak = try Firestore.Encoder().encode(status)
             let normalizedDate = Log.calendar().startOfDay(for: date)
-            currentLog!.streaks[normalizedDate] = streakStatus
-            let encodedStreaks = try Firestore.Encoder().encode(currentLog!.streaks)
-            try await Firestore.firestore().collection("logs").document(currentLog!.id).updateData(encodedStreaks)
+            // encodes status and normalizes date to prepare for cloud update
+            try await Firestore.firestore().collection("logs").document(currentLog!.id).collection("streaks").document("\(normalizedDate)").setData(encodedStreak)
+            // attempts to update entire streaks dictionary
         } catch {
-            print("DEBUG: Failed to update log with error \(error.localizedDescription)")
+            print("DEBUG: Failed to update streaks entries with error \(error.localizedDescription)")
         }
     }
     

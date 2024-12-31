@@ -9,13 +9,20 @@ import SwiftUI
 
 struct ControllerView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @State var showLoginView: Bool = false
+    @State var showLoginView: Bool
+    
+    init() {
+        showLoginView = false
+    }
     
     
     var body: some View {
         Group {
             if viewModel.userSession != nil {
                 ContentView()
+                    .onAppear( perform: {
+                        viewModel.authErrorMessage = ""
+                    })
             } else {
                 if(showLoginView) {
                     LoginView(showLoginView: $showLoginView)
