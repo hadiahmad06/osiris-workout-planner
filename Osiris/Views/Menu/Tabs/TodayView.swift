@@ -75,8 +75,7 @@ struct TodayView: View {
             VStack {
                 Button(action: {
                     Task {
-                        viewModel.currentLog!.updateStreak(date: selectedDate, status: .skipped)
-                            //await viewModel.addStreakStatus(date: selectedDate, streakStatus: .skipped)
+                        viewModel.currentLog!.updateDateStatus(date: selectedDate, rest: true)
                     }
                 }) {
                     Text("Set Rest Day")
@@ -88,7 +87,7 @@ struct TodayView: View {
                 }
                 Button(action: {
                     Task {
-                        await viewModel.addStreakStatus(date: selectedDate, status: .pending)
+//                        await viewModel.(date: selectedDate, status: .pending)
                     }
                 }) {
                     Image(systemName: "plus")

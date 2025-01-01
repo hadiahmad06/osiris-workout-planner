@@ -8,6 +8,12 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Recent Updates
 
+### Dec 31, 2024
+   - `AuthViewModel` -> removed all methods for `streaks`, replaced them with methods for `restDays`
+   - `Log` -> removed the property `streaks`, instead opting for `restDays` of type `[Date]`
+   - `TodayView` -> changed a few function calls for streaks
+   - Plans: I plan to use either hashing or firebase's built in querying to make locating specific entries or dates simpler. My next step will be to implement a pop up view for workout plans, as well as adding a global collection of workout plans, so that they can be shared with others and used by multiple people.
+
 ### Dec 30, 2024
    - `AuthViewModel` -> attempted to update streaks in log, but failed
    - `Log` -> created new property of `Log`, `streaks`, of type `[Date:StreakStatus]`

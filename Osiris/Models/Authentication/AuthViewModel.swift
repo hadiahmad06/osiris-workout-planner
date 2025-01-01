@@ -128,6 +128,8 @@ class AuthViewModel: ObservableObject {
             }
         } else {
             print("Failed to decode user data")
+            authErrorMessage = "We failed to access your account, please try again later."
+            signOut()
         }
     }
     
@@ -153,17 +155,26 @@ class AuthViewModel: ObservableObject {
 //        //todo
 //    }
     
-    func addStreakStatus(date: Date, status: StreakStatus) async {
+    func updateStatus(date: Date, rest: Bool) async {
         do {
-            currentLog!.updateStreak(date: date, status: status)
-            // local update
-            let encodedStreak = try Firestore.Encoder().encode(status)
-            let normalizedDate = Log.calendar().startOfDay(for: date)
-            // encodes status and normalizes date to prepare for cloud update
-            try await Firestore.firestore().collection("logs").document(currentLog!.id).collection("streaks").document("\(normalizedDate)").setData(encodedStreak)
-            // attempts to update entire streaks dictionary
+            // if a local update is made, continue
+            if let idx = currentLog!.updateDateStatus(date: date, rest: rest) {
+                // given the change adds a rest day, proceed
+                if rest {
+                    // encodes status and normalizes date to prepare for cloud update
+                    let normalizedDate = Log.calendar().startOfDay(for: date)
+                    let encodedDate = try Firestore.Encoder().encode(normalizedDate)
+                    
+                    // attempts to update entire streaks dictionary
+                    try await Firestore.firestore().collection("logs").document(currentLog!.id).collection("restDays").document("\(idx)").setData(encodedDate)
+                
+                } else {
+                    // otherwise, delete document to imitate local change
+                    try await Firestore.firestore().collection("logs").document(currentLog!.id).collection("restDays").document("\(idx)").delete()
+                }
+            }
         } catch {
-            print("DEBUG: Failed to update streaks entries with error \(error.localizedDescription)")
+            print("DEBUG: Failed to update rest days with error \(error.localizedDescription)")
         }
     }
     
@@ -204,17 +215,24 @@ class AuthViewModel: ObservableObject {
         return false
     }
     
-    func findStreak(for date: Date) -> StreakStatus? {
+    func findStreak(for d: Date) -> StreakStatus {
         // (ignore the time part)
-        let normalizedDate = Log.calendar().startOfDay(for: date)
+        let normalizedDate = Log.calendar().startOfDay(for: d)
         
-        for (storedDate, streakStatus) in currentLog?.streaks ?? [:] {
-            if Log.calendar().isDate(storedDate, inSameDayAs: normalizedDate) {
-                return streakStatus
+        for date in currentLog?.restDays ?? [] {
+            if Log.calendar().isDate(date, inSameDayAs: normalizedDate) {
+                return .skipped
             }
         }
-        
-        return nil // No streak found for that date
+        for entry in currentLog?.entries ?? [] {
+            if Log.calendar().isDate(entry.timestamp, inSameDayAs: normalizedDate) {
+                return .completed
+            }
+        }
+        if (d.timeIntervalSince1970 < Log.calendar().startOfDay(for: Date()).timeIntervalSince1970) {
+            return .missed
+        }
+        return .pending
     }
     
     func getWeekStatuses(weekOffset: Int = 0) -> [(Date,StreakStatus)] {
@@ -234,7 +252,7 @@ class AuthViewModel: ObservableObject {
                 // Get the entry for that date, or create a mock entry if none is found
                 
                 // Append the entry to the result
-                let streak = findStreak(for: targetDate) ?? .pending
+                let streak = findStreak(for: targetDate)
                 result.append((targetDate,streak))
                     
             } else {

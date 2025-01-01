@@ -47,11 +47,11 @@ struct RegistrationView: View {
             .padding(.horizontal, 50)
             
             Button(action: {
-                Task {
-                    try await viewModel.signIn(
-                        withEmail: self.email,
-                        password: self.password)
-                }
+//                Task {
+//                    try await viewModel.signIn(
+//                        withEmail: self.email,
+//                        password: self.password)
+//                }
                 Task {
                     try await viewModel.createUser(
                         withEmail: self.email,

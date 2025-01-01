@@ -28,7 +28,8 @@ enum StreakStatus: Codable {
 struct Log: Codable {
     var id: String
     var entries: [WorkoutEntry] // All workout entries
-    var streaks: [Date:StreakStatus]
+//    var streaks: [Date:StreakStatus]
+    var restDays: [Date]
     
     static func calendar() -> Foundation.Calendar {
         return Foundation.Calendar(identifier: .gregorian)
@@ -37,18 +38,39 @@ struct Log: Codable {
     init(id: String) {
         self.id = id
         self.entries = []
-        self.streaks = [:]
+//        self.streaks = [:]
+        self.restDays = []
     }
-    
-    mutating func updateStreak(date: Date, status: StreakStatus) {
-        self.streaks[Log.calendar().startOfDay(for: date)] = status
-    }
-    
-//    static func
     
     static func isSameDay(date1: Date, date2: Date) -> Bool {
         return Log.calendar().isDate(date1, inSameDayAs: date2)
     }
+    
+    mutating func updateDateStatus(date: Date, rest: Bool) -> Int? {
+        if !rest {
+            if let idx = restDays.firstIndex(where: { Log.isSameDay(date1: $0, date2: date) }) {
+                restDays.remove(at: idx)
+                return idx
+            }
+            return nil
+        } else {
+            if let idx = restDays.firstIndex(where: { Log.isSameDay(date1: $0, date2: date) }) {
+                //restDays[idx] = date
+                return nil
+            } else {
+                self.restDays.append(date)
+                return restDays.endIndex - 1
+            }
+        }
+    }
+    
+//    mutating func updateStreak(date: Date, status: StreakStatus) {
+//        self.streaks[Log.calendar().startOfDay(for: date)] = status
+//    }
+    
+//    static func
+    
+    
 }
 
 //// Example Usage
