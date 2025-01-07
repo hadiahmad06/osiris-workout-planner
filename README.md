@@ -20,18 +20,15 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ## Features Implemented
 
 ### 1. **Authentication System**
-   - Users can sign up and log in using Firebase Authentication.
-   - Authentication state is managed through the `AuthViewModel`, which tracks whether a user is logged in or not.
+   - Users can sign up and log in through a simple login or signup screen, powered with Firebase Authentication
+   - Authentication state is managed through the `AuthService`, which tracks the current user session, and current user data.
    - Firebase Auth handles user sessions, including storing and fetching user-specific data securely.
-   - Data stored:
-        User data: Username, nickname, email
-        Workout Logs: streak data, workout entries
-            Workout Entries: sets and reps of each exercise, total time, reference to workout plan associated with entry
             
 <div style="display: flex; justify-content: center; align-items: center;">
     <img src="GithubAssets/startup_phase.gif" alt="Start up screen GIF" width="200"/>   
     <img src="GithubAssets/signup_screen.png" alt="Sign up screen screenshot" width="200"/>
 </div>
+
 ### 2. **Firebase Integration**
    - Firebase is used to store and sync user data, including workout logs and user preferences.
    - Firebase Authentication handles user session management.

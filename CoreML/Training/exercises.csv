@@ -1,0 +1,7 @@
+id,name,movement,angle,laterality,focus,impact,rating,progressions,regressions,restrictions,similarExercises,equipmentRequired,musclesTargeted
+1,Push Up,regular,regular,unilateral,strengthen,0.2,8.0,"[2]","[3]","[BackSquat]","[InclinePushUp]",[PushUp],"[Chest (upper), Triceps (lateralhead)]"
+2,Knee Push Up,regular,regular,unilateral,strengthen,0.1,4.0,"[3]","[1]","[BackSquat]","[PushUp]",[PushUp],"[Chest (upper), Triceps (lateralhead)]"
+3,Back Squat,regular,regular,bilateral,strengthen,0.5,7.5,"[4]","[2]","[TornACL]","[FrontSquat]",[Barbell],"[Quadriceps (rectusfemoris), Glutes (gluteusmaximus)]"
+4,Incline Push Up,regular,incline,unilateral,strengthen,0.2,6.5,"[1]","[2]","[BackSquat]","[PushUp]",[PushUp],"[Chest (upper), Triceps (lateralhead)]"
+5,Front Squat,regular,regular,bilateral,strengthen,0.5,7.0,"[6]","[3]","[BackSquat]","[BackSquat]",[Barbell],"[Quadriceps (rectusfemoris), Glutes (gluteusmaximus)]"
+6,Smith Machine Squat,regular,regular,bilateral,strengthen,0.3,7.0,"[5]","[3]","[TornACL]","[BackSquat]",[SmithMachine],"[Quadriceps (rectusfemoris), Glutes (gluteusmaximus)]"
