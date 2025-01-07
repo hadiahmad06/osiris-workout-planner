@@ -28,8 +28,8 @@ enum StreakStatus: Codable {
 struct Log: Codable {
     var id: String
     var entries: [WorkoutEntry] // All workout entries
-//    var streaks: [Date:StreakStatus]
     var restDays: [Date]
+    var exerciseStats: [ExerciseStats]
     
     static func calendar() -> Foundation.Calendar {
         return Foundation.Calendar(identifier: .gregorian)
@@ -38,30 +38,37 @@ struct Log: Codable {
     init(id: String) {
         self.id = id
         self.entries = []
-//        self.streaks = [:]
         self.restDays = []
+        self.exerciseStats = []
     }
     
     static func isSameDay(date1: Date, date2: Date) -> Bool {
         return Log.calendar().isDate(date1, inSameDayAs: date2)
     }
     
-    mutating func updateDateStatus(date: Date, rest: Bool) -> Int? {
-        if !rest {
+    mutating func updateDateStatus(date: Date, rest: Bool?) -> Int? {
+        let _rest: Bool
+        // if nil, toggle
+        _rest = rest ?? !isRestDay(date: date)
+        
+        if !_rest {
             if let idx = restDays.firstIndex(where: { Log.isSameDay(date1: $0, date2: date) }) {
                 restDays.remove(at: idx)
                 return idx
             }
             return nil
         } else {
-            if let idx = restDays.firstIndex(where: { Log.isSameDay(date1: $0, date2: date) }) {
-                //restDays[idx] = date
+            if let _ = restDays.firstIndex(where: { Log.isSameDay(date1: $0, date2: date) }) {
                 return nil
             } else {
                 self.restDays.append(date)
                 return restDays.endIndex - 1
             }
         }
+    }
+    
+    func isRestDay(date: Date) -> Bool {
+        return restDays.first(where: { Log.isSameDay(date1: $0, date2: date) }) != nil
     }
     
 //    mutating func updateStreak(date: Date, status: StreakStatus) {

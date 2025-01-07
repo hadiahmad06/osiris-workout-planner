@@ -10,9 +10,13 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var cloudService: CloudService
     @Binding var showLoginView: Bool
-//    @Binding var authErrorMessage: String
+    @State private var authErrorMessage: String = ""
+    
+    func updateErrorMessage() async {
+        self.authErrorMessage = cloudService.auth.authErrorMessage
+    }
     
     var body: some View {
         VStack {
@@ -39,7 +43,7 @@ struct LoginView: View {
             
             Button(action: {
                 Task {
-                    try await viewModel.signIn(
+                    try await cloudService.auth.signIn(
                         withEmail: self.email,
                         password: self.password)
                 }
@@ -58,11 +62,15 @@ struct LoginView: View {
             .cornerRadius(24)
             .padding(.top, 30)
             
-            Text(viewModel.authErrorMessage)
+            Text(authErrorMessage)
+                .onAppear {
+                    Task {
+                        await updateErrorMessage()
+                    }
+                }
                 .foregroundStyle(Color.red)
                 .fontWeight(.bold)
                 .padding(.top, 10)
-                //.frame(alignment: .center)
             
             Spacer()
             
@@ -95,6 +103,6 @@ extension LoginView: AuthenticationFormProtocol {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(showLoginView: .constant(true))
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
+            .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }

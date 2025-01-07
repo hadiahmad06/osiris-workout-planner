@@ -8,9 +8,11 @@ import SwiftUI
 import Foundation
 
 struct TodayView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @State private var weekOffset = 0
-    @State private var selectedDate = Log.calendar().startOfDay(for: Date())
+    @EnvironmentObject var cloudService: CloudService
+    //@State private var showPopUp = false
+    @State private var weekOffset: Int = 0
+    @State private var selectedDate: Date = Log.calendar().startOfDay(for: Date())
+    
     var body: some View {
         VStack {
             // Display Dates for This Week (Sunday-Saturday)
@@ -26,10 +28,12 @@ struct TodayView: View {
                     .fontWeight(.bold)
             }
             HStack {
+                let week = cloudService.log.getWeekStatuses(weekOffset: weekOffset)
                 Button(action: {weekOffset -= 1}) {
                     Image(systemName: "chevron.backward")
+                        .font(.system(size: 15))
+                        .foregroundColor(AssetsManager.accentColorMain)
                 }
-                let week = viewModel.getWeekStatuses(weekOffset: weekOffset)
                 ForEach(week, id: \.0) { (date, status) in
                     // i had to add empty id value because of foreach
                         Button(action: {selectedDate = date}) {
@@ -45,60 +49,71 @@ struct TodayView: View {
                 //}
                 Button(action: {weekOffset += 1}) {
                     Image(systemName: "chevron.forward")
+                        .font(.system(size: 15))
+                        .foregroundColor(AssetsManager.accentColorMain)
                 }
-                
             }
             .padding(.bottom, 15)
             
-            VStack {
-                ForEach(0..<3) { row in
-                    HStack {
-                        ForEach(0..<3) { column in
-                            let index = row * 3 + column
-                            if index < workoutPlans.count {
-                                Button(action: {}) {
-                                    Text(workoutPlans[index].text)
-                                        .foregroundColor(AssetsManager.buttonTextColor)
-                                        .font(.headline)
-                                        .frame(width: 100, height: 100)
-                                        .background(AssetsManager.cardBackgroundColor)
-                                        .cornerRadius(15)
-                                        .padding(5)
-                                }
-                                .frame(maxWidth: .infinity)
-                            }
-                        }
+            WorkoutEntryView(selectedDate: $selectedDate)
+//            VStack {
+//                ForEach(0..<3) { row in
+//                    HStack {
+//                        ForEach(0..<3) { column in
+//                            let index = row * 3 + column
+//                            if index < workoutPlans.count {
+//                                Button(action: {}) {
+//                                    Text(workoutPlans[index].text)
+//                                        .foregroundColor(AssetsManager.buttonTextColor)
+//                                        .font(.headline)
+//                                        .frame(width: 100, height: 100)
+//                                        .background(AssetsManager.cardBackgroundColor)
+//                                        .cornerRadius(15)
+//                                        .padding(5)
+//                                }
+//                                .frame(maxWidth: .infinity)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+            Spacer()
+            HStack {
+                Spacer()
+                
+                ZStack {
+                    Menu {
+                        PlansView(selectedDate: $selectedDate)
+                            .offset(y: -40)
+                            .frame(alignment: .bottom)
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.title)
+                            .foregroundColor(AssetsManager.buttonTextColor)
+                                .frame(width:60, height: 60)
+                                .background(AssetsManager.cardBackgroundColor)
+                                    .cornerRadius(50)
                     }
+//                    Button(action: {
+//                        Task {
+//                            showPopUp.toggle()
+//                        }
+//                    }) {
+//                        Image(systemName: "plus")
+//                            .font(.title)
+//                            .foregroundColor(AssetsManager.buttonTextColor)
+//                            .frame(width:60, height: 60)
+//                            .background(AssetsManager.cardBackgroundColor)
+//                            .cornerRadius(50)
+//                    }
+//                    if showPopUp {
+//                        PlansView()
+//                            .offset(y: -40)
+//                            .frame(alignment: .bottom)
+//                    }
+                        
                 }
             }
-            Spacer()
-            VStack {
-                Button(action: {
-                    Task {
-                        viewModel.currentLog!.updateDateStatus(date: selectedDate, rest: true)
-                    }
-                }) {
-                    Text("Set Rest Day")
-                        .font(.title)
-                        .foregroundColor(AssetsManager.buttonTextColor)
-                        .frame(width:200, height: 80)
-                        .background(AssetsManager.cardBackgroundColor)
-                        .cornerRadius(50)
-                }
-                Button(action: {
-                    Task {
-//                        await viewModel.(date: selectedDate, status: .pending)
-                    }
-                }) {
-                    Image(systemName: "plus")
-                        .font(.title)
-                        .foregroundColor(AssetsManager.buttonTextColor)
-                        .frame(width:200, height: 80)
-                        .background(AssetsManager.cardBackgroundColor)
-                        .cornerRadius(50)
-                }
-            }
-            Spacer()
         }
         .padding()
         .navigationBarTitle("Today", displayMode: .inline)
@@ -117,6 +132,6 @@ struct TodayView: View {
 struct TodayView_Previews: PreviewProvider {
     static var previews: some View {
         TodayView()
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
+            .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }

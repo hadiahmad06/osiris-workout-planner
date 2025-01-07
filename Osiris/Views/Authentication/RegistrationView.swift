@@ -12,11 +12,14 @@ struct RegistrationView: View {
     @State private var username: String = ""
     @State private var nickname: String = ""
     @State private var password: String = ""
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var cloudService: CloudService
     @Binding var showLoginView: Bool
-//    @Binding var authErrorMessage: String
-
-
+    @State private var authErrorMessage: String = ""
+    
+    func updateErrorMessage() async {
+        self.authErrorMessage = cloudService.auth.authErrorMessage
+    }
+    
     var body: some View {
         VStack {
             Spacer()
@@ -53,7 +56,7 @@ struct RegistrationView: View {
 //                        password: self.password)
 //                }
                 Task {
-                    try await viewModel.createUser(
+                    try await cloudService.auth.createUser(
                         withEmail: self.email,
                         password: self.password,
                         username: self.username,
@@ -74,7 +77,12 @@ struct RegistrationView: View {
             .cornerRadius(24)
             .padding(.top, 30)
             
-            Text(viewModel.authErrorMessage)
+            Text(authErrorMessage)
+                .onAppear {
+                    Task {
+                        await updateErrorMessage()
+                    }
+                }
                 .foregroundStyle(Color.red)
                 .fontWeight(.bold)
                 .padding(.top, 10)
@@ -113,6 +121,6 @@ extension RegistrationView: AuthenticationFormProtocol {
 struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {
         RegistrationView(showLoginView: .constant(false))
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
+            .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }

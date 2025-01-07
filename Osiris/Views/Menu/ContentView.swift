@@ -57,7 +57,7 @@ var friends = ["John", "Emma", "Liam"]
 
 
 struct ContentView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var cloudService: CloudService
     @State private var selectedTab: Tab = .today
     
     enum Tab {
@@ -226,6 +226,6 @@ struct HomeView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
+            .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }

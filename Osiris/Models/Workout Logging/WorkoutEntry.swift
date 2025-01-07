@@ -29,14 +29,30 @@ struct WorkoutEntry: Identifiable, Codable {
     var exerciseEntry: [ExerciseEntry]
     var totalTime: Int                  // total time of workout recorded in minutes
     var planID: String                  // workout plan associated with the workout
+    var name: String
     var timestamp: Date
+    var musclesUtilized: [MuscleWeightage]
     
-    init(exerciseEntry: [ExerciseEntry], totalTime: Int, planID: String, timestamp: Date) {
+    init(exerciseEntry: [ExerciseEntry], totalTime: Int, planID: String, name: String, timestamp: Date) {
         self.id = UUID().uuidString
         self.exerciseEntry = exerciseEntry
         self.totalTime = totalTime
         self.planID = planID
+        self.name = name
         self.timestamp = timestamp
+        
+        self.musclesUtilized = []
+        for entry in exerciseEntry {
+            for muscle in entry.exercise.musclesTargeted {
+                for sets in entry.sets {
+                    
+                }
+            }
+        }
+    }
+    
+    mutating func addExerciseEntry(_ exerciseEntry: ExerciseEntry) {
+        self.exerciseEntry.append(exerciseEntry)
     }
 }
 

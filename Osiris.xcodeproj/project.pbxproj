@@ -40,6 +40,27 @@
 		01C91B032D1222D40014D964 /* OsirisUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		019BE5EF2D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Osiris" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				Views/LaunchScreen.swift,
+			);
+			target = 01C91AE72D1222D30014D964 /* Osiris */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		019BE5F02D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Copy Bundle Resources" phase from "Osiris" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 01C91AE62D1222D30014D964 /* Resources */;
+			membershipExceptions = (
+				Views/LaunchScreen.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		015BB0EA2D1C33460006BA54 /* GithubAssets */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -48,6 +69,10 @@
 		};
 		01C91AEA2D1222D30014D964 /* Osiris */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				019BE5EF2D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Osiris" target */,
+				019BE5F02D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Copy Bundle Resources" phase from "Osiris" target */,
+			);
 			path = Osiris;
 			sourceTree = "<group>";
 		};
@@ -433,8 +458,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Osiris/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -466,8 +491,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Osiris/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

@@ -8,36 +8,30 @@
 import SwiftUI
 
 struct ControllerView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @State var showLoginView: Bool
+    @EnvironmentObject var cloudService: CloudService
+    @State private var showLoginView: Bool
     
     init() {
         showLoginView = false
     }
     
-    
     var body: some View {
         Group {
-            if viewModel.userSession != nil {
-                ContentView()
-                    .onAppear( perform: {
-                        viewModel.authErrorMessage = ""
+            if cloudService.auth.userSession != nil {
+                AnyView(ContentView())
+                    .onAppear(perform: {
+                        cloudService.auth.authErrorMessage = ""
                     })
             } else {
                 if(showLoginView) {
-                    LoginView(showLoginView: $showLoginView)
+                    AnyView(LoginView(showLoginView: $showLoginView))
                 } else {
-                    RegistrationView(showLoginView: $showLoginView)
+                    AnyView(RegistrationView(showLoginView: $showLoginView))
                 }
             }
         }
-        //.edgesIgnoringSafeArea(.all)
     }
 }
-
-//extension ControllerView {
-//    static var EXAMPLE_CONTROLLER_VIEW: ControllerView = ControllerView()
-//}
 
 struct ControllerView_Previews: PreviewProvider {
     static var previews: some View {

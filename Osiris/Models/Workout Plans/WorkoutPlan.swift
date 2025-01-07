@@ -26,11 +26,6 @@ class WorkoutPlan: Identifiable, Codable {
         self.text = text
         self.symbol = s
         self.exercises = []
-//        self.id = WorkoutPlan.idQueue.sync {
-//            let currentID = WorkoutPlan.nextID
-//            WorkoutPlan.nextID += 1
-//            return currentID
-//        }
     }
     
     func addExercise(exercise: Exercise, index: Int) -> FunctionResult {

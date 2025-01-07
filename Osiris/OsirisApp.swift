@@ -4,19 +4,10 @@
 import SwiftUI
 import Firebase
 
-
-//class AppDelegate: NSObject, UIApplicationDelegate {
-//  func application(_ application: UIApplication,
-//                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//    FirebaseApp.configure()
-//
-//    return true
-//  }
-//}
-
 @main
 struct OsirisApp: App {
-    @StateObject var viewModel = AuthViewModel()
+    @StateObject var cloudService: CloudService = CloudService()
+    @State private var isActive = false
     
     init() {
         FirebaseApp.configure()
@@ -24,8 +15,23 @@ struct OsirisApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ControllerView()
-                .environmentObject(viewModel)
+            ZStack {
+                if isActive {
+                    ControllerView()
+                        .environmentObject(cloudService)
+                        .transition(.opacity.animation(.easeIn(duration: 0.4)))
+                } else {
+                    LaunchView()
+                        .transition(.opacity.animation(.easeOut(duration: 0.15)))
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation {
+                                    isActive = true
+                                }
+                            }
+                        }
+                }
+            }
         }
     }
 }

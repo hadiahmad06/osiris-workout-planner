@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var cloudService: CloudService
     
     var body: some View {
-        if let user = viewModel.currentUser {
-            VStack {
+        VStack {
+            if let user = cloudService.auth.currentUser {
                 List {
                     Section {
                         HStack { // example user
@@ -40,19 +40,19 @@ struct SettingsView: View {
                                             title: "Version",
                                             color: AssetsManager.textColor)
                             Spacer()
-                            Text(DebugInfo.version)
+                            Text(AppInfo.version)
                                 .font(.subheadline)
                                 .accentColor(AssetsManager.accentColorTertiary)
                         }
                         
                     }
                     Section("ACCOUNT") {
-                        Button(action: { viewModel.signOut() }) {
+                        Button(action: { Task { cloudService.auth.signOut() } }) {
                             SettingsRowView(imageName: "arrow.left.circle.fill",
                                             title: "Sign Out",
                                             color: .red)
                         }
-                        Button(action: { Task { await viewModel.deactivateAccount() } }) {
+                        Button(action: { Task { await cloudService.auth.deactivateAccount() } }) {
                             SettingsRowView(imageName: "xmark.circle.fill",
                                             title: "Deactivate Account",
                                             color: .red)
@@ -60,16 +60,16 @@ struct SettingsView: View {
                     }
                 }
             }
-            .padding()
-            .navigationBarTitle("Settings", displayMode: .inline)
-            .background(AssetsManager.backgroundAccent)
         }
+        .padding()
+        .navigationBarTitle("Settings", displayMode: .inline)
+        .background(AssetsManager.backgroundAccent)
     }
 }
 
 struct SettingsView_Preview: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(AuthViewModel.EXAMPLE_VIEW_MODEL)
+            .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }

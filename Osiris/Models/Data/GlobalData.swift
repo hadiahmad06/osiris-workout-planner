@@ -1,5 +1,5 @@
 //
-//  Colors.swift
+//  GlobalData.swift
 //  Osiris - Workout Planner
 //
 //  Created by Hadi Ahmad on 12/18/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct DebugInfo {
+struct AppInfo {
     static var version: String = "Alpha"
 }
 
