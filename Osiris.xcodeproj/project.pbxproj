@@ -35,6 +35,9 @@
 
 /* Begin PBXFileReference section */
 		015BB0E82D1C30990006BA54 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		019BE5F92D2CD21000C81651 /* Exercise Recommendation.mlproj */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Exercise Recommendation.mlproj"; sourceTree = "<group>"; };
+		019BE5FB2D2CD21700C81651 /* exercises.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = exercises.csv; sourceTree = "<group>"; };
+		019BE5FC2D2CD23400C81651 /* associations.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = associations.csv; sourceTree = "<group>"; };
 		01C91AE82D1222D30014D964 /* Osiris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Osiris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91AF92D1222D40014D964 /* OsirisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C91B032D1222D40014D964 /* OsirisUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OsirisUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +122,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		019BE5F82D2CD21000C81651 /* Training */ = {
+			isa = PBXGroup;
+			children = (
+				019BE5FC2D2CD23400C81651 /* associations.csv */,
+				019BE5FB2D2CD21700C81651 /* exercises.csv */,
+			);
+			path = Training;
+			sourceTree = "<group>";
+		};
+		019BE5FA2D2CD21000C81651 /* CoreML */ = {
+			isa = PBXGroup;
+			children = (
+				019BE5F82D2CD21000C81651 /* Training */,
+				019BE5F92D2CD21000C81651 /* Exercise Recommendation.mlproj */,
+			);
+			path = CoreML;
+			sourceTree = "<group>";
+		};
 		01C91ADF2D1222D20014D964 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +150,7 @@
 				01C91AE92D1222D30014D964 /* Products */,
 				771CBD8A12CDCCC2BC4CFF10 /* Pods */,
 				015BB0E82D1C30990006BA54 /* README.md */,
+				019BE5FA2D2CD21000C81651 /* CoreML */,
 			);
 			sourceTree = "<group>";
 		};
