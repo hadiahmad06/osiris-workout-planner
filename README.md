@@ -28,9 +28,10 @@ Osiris is a workout tracking app designed to help users track their exercise rou
         Workout Logs: streak data, workout entries
             Workout Entries: sets and reps of each exercise, total time, reference to workout plan associated with entry
             
-<img src="GithubAssets/startup_phase.gif" alt="Start up screen GIF" width="200"/>   
-<img src="GithubAssets/signup_screen.png" alt="Sign up screen screenshot" width="200"/>
-
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="GithubAssets/startup_phase.gif" alt="Start up screen GIF" width="200"/>   
+    <img src="GithubAssets/signup_screen.png" alt="Sign up screen screenshot" width="200"/>
+</div>
 ### 2. **Firebase Integration**
    - Firebase is used to store and sync user data, including workout logs and user preferences.
    - Firebase Authentication handles user session management.
