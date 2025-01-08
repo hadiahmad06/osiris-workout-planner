@@ -26,7 +26,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 </div>
 
 ### 2. **Firebase Integration**
-   - Firebase is used to store and sync user data, including workout logs and user preferences.
+   - Firebase is used to store and sync user data, including workout logs in [`LogService`](Osiris/Models/Workout%20Logging/LogService.swift) and user preferences in [`AuthService`](Osiris/Models/Authentication/AuthService.swift).
    - Firebase Authentication handles user session management.
    - Workout plans are stored in Firebase Cloud Firestore, allowing users to retrieve their data across different devices.
    
