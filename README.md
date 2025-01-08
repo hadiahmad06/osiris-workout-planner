@@ -13,15 +13,6 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - `ControllerView` -> implements `AuthView`
    - `LoginView` + `RegistrationView` -> moved logo component to `AuthView` 
 
-### Jan 4-6, 2024
-   - `CloudService` -> main access to Firebase
-   - `AuthService` -> originally `AuthViewModel`, now only includes methods related to the `user` collection
-   - `LogService` -> originally a part of `AuthViewModel`, now solely contains methods related to the `logs` collection
-   - `TodayView` -> Implemented a modular menu that can be used to set workout plans and rest day statuses.
-   - `LaunchView` -> Added a launch screen and animated the loading screen
-   - `ExerciseStats` -> Created a class to hold individual exercise stats for users.
-        
-
 ## Features Implemented
 
 ### 1. **Authentication System**
@@ -61,6 +52,14 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 4-6, 2024
+   - `CloudService` -> main access to Firebase
+   - `AuthService` -> originally `AuthViewModel`, now only includes methods related to the `user` collection
+   - `LogService` -> originally a part of `AuthViewModel`, now solely contains methods related to the `logs` collection
+   - `TodayView` -> Implemented a modular menu that can be used to set workout plans and rest day statuses.
+   - `LaunchView` -> Added a launch screen and animated the loading screen
+   - `ExerciseStats` -> Created a class to hold individual exercise stats for users.
 
 ### Dec 31, 2024
    - `AuthViewModel` -> removed all methods for `streaks`, replaced them with methods for `restDays`
