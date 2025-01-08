@@ -16,19 +16,12 @@ struct RegistrationView: View {
     @Binding var showLoginView: Bool
     @State private var authErrorMessage: String = ""
     
-    func updateErrorMessage() async {
+    func updateErrorMessage() {
         self.authErrorMessage = cloudService.auth.authErrorMessage
     }
     
     var body: some View {
-        VStack {
-            Spacer()
-            AssetsManager.logo
-                .resizable()
-                .scaledToFill()
-                .frame(width:100, height:100)
-                .foregroundStyle(AssetsManager.accentColorMain)
-                .padding(.vertical, 50)
+        //Group {
             VStack{
                 InputView(text: $email,
                           placeholder: "Email")
@@ -50,11 +43,11 @@ struct RegistrationView: View {
             .padding(.horizontal, 50)
             
             Button(action: {
-//                Task {
-//                    try await viewModel.signIn(
-//                        withEmail: self.email,
-//                        password: self.password)
-//                }
+                //                Task {
+                //                    try await viewModel.signIn(
+                //                        withEmail: self.email,
+                //                        password: self.password)
+                //                }
                 Task {
                     try await cloudService.auth.createUser(
                         withEmail: self.email,
@@ -79,9 +72,7 @@ struct RegistrationView: View {
             
             Text(authErrorMessage)
                 .onAppear {
-                    Task {
-                        await updateErrorMessage()
-                    }
+                    updateErrorMessage()
                 }
                 .foregroundStyle(Color.red)
                 .fontWeight(.bold)
@@ -100,11 +91,11 @@ struct RegistrationView: View {
                 }
                 .foregroundStyle(AssetsManager.textColorSecondary)
             }
-            Spacer()
+            .padding(.bottom, 100)
         }
-        .frame(maxHeight: UIScreen.main.bounds.height)
-        .background(AssetsManager.backgroundColor)
-    }
+        //.transition(.move(edge: .leading))
+        
+    //}
 }
 
 extension RegistrationView: AuthenticationFormProtocol {

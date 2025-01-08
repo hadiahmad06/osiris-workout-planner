@@ -25,7 +25,7 @@ class AuthService {
         }
     }
     
-    private var _currentUser: User?
+    var _currentUser: User?
     var authErrorMessage: String
     
 //    func userSessionStatus() -> Bool {
@@ -47,7 +47,7 @@ class AuthService {
     
     init(currentUser: User? = nil) {
         self.authErrorMessage = ""
-        self.userSession = nil//Auth.auth().currentUser
+        self.userSession = Auth.auth().currentUser
         self._currentUser = currentUser
     }
     

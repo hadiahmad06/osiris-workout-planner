@@ -8,6 +8,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
+### Jan 7, 2024
+   - Created `AuthView` -> animates LoginView and RegistrationView smoothly, only rendering what's on screen.
+   - `ControllerView` -> implements `AuthView`
+   - `LoginView` + `RegistrationView` -> moved logo component to `AuthView` 
+
 ### Jan 4-6, 2024
    - `CloudService` -> main access to Firebase
    - `AuthService` -> originally `AuthViewModel`, now only includes methods related to the `user` collection
@@ -26,7 +31,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
             
 <div style="display: flex; justify-content: center; align-items: center;">
     <img src="GithubAssets/startup_phase.gif" alt="Start up screen GIF" width="200"/>   
-    <img src="GithubAssets/signup_screen.png" alt="Sign up screen screenshot" width="200"/>
+    <img src="GithubAssets/switch_auth.gif" alt="Switch auth screen GIF" width="200"/>   
 </div>
 
 ### 2. **Firebase Integration**

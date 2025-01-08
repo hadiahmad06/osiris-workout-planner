@@ -54,7 +54,7 @@ class CloudService: ObservableObject {
     @objc private func handleUserSignOut() {
         self.online = false
         if self.auth.userSession != nil { self.auth.userSession = nil }
-        self.auth.currentUser = nil
+        self.auth._currentUser = nil
         self.log._currentLog = nil
     }
         
