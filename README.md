@@ -25,13 +25,14 @@ Osiris is a workout tracking app designed to help users track their exercise rou
     <img src="GithubAssets/switch_auth.gif" alt="Switch auth screen GIF" width="200"/>   
 </div>
 
-### 2. **Firebase Integration**
-   - Firebase is used to store and sync user data, including workout logs in [`LogService`](Osiris/Models/Workout%20Logging/LogService.swift) and user preferences in [`AuthService`](Osiris/Models/Authentication/AuthService.swift).
-   - Firebase Authentication handles user session management.
-   - Workout plans are stored in Firebase Cloud Firestore, allowing users to retrieve their data across different devices.
+### 2. **Cloud Storage**
+   - All online pushes and pulls are handled with [`CloudService`](Osiris/Models/CloudService.swift)
+   - Firebase is used to store and sync data, including workout logs in [`LogService`](Osiris/Models/Workout%20Logging/LogService.swift) and user preferences in [`AuthService`](Osiris/Models/Authentication/AuthService.swift).
+   - Workout plans and logs are stored in separate database collections, allowing users to share workout plans without compromising their own data.
    
 ### 3. **User Interface**
-   - Created a user interface with SwiftUI 
+   - Created an interactive login/signup screen using SwiftUI animations, in [`AuthView`](Osiris/Views/Authentication/AuthView.swift) 
+   - Created a [`TodayView`](Osiris/Views/Menu/Tabs/Today/TodayView.swift) page which shows the current week's gives an overview of previous workouts, allows future planning, and 
 
 ## To Do
 
