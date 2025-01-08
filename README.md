@@ -9,15 +9,15 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ## Most Recent
 
 ### Jan 7, 2024
-   - Created [`AuthView`](Osiris/Views/Authentication/AuthView) -> animates [`LoginView`](Osiris/Views/Authentication/LoginView) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView) smoothly, only rendering what's on screen.
-   - [`ControllerView`](Osiris/Views/ControllerView) -> implements [`AuthView`](Osiris/Views/Authentication/AuthView)
-   - [`LoginView`](Osiris/Views/Authentication/LoginView) + [`RegistrationView`](Osiris/Views/Authentication/RegistrationView) -> moved logo component to [`AuthView`](Osiris/Views/Authentication/AuthView)
+   - Created [`AuthView`](Osiris/Views/Authentication/AuthView.swift) -> animates [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift) smoothly, only rendering what's on screen.
+   - [`ControllerView`](Osiris/Views/ControllerView.swift) -> implements [`AuthView`](Osiris/Views/Authentication/AuthView.swift)
+   - [`LoginView`](Osiris/Views/Authentication/LoginView.swift) + [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift) -> moved logo component to [`AuthView`](Osiris/Views/Authentication/AuthView.swift)
 
 ## Features Implemented
 
 ### 1. **Authentication System**
    - Users can sign up and log in through a simple login or signup screen, powered with Firebase Authentication
-   - Authentication state is managed through the `AuthService`, which tracks the current user session, and current user data.
+   - Authentication state is managed through the [`AuthService`](Osiris/Models/Authentication/AuthService.swift), which tracks the current user session, and current user data.
    - Firebase Auth handles user sessions, including storing and fetching user-specific data securely.
             
 <div style="display: flex; justify-content: center; align-items: center;">
