@@ -9,9 +9,9 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ## Most Recent
 
 ### Jan 7, 2024
-   - Created `AuthView` -> animates LoginView and RegistrationView smoothly, only rendering what's on screen.
-   - `ControllerView` -> implements `AuthView`
-   - `LoginView` + `RegistrationView` -> moved logo component to `AuthView` 
+   - Created [`AuthView`](Osiris/Views/Authentication/AuthView) -> animates [`LoginView`](Osiris/Views/Authentication/LoginView) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView) smoothly, only rendering what's on screen.
+   - [`ControllerView`](Osiris/Views/ControllerView) -> implements [`AuthView`](Osiris/Views/Authentication/AuthView)
+   - [`LoginView`](Osiris/Views/Authentication/LoginView) + [`RegistrationView`](Osiris/Views/Authentication/RegistrationView) -> moved logo component to [`AuthView`](Osiris/Views/Authentication/AuthView)
 
 ## Features Implemented
 
