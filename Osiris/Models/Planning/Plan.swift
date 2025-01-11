@@ -12,18 +12,19 @@ enum FunctionResult {
     case failure
 }
 
-class WorkoutPlan: Identifiable, Codable {
+class Plan: Identifiable, Codable {
 //    private static var nextID: Int = 0
 //    private static let idQueue = DispatchQueue(label: "com.myApp.objectIDQueue")
     var id: String
-    
-    var text: String
+    var publicName: String
+    var name: String
     var symbol: Bool
     var exercises: [Exercise]
 
-    init (id: String, text: String, s: Bool = false) {
+    init (id: String, publicName: String, name: String, s: Bool = false) {
         self.id = id
-        self.text = text
+        self.publicName = publicName
+        self.name = name
         self.symbol = s
         self.exercises = []
     }

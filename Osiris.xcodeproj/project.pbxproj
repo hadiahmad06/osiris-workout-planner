@@ -48,6 +48,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Models/Animation/Animations.swift,
 				Views/LaunchScreen.swift,
 			);
 			target = 01C91AE72D1222D30014D964 /* Osiris */;
@@ -59,6 +60,7 @@
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = 01C91AE62D1222D30014D964 /* Resources */;
 			membershipExceptions = (
+				Models/Animation/Animations.swift,
 				Views/LaunchScreen.swift,
 			);
 		};

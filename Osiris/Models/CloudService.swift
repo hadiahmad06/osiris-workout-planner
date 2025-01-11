@@ -20,11 +20,13 @@ protocol CloudServiceProtocol {
 class CloudService: ObservableObject {
     var auth: AuthService
     var log: LogService
+    var plan: PlanService
     @Published var online: Bool = false
     
     init() {
         self.auth = AuthService()
         self.log = LogService()
+        self.plan = PlanService()
         
         NotificationCenter.default.addObserver(
             self,
@@ -61,13 +63,15 @@ class CloudService: ObservableObject {
     
     func fetchData() async {
         if await auth.fetchUser() == .success {
-            if await log.fetchLog(id: auth.currentUser!.logID) == .success {
-                self.online = true
+            if await plan.fetchPlans(auth.currentUser!.plans) == .success {
+                if await log.fetchLog(id: auth.currentUser!.logID) == .success {
+                    self.online = true
+                    return
+                }
             }
-        } else {
-            self.online = false
-            print("Failed to fetch data")
         }
+        self.online = false
+        print("Failed to fetch data")
     }
     
     

@@ -31,6 +31,8 @@ struct AuthView: View {
                 .foregroundStyle(AssetsManager.accentColorMain)
                 .padding(.top, 80)
                 .padding(.vertical, 50)
+            
+//            Animations.slideViews(view1: LoginView, view2: RegistrationView, animationTime: 0.5, state: $showLoginView)
             ZStack {
                 // LoginView
                 if showLoginView || __showLoginView {

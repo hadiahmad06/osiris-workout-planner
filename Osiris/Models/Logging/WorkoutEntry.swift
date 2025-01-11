@@ -26,62 +26,67 @@ import Foundation
 
 struct WorkoutEntry: Identifiable, Codable {
     var id: String
-    var exerciseEntry: [ExerciseEntry]
+    var exerciseEntries: [ExerciseEntry]
     var totalTime: Int                  // total time of workout recorded in minutes
-    var planID: String                  // workout plan associated with the workout
+    var planID: String?                 // workout plan associated with the workout
     var name: String
     var timestamp: Date
     var musclesUtilized: [MuscleWeightage]
     
-    init(exerciseEntry: [ExerciseEntry], totalTime: Int, planID: String, name: String, timestamp: Date) {
+    init(planID: String?, name: String = "") {
         self.id = UUID().uuidString
-        self.exerciseEntry = exerciseEntry
-        self.totalTime = totalTime
+        self.exerciseEntries = []
+        self.totalTime = 0
         self.planID = planID
         self.name = name
-        self.timestamp = timestamp
+        self.timestamp = Date()
         
         self.musclesUtilized = []
-        for entry in exerciseEntry {
-            for muscle in entry.exercise.musclesTargeted {
-                for sets in entry.sets {
-                    
-                }
-            }
-        }
+//        for entry in exerciseEntries {
+//            for muscle in entry.exerciseID.musclesTargeted {
+//                for sets in entry.sets {
+//                    
+//                }
+//            }
+//        }
     }
     
-    mutating func addExerciseEntry(_ exerciseEntry: ExerciseEntry) {
-        self.exerciseEntry.append(exerciseEntry)
-    }
+//    mutating func addExerciseEntry(_ exerciseEntry: ExerciseEntry) {
+//        self.exerciseEntry.append(exerciseEntry)
+//    }
 }
 
 struct ExerciseEntry: Identifiable, Codable {
     var id: String
     var order: Int
-    var exercise: Exercise
+    var exerciseID: String
     var sets: [Set]
     
-    init(order: Int, exercise: Exercise, sets: [Set]) {
+    init(order: Int, exerciseID: String, sets: [Set]) {
         self.id = UUID().uuidString
         self.order = order
-        self.exercise = exercise
+        self.exerciseID = exerciseID
         self.sets = sets
     }
 }
+
 struct Set: Identifiable, Codable {
     var id: String
-    var exerciseID: String
+//    var exerciseID: String
+    var order: Int
     var reps: Int
     var type: MovementType              // isometric, eccentric, regular
     var weight: Int
+    var mergeNext: Bool
     
-    init(exercise: String, reps: Int, type: MovementType, weight: Int) {
+    init(order: Int, reps: Int, type: MovementType, weight: Int, mergeNext: Bool = false) {
         self.id = UUID().uuidString
-        self.exerciseID = exercise
+//        self.exerciseID = exercise
+        self.order = order
         self.reps = reps
         self.type = type
         self.weight = weight
+        self.mergeNext = mergeNext
     }
 }
 

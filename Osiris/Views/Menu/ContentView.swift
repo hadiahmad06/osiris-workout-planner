@@ -43,16 +43,16 @@ var daysOfWeek: [Object] = [
     Object(t: "S", d: 0, c:AssetsManager.accentColorTertiary)
 ]
 
-var workoutPlans: [WorkoutPlan] = [
-    WorkoutPlan(id: "awd", text: "Plan 1"),
-    WorkoutPlan(id: "awd", text: "Plan 2"),
-    WorkoutPlan(id: "awd", text: "Plan 3"),
-    WorkoutPlan(id: "awd", text: "Plan 4"),
-    WorkoutPlan(id: "awd", text: "Plan 5"),
-    WorkoutPlan(id: "awd", text: "Plan 6"),
-    WorkoutPlan(id: "awd", text: "Plan 7"),
-    WorkoutPlan(id: "awd", text: "Plan 8"),
-    WorkoutPlan(id: "awd", text: "Plan 9")]
+//var workoutPlans: [Plan] = [
+//    Plan(id: "awd", name: "Plan 1"),
+//    Plan(id: "awd", name: "Plan 2"),
+//    Plan(id: "awd", name: "Plan 3"),
+//    Plan(id: "awd", name: "Plan 4"),
+//    Plan(id: "awd", name: "Plan 5"),
+//    Plan(id: "awd", name: "Plan 6"),
+//    Plan(id: "awd", name: "Plan 7"),
+//    Plan(id: "awd", name: "Plan 8"),
+//    Plan(id: "awd", name: "Plan 9")]
 var friends = ["John", "Emma", "Liam"]
 
 

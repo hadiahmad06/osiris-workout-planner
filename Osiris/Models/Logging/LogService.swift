@@ -10,13 +10,22 @@ import Firebase
 import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
-import SwiftUI
+//import SwiftUI
 
 class LogService {
     var _currentLog: Log?
-    func currentLog() -> Log? {
-        return _currentLog
+    
+    var currentLog: Log? {
+        get {
+            return _currentLog
+        }
+        set {
+            print("DEBUG: Cannot set currentLog directly")
+        }
     }
+//    func currentLog() -> Log? {
+//        return _currentLog
+//    }
     
     init(currentLog: Log? = nil) {
         self._currentLog = currentLog

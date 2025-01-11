@@ -13,7 +13,7 @@ struct User: Identifiable, Codable {
     let nickname: String
     let email: String
     let logID: String
-    let plans: [WorkoutPlan]
+    let plans: [String]
     var isActive: Bool
     
     var initial: String {

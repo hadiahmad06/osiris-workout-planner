@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct WorkoutView: View {
+    @Binding var working: Bool
+    
     @StateObject private var timerManager = TimerManager()
     
     @State private var timerIsRunning = true
     @State private var buttonText = "Stop"
+    
     
     var body: some View {
         VStack {
@@ -150,6 +153,6 @@ struct TimerView: View {
 
 struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutView()
+        WorkoutView(working: .constant(true))
     }
 }
