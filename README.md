@@ -8,11 +8,19 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Jan 9-10, 2024
-   - [PlanService](Osiris/Models/Planning/PlanService.swift) was created to track workout plans
-   - [LocalData](Osiris/Models/LocalData.swift) was created to store local data (like in progress workout entries) before they are pushed using [CloudService](Osiris/Models/CloudService.swift)
-   - [WeekView](Osiris/Views/Menu/Tabs/Today/WeekView.swift) was added to control animations between [TodayView](Osiris/Views/Menu/Tabs/Today/TodayView.swift) and [WorkoutView](Osiris/Views/Menu/Tabs/Today/WorkoutView.swift)
-   - [Animations](Osiris/Models/Animation/Animations) is a work-in-progress struct with functions that aims to allow modularity in views with similar animations.
+### Jan 11, 2024
+   - Trying to figure out how I want to store local data and when I want to push it to the cloud.
+
+#### Goals for now:
+   - Fix TodayView
+   - Add social page
+   - Allow viewing of logs with StatsView
+   
+## Table of Contents
+1. [Features Implemented](#features-implemented)
+2. [To-do](#to-do)
+3. [Recent Updates](#recent-updates)
+
 
 ## Features Implemented
 
@@ -54,6 +62,12 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 9-10, 2024
+   - [PlanService](Osiris/Models/Planning/PlanService.swift) was created to track workout plans
+   - [LocalData](Osiris/Models/LocalData.swift) was created to store local data (like in progress workout entries) before they are pushed using [CloudService](Osiris/Models/CloudService.swift)
+   - [WeekView](Osiris/Views/Menu/Tabs/Today/WeekView.swift) was added to control animations between [TodayView](Osiris/Views/Menu/Tabs/Today/TodayView.swift) and [WorkoutView](Osiris/Views/Menu/Tabs/Today/WorkoutView.swift)
+   - [Animations](Osiris/Models/Animation/Animations) is a work-in-progress struct with functions that aims to allow modularity in views with similar animations.
 
 ### Jan 7, 2024
    - Created [`AuthView`](Osiris/Views/Authentication/AuthView.swift) -> animates [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift) smoothly, only rendering what's on screen.

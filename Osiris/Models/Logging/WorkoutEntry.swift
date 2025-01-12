@@ -33,6 +33,17 @@ struct WorkoutEntry: Identifiable, Codable {
     var timestamp: Date
     var musclesUtilized: [MuscleWeightage]
     
+    var _nextOrder: Int = 0
+    var nextOrder: Int {
+        mutating get {
+            _nextOrder += 1
+            return _nextOrder
+        }
+        set {
+            _nextOrder = newValue
+        }
+    }
+    
     init(planID: String?, name: String = "") {
         self.id = UUID().uuidString
         self.exerciseEntries = []
@@ -62,29 +73,40 @@ struct ExerciseEntry: Identifiable, Codable {
     var exerciseID: String
     var sets: [Set]
     
-    init(order: Int, exerciseID: String, sets: [Set]) {
+    private var _nextOrder: Int = 0
+    var nextOrder: Int {
+        mutating get {
+            _nextOrder += 1
+            return _nextOrder
+        }
+        set {
+            _nextOrder = newValue
+        }
+    }
+    
+    var selectedSet: Int = 1
+    
+    init(order: Int, exerciseID: String) {
         self.id = UUID().uuidString
         self.order = order
         self.exerciseID = exerciseID
-        self.sets = sets
+        self.sets = []
     }
 }
 
 struct Set: Identifiable, Codable {
     var id: String
-//    var exerciseID: String
     var order: Int
-    var reps: Int
     var type: MovementType              // isometric, eccentric, regular
+    var reps: Int
     var weight: Int
     var mergeNext: Bool
     
-    init(order: Int, reps: Int, type: MovementType, weight: Int, mergeNext: Bool = false) {
+    init(order: Int, type: MovementType = .regular, reps: Int, weight: Int, mergeNext: Bool = false) {
         self.id = UUID().uuidString
-//        self.exerciseID = exercise
         self.order = order
-        self.reps = reps
         self.type = type
+        self.reps = reps
         self.weight = weight
         self.mergeNext = mergeNext
     }
