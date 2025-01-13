@@ -4,6 +4,9 @@
 //
 //  Created by Hadi Ahmad on 1/3/25.
 //
+//  Controlls Authentication and all other cloud access.
+//
+//
 
 import Foundation
 import Firebase
@@ -18,28 +21,26 @@ protocol CloudServiceProtocol {
 
 @MainActor
 class CloudService: ObservableObject {
-    var auth: AuthService
+    var profile: ProfileService
     var log: LogService
     var plan: PlanService
+    
     @Published var online: Bool = false
     
+    var userSession: FirebaseAuth.User? {
+        didSet { Task { await fetchData() } }
+    }
+    
+    var _currentUser: User?
+    var authErrorMessage: String
+    
     init() {
-        self.auth = AuthService()
+        self.profile = ProfileService()
         self.log = LogService()
         self.plan = PlanService()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleUserSessionChange),
-            name: .userSessionChanged,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleUserSignOut),
-            name: .userSignedOut,
-            object: nil
-        )
+        self.authErrorMessage = ""
+        self.userSession = Auth.auth().currentUser
+        self._currentUser = currentUser
         
         Task {
             await fetchData()
@@ -47,24 +48,21 @@ class CloudService: ObservableObject {
     }
     
     // should only change when userSession changes value, not when it goes from nil -> nil
-    @objc private func handleUserSessionChange() {
-        Task {
-            await fetchData()
-        }
-    }
-    
-    @objc private func handleUserSignOut() {
-        self.online = false
-        if self.auth.userSession != nil { self.auth.userSession = nil }
-        self.auth._currentUser = nil
-        self.log._currentLog = nil
-    }
+//    @objc private func handleUserSessionChange() {
+//        Task {
+//            await fetchData()
+//        }
+//    }
+//    
+//    @objc private func handleUserSignOut() {
+//        
+//    }
         
     
     func fetchData() async {
-        if await auth.fetchUser() == .success {
-            if await plan.fetchPlans(auth.currentUser!.plans) == .success {
-                if await log.fetchLog(id: auth.currentUser!.logID) == .success {
+        if await fetchUser() == .success {
+            if await plan.fetchPlans(currentUser!.plans) == .success {
+                if await log.fetchLog(id: currentUser!.logID) == .success {
                     self.online = true
                     return
                 }
@@ -73,8 +71,116 @@ class CloudService: ObservableObject {
         self.online = false
         print("Failed to fetch data")
     }
+
+    var currentUser: User? {
+        get {
+            return _currentUser
+        }
+        set {
+            print("DEBUG: Cannot set currentUser property directly")
+        }
+    }
     
     
+    // current bug, signing in doesnt fetch data correctly
+    func signIn(withEmail email: String, password: String) async throws {
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            self.userSession = result.user
+            //let _ = await fetchUser()
+        } catch {
+            print("DEBUG: Failed to sign in with error \(error.localizedDescription)")
+        }
+    }
+    
+    func createUser(withEmail email: String,
+                    password: String,
+                    username: String,
+                    nickname: String) async throws {
+        do {
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            let user = User(id: result.user.uid, username: username, nickname: nickname, email: email)
+            
+            // Encode and save user data to Firestore
+            let encodedUser = try Firestore.Encoder().encode(user)
+            try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
+            
+            // Encode and save log data to Firestore
+            let encodedLog = try Firestore.Encoder().encode(Log(id: user.logID))
+            try await Firestore.firestore().collection("logs").document(user.logID).setData(encodedLog)
+            
+            self.userSession = result.user
+            //let _ = await fetchUser()
+        } catch {
+            print("DEBUG: Failed to create user with error \(error.localizedDescription)")
+        }
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            self.online = false
+            self.userSession = nil
+            self._currentUser = nil
+            self.log._currentLog = nil
+        } catch {
+            print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
+        }
+    }
+    
+    func deactivateAccount() async {
+        _currentUser?.isActive = false
+        await updateUser()
+        signOut()
+    }
+    
+    func updateUser() async {
+        do {
+            let encodedUser = try Firestore.Encoder().encode(_currentUser)
+            try await Firestore.firestore().collection("users").document(_currentUser!.id).updateData(encodedUser)
+        } catch {
+            print("DEBUG: Failed to update user data with error \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchUser() async -> FunctionResult {
+        // attempt to get uid
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("fetch failed, signing out")
+            signOut()
+            return .failure
+        }
+        
+        // fetch user
+        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else {
+            print("Failed to fetch user data")
+            return .failure
+        }
+        
+        // attempt to decode user
+        if let user = try? snapshot.data(as: User.self) {
+            // if user is active, continue
+            if user.isActive {
+                _currentUser = user
+                // updates session
+//                updateSession()
+                print("DEBUG: USER FETCHED")
+                return .success
+                
+            } else {
+                print("User is not active")
+                authErrorMessage = "Your account has been suspended. Please contact support."
+                signOut()
+                return .failure
+                
+            }
+        } else {
+            print("Failed to decode user data")
+            authErrorMessage = "We failed to access your account, please try again later."
+            signOut()
+            return .failure
+        }
+    }
     
 }
 

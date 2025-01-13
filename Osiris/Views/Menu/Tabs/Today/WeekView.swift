@@ -18,9 +18,9 @@ struct WeekView: View {
     @State private var week: [(Date,StreakStatus)] = []
     @State private var onUpdate: Bool = false
     
-    init(_ working: Binding<Bool>) {
-        self.working = working.wrappedValue
-    }
+//    init(_ working: Binding<Bool>) {
+//        self.working = working.wrappedValue
+//    }
     
     func updateWeek() {
         self.week = cloudService.log.getWeekStatuses(weekOffset: weekOffset)

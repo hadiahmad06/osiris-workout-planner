@@ -17,7 +17,7 @@ struct RegistrationView: View {
     @State private var authErrorMessage: String = ""
     
     func updateErrorMessage() {
-        self.authErrorMessage = cloudService.auth.authErrorMessage
+        self.authErrorMessage = cloudService.authErrorMessage
     }
     
     var body: some View {
@@ -49,7 +49,7 @@ struct RegistrationView: View {
                 //                        password: self.password)
                 //                }
                 Task {
-                    try await cloudService.auth.createUser(
+                    try await cloudService.createUser(
                         withEmail: self.email,
                         password: self.password,
                         username: self.username,
@@ -98,7 +98,7 @@ struct RegistrationView: View {
     //}
 }
 
-extension RegistrationView: AuthenticationFormProtocol {
+extension RegistrationView {
     var formIsValid: Bool {
         return !email.isEmpty &&
         email.contains("@") &&

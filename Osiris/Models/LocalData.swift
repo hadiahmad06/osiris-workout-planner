@@ -35,28 +35,45 @@ struct Workout {
             selectedExercise!.sets.append(Set(order: nextOrder,
                                               reps: -1,
                                               weight: -1))
-            selectedExercise!.selectedSet = nextOrder
+            selectedExercise!.selectedSet = findIdx(nextOrder)!
         }
     }
     
-    mutating func popSet() {
+    mutating func popSet(order: Int? = nil) { // needs to be fixed
         if self.selectedExercise != nil {
-            selectedExercise!.sets.removeLast()
-            selectedExercise!.nextOrder -= 1
+            if order != nil {
+                print("Cannot remove at specified index")
+//                if let realIdx = selectedExercise!.sets.firstIndex(of: Set(idx: idx)) {
+//                    
+//                }
+            } else {
+                selectedExercise!.sets.removeLast()
+                selectedExercise!.nextOrder -= 1
+            }
         }
     }
     
-    mutating func editWeight(_ weight: Int) {
+    mutating func editWeight(_ weight: Int?) {
         if self.selectedExercise != nil {
-            selectedExercise!.sets.remo
+            let idx = selectedExercise!.selectedSet
+            selectedExercise!.sets[idx].weight = weight
         }
+    }
+    mutating func editReps(_ reps: Int?) {
+        if self.selectedExercise != nil {
+            let idx = selectedExercise!.selectedSet
+            selectedExercise!.sets[idx].reps = reps
+        }
+    }
+    
+    func findIdx(_ order: Int) -> Int? {
+        return selectedExercise!.sets.firstIndex(where: { $0.order == order } )
     }
     
     mutating func pushWorkout() -> FunctionResult {
         if self.currentWorkout != nil {
             let timestamp = currentWorkout!.timestamp
-            let timeInterval = Date().timeIntervalSince(timestamp)  // Returns TimeInterval (Double)
-            self.currentWorkout!.totalTime = Int(timeInterval)  // Convert to Int if totalTime is expected to be an integer
+            self.currentWorkout!.totalTime = Date().timeIntervalSince(timestamp)
             return .success
         }
         return .failure

@@ -27,7 +27,7 @@ import Foundation
 struct WorkoutEntry: Identifiable, Codable {
     var id: String
     var exerciseEntries: [ExerciseEntry]
-    var totalTime: Int                  // total time of workout recorded in minutes
+    var totalTime: Double                  // total time of workout recorded
     var planID: String?                 // workout plan associated with the workout
     var name: String
     var timestamp: Date
@@ -47,7 +47,7 @@ struct WorkoutEntry: Identifiable, Codable {
     init(planID: String?, name: String = "") {
         self.id = UUID().uuidString
         self.exerciseEntries = []
-        self.totalTime = 0
+        self.totalTime = 0.0
         self.planID = planID
         self.name = name
         self.timestamp = Date()
@@ -98,11 +98,11 @@ struct Set: Identifiable, Codable {
     var id: String
     var order: Int
     var type: MovementType              // isometric, eccentric, regular
-    var reps: Int
-    var weight: Int
+    var reps: Int?
+    var weight: Int?
     var mergeNext: Bool
     
-    init(order: Int, type: MovementType = .regular, reps: Int, weight: Int, mergeNext: Bool = false) {
+    init(order: Int, type: MovementType = .regular, reps: Int?, weight: Int?, mergeNext: Bool = false) {
         self.id = UUID().uuidString
         self.order = order
         self.type = type

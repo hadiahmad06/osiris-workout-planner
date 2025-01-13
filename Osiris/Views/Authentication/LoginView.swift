@@ -15,7 +15,7 @@ struct LoginView: View {
     @State private var authErrorMessage: String = ""
     
     func updateErrorMessage() {
-        self.authErrorMessage = cloudService.auth.authErrorMessage
+        self.authErrorMessage = cloudService.authErrorMessage
     }
     
     var body: some View {
@@ -36,7 +36,7 @@ struct LoginView: View {
             
             Button(action: {
                 Task {
-                    try await cloudService.auth.signIn(
+                    try await cloudService.signIn(
                         withEmail: self.email,
                         password: self.password)
                 }
@@ -82,7 +82,7 @@ struct LoginView: View {
     //}
 }
 
-extension LoginView: AuthenticationFormProtocol {
+extension LoginView {
     var formIsValid: Bool {
         return !email.isEmpty &&
         email.contains("@") &&

@@ -12,7 +12,7 @@ struct SettingsView: View {
     
     var body: some View {
         VStack {
-            if let user = cloudService.auth.currentUser {
+            if let user = cloudService.currentUser {
                 List {
                     Section {
                         HStack { // example user
@@ -47,12 +47,12 @@ struct SettingsView: View {
                         
                     }
                     Section("ACCOUNT") {
-                        Button(action: { Task { cloudService.auth.signOut() } }) {
+                        Button(action: { Task { cloudService.signOut() } }) {
                             SettingsRowView(imageName: "arrow.left.circle.fill",
                                             title: "Sign Out",
                                             color: .red)
                         }
-                        Button(action: { Task { await cloudService.auth.deactivateAccount() } }) {
+                        Button(action: { Task { await cloudService.deactivateAccount() } }) {
                             SettingsRowView(imageName: "xmark.circle.fill",
                                             title: "Deactivate Account",
                                             color: .red)

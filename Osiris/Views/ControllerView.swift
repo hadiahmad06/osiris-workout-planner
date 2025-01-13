@@ -12,9 +12,9 @@ struct ControllerView: View {
     
     var body: some View {
         Group {
-            if cloudService.auth.userSession != nil {
+            if cloudService.userSession != nil {
                 ContentView()
-                    .onAppear(perform: {cloudService.auth.authErrorMessage = ""})
+                    .onAppear(perform: {cloudService.authErrorMessage = ""})
             } else {
                 AuthView()
             }

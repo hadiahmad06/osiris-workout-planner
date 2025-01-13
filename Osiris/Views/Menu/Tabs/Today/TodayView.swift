@@ -14,7 +14,7 @@ struct TodayView: View {
         if working {
             WorkoutView(working: $working)
         } else {
-            WeekView($working)
+            WeekView(working: $working)
         }
     }
 }
