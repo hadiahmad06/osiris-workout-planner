@@ -30,6 +30,33 @@ class ProfileService {
         didSet { Task { await parseConnections() }}
     }
     
+    func queueChange(username: String, change: Change) async {
+        let ref = Firestore.firestore().collection("profiles")
+        
+        // attempt to locate profile
+        guard let querySnapshot = try? await ref.whereField("username", isEqualTo: username).getDocuments() else {
+            print("DEBUG: Failed to fetch profile to queue a change")
+            return
+        }
+        
+        // attempt to decode profile
+        if let profile = try? querySnapshot.documents.first!.data(as: Profile.self) {
+            let id = profile.id
+            let type: ConnectionType
+            
+            // checks for if theres already a connection
+            if let connection = connections.first(where: { $0.id == id }) {
+                type = connection.type
+            } else {
+                // if no connection, add to cached
+                connections.append(Connection(id: id, type: .cached))
+                type = .cached
+            }
+            // pushes change to queue
+            changes.append(SocialChange(id: id, type: type, change: change))
+        }
+    }
+    
     // fetches current user's profile
     func fetchProfile(_ user: User) async -> FunctionResult {
         
@@ -73,7 +100,7 @@ class ProfileService {
                 case .inbound: self.inRequests.append(profile)
                 case .outbound: self.outRequests.append(profile)
                 case .blocked: self.blocked.append(profile)
-                case .other: break // -> to be removed or to be added
+                case .cached: break // -> to be removed or to be added
                 }
                 return .success
             } else {
@@ -176,7 +203,7 @@ class ProfileService {
                         }
                     }
                 }
-            case .other:
+            case .cached:
                 if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
                     switch change.change {
                     case .add:
@@ -284,7 +311,7 @@ enum ConnectionType: Codable {
     case inbound
     case outbound
     case blocked
-    case other
+    case cached
 }
 
 enum Change: Codable {

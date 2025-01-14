@@ -11,16 +11,16 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ### Jan 14, 2024
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
    - [`Profile`](Osiris/Models/User/Profile.swift) was created and added to collection `profiles` so that some user data can be kept private. These changes are reflected in [`ProfileService`](Osiris/Models/User/ProfileService.swift)
+   - Added method `queueChange(username: String, change: Change)` to [`ProfileService`](Osiris/Models/User/ProfileService.swift)
    - Have already drawn out a SocialView to recreate in Swift! 
-   - Also planning to add a few more methods like `queueChange(username: String, change: Change)`
    - I took a break from workout logging as I ran into an issue but I'll revisit that after I'm done with socials.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
-    a. [Authentication System](#authentication-system)
-    b. [Realtime Database](#cloud-storage)
-    c. [Friends and Social](#friends-and-social)
-    d. [User Interface](#user-interface)
+   1. [Authentication System](#authentication-system)
+   2. [Realtime Database](#cloud-storage)
+   3. [Friends and Social](#friends-and-social)
+d. [User Interface](#user-interface)
 2. [To-do](#to-do)
 3. [Recent Updates](#recent-updates)
 
