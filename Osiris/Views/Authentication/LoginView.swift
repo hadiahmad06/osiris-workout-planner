@@ -22,7 +22,8 @@ struct LoginView: View {
         //Group {
             VStack{
                 InputView(text: $email,
-                          placeholder: "Email")
+                          placeholder: "Email",
+                          caseSensitive: false)
                 
                 InputView(text: $password,
                           placeholder: "Password",

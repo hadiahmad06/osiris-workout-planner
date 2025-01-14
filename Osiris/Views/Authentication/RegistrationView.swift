@@ -24,10 +24,12 @@ struct RegistrationView: View {
         //Group {
             VStack{
                 InputView(text: $email,
-                          placeholder: "Email")
+                          placeholder: "Email",
+                          caseSensitive: false)
                 
                 InputView(text: $username,
-                          placeholder: "Username")
+                          placeholder: "Username",
+                          caseSensitive: false)
                 
                 InputView(text: $nickname,
                           placeholder: "Nickname")
