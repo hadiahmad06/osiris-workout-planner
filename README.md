@@ -20,7 +20,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    1. [Authentication System](#authentication-system)
    2. [Realtime Database](#cloud-storage)
    3. [Friends and Social](#friends-and-social)
-d. [User Interface](#user-interface)
+   4. [User Interface](#user-interface)
 2. [To-do](#to-do)
 3. [Recent Updates](#recent-updates)
 
