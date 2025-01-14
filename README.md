@@ -8,10 +8,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Jan 12, 2024
-   - Still figuring out local data
-   - Changed [CloudService](Osiris/Models/CloudService.swift) to include authentication
-   - Deprecated AuthService
+### Jan 13, 2024
+   - ['ProfileService'](Osiris/Models/User/ProfileService.swift) handles connection changes and updates locally only if Firestore changes are successful.
+   - ['ProfileService'](Osiris/Models/User/ProfileService.swift) was created to manage user connections and handle changes to connection requests.
+   - The method `pushChanges()` was created to ensure local changes reflect changes on the cloud
+   - `parseConnections()` initializes user connections, adding them to relevant categories to be displayed on SocialView (incomplete atm) (friends, inbound, outbound, blocked).
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -32,12 +33,18 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ### 2. **Cloud Storage**
    - All online pushes and pulls are handled with [`CloudService`](Osiris/Models/CloudService.swift)
-   - Firebase is used to store and sync data, including workout logs in [`LogService`](Osiris/Models/Logging/LogService.swift) and user preferences in [`AuthService`](Osiris/Models/Authentication/AuthService.swift).
+   - Authentication is also done using [`CloudService`](Osiris/Models/CloudService.swift)
+   - Firebase is used to store and sync data, including workout logs in [`LogService`](Osiris/Models/Logging/LogService.swift).
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) safely handles user connections, like friends, requests, blocked users, etc. 
    - Workout plans and logs are stored in separate database collections, allowing users to share workout plans without compromising their own data.
    
 ### 3. **User Interface**
    - Created an interactive login/signup screen using SwiftUI animations, in [`AuthView`](Osiris/Views/Authentication/AuthView.swift) 
    - Created a [`TodayView`](Osiris/Views/Menu/Tabs/Today/TodayView.swift) page which shows statuses for each day in the current week. It also gives an overview of previous workouts for the selected day and allows users to start a new workout.
+   
+### 4. **Friends and Social**
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles friends, pending requests, and blocked users while prioritizing ensuring local data is synchronized with the cloud.
+   - `SocialView` (in-progress) will display friends, pending outgoing and incoming requests, and blocked users and allow the user to add new friends by entering their username.
 
 ## To Do
 
@@ -58,6 +65,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 12, 2024
+   - Still figuring out local data
+   - Changed [CloudService](Osiris/Models/CloudService.swift) to include authentication
+   - Deprecated AuthService
 
 ### Jan 11, 2024
    - Trying to figure out how I want to store local data and when I want to push it to the cloud.

@@ -63,8 +63,10 @@ class CloudService: ObservableObject {
         if await fetchUser() == .success {
             if await plan.fetchPlans(currentUser!.plans) == .success {
                 if await log.fetchLog(id: currentUser!.logID) == .success {
-                    self.online = true
-                    return
+                    if await profile.fetchConnections(currentUser!) == .success {
+                        self.online = true
+                        return
+                    }
                 }
             }
         }

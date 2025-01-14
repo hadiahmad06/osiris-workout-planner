@@ -14,6 +14,7 @@ struct User: Identifiable, Codable {
     let email: String
     let logID: String
     let plans: [String]
+    let connections: [Connection]
     var isActive: Bool
     
     var initial: String {
@@ -27,6 +28,7 @@ struct User: Identifiable, Codable {
         self.email = email
         self.logID = UUID().uuidString
         self.plans = []
+        self.connections = []
         self.isActive = true
     }
     

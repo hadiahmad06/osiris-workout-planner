@@ -27,9 +27,9 @@ class LogService {
 //        return _currentLog
 //    }
     
-    init(currentLog: Log? = nil) {
-        self._currentLog = currentLog
-    }
+//    init(currentLog: Log? = nil) {
+//        self._currentLog = currentLog
+//    }
     
     func updateLog() async {
         do {
