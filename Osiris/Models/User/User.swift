@@ -13,6 +13,7 @@ struct User: Identifiable, Codable {
     let nickname: String
     let email: String
     let logID: String
+    let profileID: String
     let plans: [String]
     let connections: [Connection]
     var isActive: Bool
@@ -27,9 +28,11 @@ struct User: Identifiable, Codable {
         self.nickname = nickname
         self.email = email
         self.logID = UUID().uuidString
+        self.profileID = UUID().uuidString
         self.plans = []
         self.connections = []
         self.isActive = true
+        
     }
     
     private var _bodyweightMetric: Double = 0 // measured in kg

@@ -6,7 +6,6 @@
 //
 //  issues:
 //  - changes might not be thread-safe, im planning on making it a queue
-//  - planning to use this on a new collection profiles, which will hold public information, this way its kept separate from private user data (like email and logID)
 
 import Foundation
 import Firebase
@@ -17,210 +16,267 @@ import FirebaseFirestore
 
 class ProfileService {
     // will change to type Profile
-    var currentProfile: User? = nil
+    var currentProfile: Profile? = nil
     
-    var friends: [User] = []
-    var outRequests: [User] = []
-    var inRequests: [User] = []
-    var blocked: [User] = []
+    var friends: [Profile] = []
+    var outRequests: [Profile] = []
+    var inRequests: [Profile] = []
+    var blocked: [Profile] = []
     
 //    var changesQueue: QueueArray<SocialChange> = QueueArray()
     var changes: [SocialChange] = []
     
-    var connections: [Connection] = []
-//    {
-//        didSet {
-//            Task {
-//                let _ = await parseConnections()
-//            }
-//        }
-//    }
-    
-//    init(currentUser: User) async {
-//        connections = currentUser.connections
-//        let _ = await parseConnections()
-//        // sets connections -> parses connections
-//    }
-    
-    func fetchConnections(_ currentUser: User) async -> FunctionResult {
-        self.currentUser = currentUser
-        self.connections = currentUser.connections
-        if await parseConnections() == .success {
-            return .success
-        }
-        return .failure
+    var connections: [Connection] = [] {
+        didSet { Task { await parseConnections() }}
     }
     
+    // fetches current user's profile
+    func fetchProfile(_ user: User) async -> FunctionResult {
+        
+        // attempt to locate profile
+        let id = user.profileID
+        guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
+            print("DEBUG: Failed to fetch profile for user")
+            return .failure
+        }
+        
+        // attempt to decode profile
+        if let profile = try? profileSnapshot.data(as: Profile.self) {
+            self.currentProfile = profile
+            let _ = await parseConnections()
+            print("DEBUG: PROFILE FETCHED")
+            return .success
+        } else {
+            print("DEBUG: Failed to decode profile")
+            return .failure
+        }
+        
+    }
+    
+    // fetches profiles for all connections
     func parseConnections() async -> FunctionResult {
         // attempt to locate profile
-        for x in connections {
-            let id = x.id
-            guard let profileSnapshot = try? await Firestore.firestore().collection("users").document(id).getDocument() else {
-                print("Failed to fetch profile for user")
+        for connection in connections {
+            let id = connection.id
+            let type = connection.type
+            
+            // attempt to locate profile
+            guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
+                print("DEBUG: Failed to fetch profile for user")
                 return .failure
             }
             
             // attempt to decode profile
-            if let profile = try? profileSnapshot.data(as: User.self) {
-                switch x.type {
+            if let profile = try? profileSnapshot.data(as: Profile.self) {
+                switch type {
                 case .friend: self.friends.append(profile)
                 case .inbound: self.inRequests.append(profile)
                 case .outbound: self.outRequests.append(profile)
                 case .blocked: self.blocked.append(profile)
+                case .other: break // -> to be removed or to be added
                 }
-                //print("DEBUG: PROFILE FETCHED")
                 return .success
             } else {
-                print("Failed to decode profile data")
+                print("DEBUG: Failed to decode profile data")
                 return .failure
             }
         }
         return .success
     }
     
-    func pushChanges() async {
+    
+    
+    func parseChanges() async {
         for (index, change) in changes.enumerated() {
             switch change.type {
             case .friend:
-                if change.change == .remove {
-                    // handles removing a friend: remove from connections
-                    if let idx = connections.firstIndex(where: { $0.id == change.id }) {
-                        // attempts removing on the cloud
+                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                    switch change.change {
+                    case .add: break
+                    case .remove:
+                        // first removes the connection for the other user
                         if await removeConnectionForUser(id: change.id) == .success {
-                            // only removes locally if it succeeds in pushing change to cloud
-                            connections.remove(at: idx)
-                            if await parseConnections() == .success {
+                            // ONLY after ensuring both parties have removed the connection
+                            // removes pending change from queue
+                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                                // removes connection locally
+                                connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
                         }
+                    case .block:
+                        // blocked users are one-sided connections
+                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                            connections[idx].type = .blocked
+                            changes.remove(at: index)
+                        }
+                    case .unblock: break
                     }
                 }
-                // You can't reject or accept a friend
-                
             case .inbound:
-                if change.change == .add {
-                    // handles accepting an inbound connection request: changes connection type
-                    if let idx = connections.firstIndex(where: { $0.id == change.id }) {
-                        // attempts updating connection on the cloud
-                        if await updateConnectionForUser(id: change.id, newType: .friend) == .success {
-                            // only updates locally if it succeeds in pushing change to cloud
-                            connections[idx].type = .friend
-                            if await parseConnections() == .success {
+                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                    switch change.change {
+                    case .add:
+                        // sets connection to inbound for other party (current user is sending an outgoing request)
+                        if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
+                            // ONLY after ensuring both users have recieved and sent the request
+                            if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                                // sets local current users connection to inbound
+                                connections[idx].type = .outbound
+                                // removes pending change from queue
                                 changes.remove(at: index)
                             }
                         }
-                    }
-                } else if change.change == .remove {
-                    // handles accepting an inbound connection request: changes connection type
-                    if let idx = connections.firstIndex(where: { $0.id == change.id }) {
-                        // attempts removing connection on the cloud
+                    case .remove:
                         if await removeConnectionForUser(id: change.id) == .success {
-                            // only removes locally if it succeeds in pushing change to cloud
-                            connections.remove(at: idx)
-                            if await parseConnections() == .success {
+                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                                connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
                         }
+                    case .block:
+                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                            connections[idx].type = .blocked
+                            changes.remove(at: index)
+                        }
+                    case .unblock: break
                     }
                 }
             case .outbound:
-                if change.change == .remove {
-                    // handles removing an outbound connection request: removes connection
-                    if let idx = connections.firstIndex(where: { $0.id == change.id }) {
-                        // attempts removing connection on the cloud
+                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                    switch change.change {
+                    case .add: break
+                    case .remove:
                         if await removeConnectionForUser(id: change.id) == .success {
-                            // only updates locally if it succeeds in pushing change to cloud
-                            connections.remove(at: idx)
-                            if await parseConnections() == .success {
+                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                                connections.remove(at: idx)
+                                changes.remove(at: index)
+                            }
+                        }
+                    case .block:
+                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                            connections[idx].type = .blocked
+                            changes.remove(at: index)
+                        }
+                    case .unblock: break
+                    }
+                }
+            case .blocked:
+                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                    switch change.change {
+                    case .add: break
+                    case .remove: break
+                    case .block: break
+                    case .unblock:
+                        if await removeConnectionForUser(id: change.id) == .success {
+                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                                connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
                         }
                     }
                 }
-            case .blocked:
-                if change.change == .remove {
-                    // handles removing a blocked user: removes connection
-                    if let idx = connections.firstIndex(where: { $0.id == change.id }) {
-                        // updates locally
-                        connections.remove(at: idx)
-                        if await parseConnections() == .success {
+            case .other:
+                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                    switch change.change {
+                    case .add:
+                        if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
+                            if await updateConnectionForUser(id: currentProfile!.id, type: .outbound) == .success {
+                                connections[idx].type = .outbound
+                                changes.remove(at: index)
+                            }
+                        }
+                    case .remove: break
+                    case .block:
+                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                            connections[idx].type = .outbound
                             changes.remove(at: index)
                         }
+                    case .unblock: break
                     }
                 }
             }
+        
         }
     }
     
     private func getProfile(id: String) async -> FunctionResult {
+        return .failure
+    }
+    
+    private func checkBlocked(id: String) async -> Bool? {
+        // attempt to locate profile
+        guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
+            print("DEBUG: Failed to fetch profile when checking blocked status")
+            return nil
+        }
         
+        // attempt to decode profile
+        if let profile = try? profileSnapshot.data(as: Profile.self) {
+            if let connection = profile.connections.first(where: { $0.id == id } ) {
+                // if other user has blocked current user
+                if connection.type == .blocked {
+                    return true
+                }
+            }
+        } else {
+            print("DEBUG: Failed to decode profile when checking blocked status")
+            return nil
+        }
+        // otherwise return false
+        return false
+    }
+    
+    // updates connection for user on the other end
+    // might need to add a special case for adding a connection if this fails (haven't tested)
+    private func updateConnectionForUser(id: String, type: ConnectionType) async -> FunctionResult {
+        do {
+            if let check = await checkBlocked(id: id) {
+                if check {
+                    // creates new connection
+                    let connection = Connection(id: currentProfile!.id, type: type)
+                    // attempts to encode connection
+                    let encodedConnection = try Firestore.Encoder().encode(connection)
+                    try await Firestore.firestore().collection("profiles").document(id)
+                        .collection("connections").document(currentProfile!.id).setData(encodedConnection)
+                    return .success
+                } else {
+                    print("Didn't change other user's connection as self is blocked")
+                    return .failure
+                }
+            } else {
+                // failed to load other's profile
+                return .failure
+            }
+            
+            
+        } catch {
+            print("DEBUG: Failed to update connection with error \(error.localizedDescription)")
+            return .failure
+        }
     }
 
-    private func updateConnectionForUser(id: String, newType: ConnectionType) async -> FunctionResult {
-//        do {
-//            let user = Connection(currentProfile.idusername: username, nickname: nickname, email: email)
-//            
-//            // Encode and save user data to Firestore
-//            let encodedUser = try Firestore.Encoder().encode(user)
-//            try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
-//            
-//            // Encode and save log data to Firestore
-//            let encodedLog = try Firestore.Encoder().encode(Log(id: user.logID))
-//            try await Firestore.firestore().collection("logs").document(user.logID).setData(encodedLog)
-//            
-//            self.userSession = result.user
-//            //let _ = await fetchUser()
-//        } catch {
-//            print("DEBUG: Failed to create user with error \(error.localizedDescription)")
-//        }
-//        do {
-//            // attempt to locate connection details
-//            guard let connectionSnapshot = try? await
-//                // will change from "users" to "profiles"
-//                Firestore.firestore().collection("users").document(id).collection("connections").document(currentProfile.id).getDocument() else {
-//                print("Failed to fetch connection details")
-//                return .failure
-//            }
-//            
-//            // attempt to decode profile
-//            if let connection = try? connectionSnapshot.data(as: Connection.self) {
-//                print("DEBUG: Connection FETCHED")
-//                return .success
-//            } else {
-//                print("Failed to decode profile data")
-//                return .failure
-//            }
-//            
-//            let encodedEntry = try Firestore.Encoder().encode(entry)
-//            if let _ = _currentLog?.entries.first(where: {$0.id == entry.id}) ?? nil {
-//                try await Firestore.firestore().collection("logs").document(_currentLog!.id).collection("entries").document(entry.id).updateData(encodedEntry)
-//            } else {
-//                try await Firestore.firestore().collection("logs").document(_currentLog!.id).collection("entries").document(entry.id).setData(encodedEntry)
-//            }
-//        } catch {
-//            print("DEBUG: Failed to update workout entry with error \(error.localizedDescription)")
-//        }
-    }
-
+    // removes connection for user on the other end
     private func removeConnectionForUser(id: String) async -> FunctionResult {
-//        do {
-//            let ref = Firestore.firestore().collection("users").document(id)
-//            
-//            // Assuming you keep the connections array as a list or dictionary of `Connection` objects,
-//            // remove the user from the list and update Firestore.
-//            let user = try await ref.getDocument()
-//            var currentConnections = user.data()?["connections"] as? [String: Connection] ?? [:]
-//            
-//            // Remove the connection
-//            currentConnections[id] = nil
-//            
-//            // Update Firestore with the new data.
-//            try await ref.updateData(["connections": currentConnections])
-//            
-//        } catch {
-//            print("Error removing connection in Firestore: \(error)")
-//        }
-//    }
+        do {
+            if let check = await checkBlocked(id: id) {
+                if check {
+                    try await Firestore.firestore().collection("profiles").document(id)
+                        .collection("connections").document(currentProfile!.id).delete()
+                    return .success
+                } else {
+                    print("Didn't remove other user's connection as self is blocked")
+                    return .failure
+                }
+            } else {
+                // failed to load other's profile
+                return .failure
+            }
+        } catch {
+            print("DEBUG: Failed to remove connection with error \(error.localizedDescription)")
+            return .failure
+        }
+    }
 }
 
 enum ConnectionType: Codable {
@@ -228,6 +284,14 @@ enum ConnectionType: Codable {
     case inbound
     case outbound
     case blocked
+    case other
+}
+
+enum Change: Codable {
+    case add
+    case remove
+    case block
+    case unblock
 }
 
 struct Connection: Codable {
@@ -239,9 +303,4 @@ struct SocialChange {
     var id: String
     var type: ConnectionType
     var change: Change
-    
-    enum Change: Codable {
-        case add
-        case remove
-    }
 }

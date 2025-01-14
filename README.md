@@ -8,14 +8,19 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Jan 13, 2024
-   - ['ProfileService'](Osiris/Models/User/ProfileService.swift) handles connection changes and updates locally only if Firestore changes are successful.
-   - ['ProfileService'](Osiris/Models/User/ProfileService.swift) was created to manage user connections and handle changes to connection requests.
-   - The method `pushChanges()` was created to ensure local changes reflect changes on the cloud
-   - `parseConnections()` initializes user connections, adding them to relevant categories to be displayed on SocialView (incomplete atm) (friends, inbound, outbound, blocked).
+### Jan 14, 2024
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
+   - [`Profile`](Osiris/Models/User/Profile.swift) was created and added to collection `profiles` so that some user data can be kept private. These changes are reflected in [`ProfileService`](Osiris/Models/User/ProfileService.swift)
+   - Have already drawn out a SocialView to recreate in Swift! 
+   - Also planning to add a few more methods like `queueChange(username: String, change: Change)`
+   - I took a break from workout logging as I ran into an issue but I'll revisit that after I'm done with socials.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
+    a. [Authentication System](#authentication-system)
+    b. [Realtime Database](#cloud-storage)
+    c. [Friends and Social](#friends-and-social)
+    d. [User Interface](#user-interface)
 2. [To-do](#to-do)
 3. [Recent Updates](#recent-updates)
 
@@ -38,13 +43,15 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) safely handles user connections, like friends, requests, blocked users, etc. 
    - Workout plans and logs are stored in separate database collections, allowing users to share workout plans without compromising their own data.
    
-### 3. **User Interface**
+### 3. **Friends and Social**
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles friends, pending requests, and blocked users while ensuring local data is synchronized with the cloud.
+   - `SocialView` (in-progress) will display friends, pending outgoing and incoming requests, and blocked users and allow the user to add new friends by entering their username.
+   
+### 4. **User Interface**
    - Created an interactive login/signup screen using SwiftUI animations, in [`AuthView`](Osiris/Views/Authentication/AuthView.swift) 
    - Created a [`TodayView`](Osiris/Views/Menu/Tabs/Today/TodayView.swift) page which shows statuses for each day in the current week. It also gives an overview of previous workouts for the selected day and allows users to start a new workout.
    
-### 4. **Friends and Social**
-   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles friends, pending requests, and blocked users while prioritizing ensuring local data is synchronized with the cloud.
-   - `SocialView` (in-progress) will display friends, pending outgoing and incoming requests, and blocked users and allow the user to add new friends by entering their username.
+
 
 ## To Do
 
@@ -65,6 +72,12 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 13, 2024
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles connection changes and updates locally only if Firestore changes are successful.
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) was created to manage user connections and handle changes to connection requests.
+   - The method `pushChanges()` was created to ensure local changes reflect changes on the cloud
+   - `parseConnections()` initializes user connections, adding them to relevant categories to be displayed on SocialView (incomplete atm) (friends, inbound, outbound, blocked).
 
 ### Jan 12, 2024
    - Still figuring out local data

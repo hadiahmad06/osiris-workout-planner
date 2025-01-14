@@ -63,7 +63,7 @@ class CloudService: ObservableObject {
         if await fetchUser() == .success {
             if await plan.fetchPlans(currentUser!.plans) == .success {
                 if await log.fetchLog(id: currentUser!.logID) == .success {
-                    if await profile.fetchConnections(currentUser!) == .success {
+                    if await profile.fetchProfile(currentUser!) == .success {
                         self.online = true
                         return
                     }
@@ -107,6 +107,10 @@ class CloudService: ObservableObject {
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             
+            // Encode and save profile data to Firestore
+            let encodedProfile = try Firestore.Encoder().encode(Profile(user))
+            try await Firestore.firestore().collection("profiles").document(user.profileID).setData(encodedProfile)
+            
             // Encode and save log data to Firestore
             let encodedLog = try Firestore.Encoder().encode(Log(id: user.logID))
             try await Firestore.firestore().collection("logs").document(user.logID).setData(encodedLog)
@@ -122,7 +126,7 @@ class CloudService: ObservableObject {
         do {
             try Auth.auth().signOut()
             self.online = false
-            self.userSession = nil
+            if userSession != nil { self.userSession = nil }
             self._currentUser = nil
             self.log._currentLog = nil
         } catch {
