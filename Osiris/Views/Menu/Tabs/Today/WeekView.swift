@@ -30,12 +30,12 @@ struct WeekView: View {
             // Display Dates for This Week (Sunday-Saturday)
             HStack{
                 Text("Today:")
-                    .foregroundColor(AssetsManager.textColor)
+                    .foregroundColor(AssetsManager.text1)
                     .font(.subheadline)
                     .fontWeight(.bold)
                     //.padding(.top)
                 Text("Push")
-                    .foregroundStyle(AssetsManager.textColor)
+                    .foregroundStyle(AssetsManager.text1)
                     .font(.title)
                     .fontWeight(.bold)
             }
@@ -44,14 +44,14 @@ struct WeekView: View {
                 Button(action: {weekOffset -= 1}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 15))
-                        .foregroundColor(AssetsManager.accentColorMain)
+                        .foregroundColor(AssetsManager.accent1)
                 }
                 if !onUpdate {
                     ForEach(week, id: \.0) { (date, status) in
                         // i had to add empty id value because of foreach
                         Button(action: {selectedDate = date}) {
                             Text("\(Calendar.current.component(.day, from: date))") // day of month
-                                .foregroundColor(AssetsManager.textColor)
+                                .foregroundColor(AssetsManager.text1)
                                 .font(.system(size: 11))
                                 .frame(width: 15, height: 15)
                                 .padding(11)
@@ -64,7 +64,7 @@ struct WeekView: View {
                 Button(action: {weekOffset += 1}) {
                     Image(systemName: "chevron.forward")
                         .font(.system(size: 15))
-                        .foregroundColor(AssetsManager.accentColorMain)
+                        .foregroundColor(AssetsManager.accent1)
                 }
             }
             .padding(.bottom, 15)
@@ -116,9 +116,9 @@ struct WeekView: View {
                     } label: {
                         Image(systemName: "plus")
                             .font(.title)
-                            .foregroundColor(AssetsManager.buttonTextColor)
+                            .foregroundColor(AssetsManager.white)
                                 .frame(width:60, height: 60)
-                                .background(AssetsManager.cardBackgroundColor)
+                                .background(AssetsManager.cardBackground)
                                     .cornerRadius(50)
                     }
 //                    Button(action: {
@@ -148,10 +148,10 @@ struct WeekView: View {
     
     private func getColorFromStatus(status: StreakStatus) -> Color {
         switch status {
-        case .completed: return AssetsManager.accentColorMain
+        case .completed: return AssetsManager.accent1
         case .skipped: return Color.orange
         case .missed: return Color.red
-        case .pending: return AssetsManager.accentColorTertiary
+        case .pending: return AssetsManager.gray2
         }
     }
 }

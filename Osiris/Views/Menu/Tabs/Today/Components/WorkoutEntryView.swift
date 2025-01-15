@@ -17,7 +17,7 @@ struct WorkoutEntryView: View {
                 ForEach(entries) { entry in
                     Text("")
                         .frame(width: 100, height: 100)
-                        .background(AssetsManager.cardBackgroundColor)
+                        .background(AssetsManager.cardBackground)
                         .cornerRadius(15)
                         .padding(10)
                 }

@@ -31,7 +31,7 @@ struct LoginView: View {
             }
             .padding(.horizontal, 15)
             .padding(.top, 10)
-            .background(AssetsManager.backgroundAccent)
+            .background(AssetsManager.background1)
             .cornerRadius(25)
             .padding(.horizontal, 40)
             
@@ -47,12 +47,12 @@ struct LoginView: View {
                         .font(.system(size: 20))
                     Image(systemName: "arrow.right")
                 }
-                .foregroundStyle(AssetsManager.buttonTextColor)
+                .foregroundStyle(AssetsManager.white)
             }
             .frame(width: 200, height: 50)
             .disabled(!formIsValid)
             .opacity(formIsValid ? 1.0 : 0.5)
-            .background(AssetsManager.buttonColor)
+            .background(AssetsManager.button)
             .cornerRadius(24)
             .padding(.top, 30)
             
@@ -74,7 +74,7 @@ struct LoginView: View {
                     Text("Sign up")
                         .fontWeight(.semibold)
                 }
-                .foregroundStyle(AssetsManager.textColorSecondary)
+                .foregroundStyle(AssetsManager.text2)
             }
             .padding(.bottom, 100)
             

@@ -9,6 +9,7 @@ struct Profile: Identifiable, Codable {
     let id: String
     let username: String
     let nickname: String
+    var trophies: [String] = [] // image names for displayed trophies
     let logID: String?
     let connections: [Connection]
     

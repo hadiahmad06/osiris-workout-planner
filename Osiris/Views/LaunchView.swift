@@ -27,13 +27,13 @@ struct LaunchView: View {
             Spacer()
             AssetsManager.logo
                 .font(.system(size: 120))
-                .foregroundColor(AssetsManager.accentColorMain)
+                .foregroundColor(AssetsManager.accent1)
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(AssetsManager.accentColorSecondary)
+                    .fill(AssetsManager.gray1)
                     .frame(width: maxWidth, height: height)
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(AssetsManager.accentColorMain)
+                    .fill(AssetsManager.accent1)
                     .frame(width: maxWidth * progress, height: height)
                     .animation(.easeInOut(duration: duration), value: progress)
             }
@@ -45,10 +45,10 @@ struct LaunchView: View {
             Text(AppInfo.version)
                 .font(.footnote)
                 .fontWeight(.light)
-                .foregroundColor(AssetsManager.accentColorTertiary)
+                .foregroundColor(AssetsManager.gray2)
             
         }
-        .background(AssetsManager.backgroundColor)
+        .background(AssetsManager.background1)
     }
 }
 

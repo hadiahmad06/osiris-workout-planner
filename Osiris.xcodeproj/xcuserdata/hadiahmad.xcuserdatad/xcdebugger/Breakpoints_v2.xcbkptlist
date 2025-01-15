@@ -206,10 +206,84 @@
             filePath = "Osiris/Models/User/ProfileService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "parseConnections()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Osiris/Models/User/ProfileService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "queueChange(forUsername:change:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead23"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead23"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0fa0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0fa0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

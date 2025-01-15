@@ -40,7 +40,7 @@ struct RegistrationView: View {
             }
             .padding(.horizontal, 15)
             .padding(.top, 12)
-            .background(AssetsManager.backgroundAccent)
+            .background(AssetsManager.background2)
             .cornerRadius(25)
             .padding(.horizontal, 50)
             
@@ -63,12 +63,12 @@ struct RegistrationView: View {
                         .font(.system(size: 20))
                     Image(systemName: "arrow.right")
                 }
-                .foregroundStyle(AssetsManager.buttonTextColor)
+                .foregroundStyle(AssetsManager.white)
             }
             .frame(width: 225, height: 50)
             .disabled(!formIsValid)
             .opacity(formIsValid ? 1.0 : 0.5)
-            .background(AssetsManager.buttonColor)
+            .background(AssetsManager.button)
             .cornerRadius(24)
             .padding(.top, 30)
             
@@ -91,7 +91,7 @@ struct RegistrationView: View {
                     Text("Sign in!")
                         .fontWeight(.semibold)
                 }
-                .foregroundStyle(AssetsManager.textColorSecondary)
+                .foregroundStyle(AssetsManager.text2)
             }
             .padding(.bottom, 100)
         }

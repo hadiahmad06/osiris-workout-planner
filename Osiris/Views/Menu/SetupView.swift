@@ -44,7 +44,7 @@ struct SetupView: View {
                         ZStack {
                             Image(systemName: "chevron.backward")
                                 .font(.system(size: 20))
-                                .foregroundStyle(AssetsManager.textColor)
+                                .foregroundStyle(AssetsManager.text1)
                                 .padding(40)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -66,7 +66,7 @@ struct SetupView: View {
                         ZStack {
                             Text("Skip")
                                 .font(.system(size: 20))
-                                .foregroundStyle(AssetsManager.textColor)
+                                .foregroundStyle(AssetsManager.text1)
                                 .padding(40)
                         }
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -78,7 +78,7 @@ struct SetupView: View {
             // Current Prompt based on selected setup option
             
         }
-        .background(AssetsManager.backgroundColor)
+        .background(AssetsManager.background1)
     }
 }
 
@@ -87,7 +87,7 @@ struct GoalsView: View {
         VStack{
             Text("Create Goals")
                 .font(.system(size: 20))
-                .foregroundColor(AssetsManager.textColor)
+                .foregroundColor(AssetsManager.text1)
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top)

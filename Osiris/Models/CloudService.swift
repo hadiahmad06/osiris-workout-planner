@@ -192,6 +192,18 @@ class CloudService: ObservableObject {
 
 // For XCode previews
 extension CloudService {
-    static var EXAMPLE_CLOUD_SERVICE = CloudService()
+    static var EXAMPLE_CLOUD_SERVICE: CloudService = {
+        var x = CloudService()
+        
+        let currentUser = User(id: "", username: "user.name43", nickname: "N1CKN4M3", email: "hireme@email.com")
+        x.currentUser = currentUser
+        x.profile.currentProfile?.trophies = ["star.fill", "trophy.fill", "moon.stars.fill"]
+        x.profile.friends = [Profile(currentUser)]
+        x.profile.inRequests = [Profile(currentUser)]
+        x.profile.outRequests = [Profile(currentUser)]
+        x.profile.blocked = [Profile(currentUser)]
+        
+        return x
+    }()
 }
 

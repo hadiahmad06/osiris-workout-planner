@@ -7,13 +7,14 @@
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
 ## Most Recent
-
+   
 ### Jan 14, 2024
-   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
-   - [`Profile`](Osiris/Models/User/Profile.swift) was created and added to collection `profiles` so that some user data can be kept private. These changes are reflected in [`ProfileService`](Osiris/Models/User/ProfileService.swift)
-   - Added method `queueChange(username: String, change: Change)` to [`ProfileService`](Osiris/Models/User/ProfileService.swift)
-   - Have already drawn out a SocialView to recreate in Swift! 
-   - I took a break from workout logging as I ran into an issue but I'll revisit that after I'm done with socials.
+   - Added [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift) and created most of the UI. Still need to add error messages and fix some [`ProfileService`](Osiris/Models/Planning/PlanService.swift) calls.
+   - Created [`ProfileCard`](Osiris/Views/Menu/Tabs/Social/ProfileCard.swift) to display profiles and buttons to change the connection status with that profile.
+   - Fixed [`SettingsView`](Osiris/Views/Menu/Tabs/Settings/SettingsView.swift) issues with unmatching colors in List component.
+   - Current bugs: can't add friends by username as of yet. Still figuring out why. Also trying to figure out embedded button UI for the profiles, so that pressing the whole profile card will load more details, but pressing the X or Checkmark button will change connection status.
+   - Plans: I plan to add trophies into SocialView, but for right now I'll leave it as be.
+   - I will start back on workout logging and plans after I complete this.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -72,6 +73,13 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 14, 2024
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
+   - [`Profile`](Osiris/Models/User/Profile.swift) was created and added to collection `profiles` so that some user data can be kept private. These changes are reflected in [`ProfileService`](Osiris/Models/User/ProfileService.swift)
+   - Added method `queueChange(username: String, change: Change)` to [`ProfileService`](Osiris/Models/User/ProfileService.swift)
+   - Have already drawn out a SocialView to recreate in Swift! 
+   - I took a break from workout logging as I ran into an issue but I'll revisit that after I'm done with socials.
 
 ### Jan 13, 2024
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles connection changes and updates locally only if Firestore changes are successful.

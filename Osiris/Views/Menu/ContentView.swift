@@ -8,40 +8,40 @@
 import SwiftUI
 
 // Global color configuration
-class Object: Identifiable {
-    var text: String
-    var data: Int
-    var color: Color
-    var symbol: Bool
-    
-    var id : Int
-    private static var nextID: Int = 0
-    private static let idQueue = DispatchQueue(label: "com.myApp.objectIDQueue")
-    
-    // Initializer for Object
-    init(t: String, d: Int, s: Bool = false, c: Color = .primary) {
-        text = t
-        data = d
-        symbol = s
-        color = c
-        
-        self.id = Object.idQueue.sync {
-            let currentID = Object.nextID
-            Object.nextID += 1
-            return currentID
-        }
-    }
-}
+//class Object: Identifiable {
+//    var text: String
+//    var data: Int
+//    var color: Color
+//    var symbol: Bool
+//    
+//    var id : Int
+//    private static var nextID: Int = 0
+//    private static let idQueue = DispatchQueue(label: "com.myApp.objectIDQueue")
+//    
+//    // Initializer for Object
+//    init(t: String, d: Int, s: Bool = false, c: Color = .primary) {
+//        text = t
+//        data = d
+//        symbol = s
+//        color = c
+//        
+//        self.id = Object.idQueue.sync {
+//            let currentID = Object.nextID
+//            Object.nextID += 1
+//            return currentID
+//        }
+//    }
+//}
 
-var daysOfWeek: [Object] = [
-    Object(t: "S", d: 2, c:AssetsManager.accentColorMain), // 0 -> date is in the future or today
-    Object(t: "M", d: 1, c:AssetsManager.accentColorSecondary), // 1 -> rest day
-    Object(t: "T", d: 1, c:AssetsManager.accentColorTertiary), // 2 -> completed day
-    Object(t: "W", d: 0, c:AssetsManager.accentColorTertiary),
-    Object(t: "T", d: 0, c:AssetsManager.accentColorTertiary),
-    Object(t: "F", d: 0, c:AssetsManager.accentColorTertiary),
-    Object(t: "S", d: 0, c:AssetsManager.accentColorTertiary)
-]
+//var daysOfWeek: [Object] = [
+//    Object(t: "S", d: 2, c:AssetsManager.accentColorMain), // 0 -> date is in the future or today
+//    Object(t: "M", d: 1, c:AssetsManager.accentColorSecondary), // 1 -> rest day
+//    Object(t: "T", d: 1, c:AssetsManager.accentColorTertiary), // 2 -> completed day
+//    Object(t: "W", d: 0, c:AssetsManager.accentColorTertiary),
+//    Object(t: "T", d: 0, c:AssetsManager.accentColorTertiary),
+//    Object(t: "F", d: 0, c:AssetsManager.accentColorTertiary),
+//    Object(t: "S", d: 0, c:AssetsManager.accentColorTertiary)
+//]
 
 //var workoutPlans: [Plan] = [
 //    Plan(id: "awd", name: "Plan 1"),
@@ -102,10 +102,10 @@ struct ContentView: View {
                 Spacer()
             }
             .padding()
-            .background(AssetsManager.backgroundColor)
+            .background(AssetsManager.background1)
             .shadow(color: AssetsManager.shadowColor, radius: 5)
         }
-        .background(AssetsManager.backgroundAccent)
+        .background(AssetsManager.background2)
     }
 }
 
@@ -121,7 +121,7 @@ struct TabButton: View {
             VStack {
                 Image(systemName: iconName(for: tab))
                     .font(.system(size: isMainButton ? 32 : 24))
-                    .foregroundColor(selectedTab == tab ? AssetsManager.accentColorMain : AssetsManager.accentColorSecondary)
+                    .foregroundColor(selectedTab == tab ? AssetsManager.accent1 : AssetsManager.gray1)
 //                Text(tabTitle(for: tab))
 //                    .foregroundColor(AssetsManager.textColor)
 //                    .font(.system(size: isMainButton ? 16 : 12))
@@ -156,7 +156,7 @@ struct StatsView: View {
     var body: some View {
         VStack {
             Text("Stats")
-                .foregroundColor(AssetsManager.textColor)
+                .foregroundColor(AssetsManager.text1)
                 .font(.largeTitle)
                 .fontWeight(.bold)
             Spacer()
@@ -165,56 +165,11 @@ struct StatsView: View {
     }
 }
 
-struct SocialView: View {
-    @State private var friends: [String] = ["John", "Emily", "Mark"] // Sample friends
-    
-    var body: some View {
-        VStack {
-            Text("Add Friends")
-                .foregroundColor(AssetsManager.textColor)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.top)
-
-            Button(action: {
-                // Action to add friend
-            }) {
-                Text("Add Friends")
-                    .font(.title2)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(AssetsManager.buttonColor)
-                    .foregroundColor(AssetsManager.buttonTextColor)
-                    .cornerRadius(10)
-            }
-            .padding()
-
-            Text("Friends List")
-                .foregroundColor(AssetsManager.textColor)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .padding(.top)
-
-            List(friends, id: \.self) { friend in
-                Text(friend)
-                    .foregroundColor(AssetsManager.textColor)
-                    .padding()
-                    .background(AssetsManager.listBackgroundColor)
-                    .cornerRadius(10)
-            }
-
-            Spacer()
-        }
-        .padding()
-        .navigationBarTitle("Social", displayMode: .inline)
-    }
-}
-
 struct HomeView: View {
     var body: some View {
         VStack {
             Text("Your Workout Today")
-                .foregroundColor(AssetsManager.textColor)
+                .foregroundColor(AssetsManager.text1)
                 .font(.title)
                 .fontWeight(.bold)
             Spacer()

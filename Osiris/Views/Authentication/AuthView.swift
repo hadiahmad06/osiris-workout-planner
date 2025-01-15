@@ -28,7 +28,7 @@ struct AuthView: View {
                 .resizable()
                 .scaledToFill()
                 .frame(width:100, height:100)
-                .foregroundStyle(AssetsManager.accentColorMain)
+                .foregroundStyle(AssetsManager.accent1)
                 .padding(.top, 80)
                 .padding(.vertical, 50)
             
@@ -72,6 +72,6 @@ struct AuthView: View {
             }
         }
         .frame(minHeight: UIScreen.main.bounds.height)
-        .background(AssetsManager.backgroundColor)
+        .background(AssetsManager.background1)
     }
 }

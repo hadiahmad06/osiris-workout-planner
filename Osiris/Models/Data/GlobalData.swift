@@ -15,16 +15,19 @@ struct AppInfo {
 
 struct AssetsManager {
     static var logo: Image = Image(systemName: "figure.strengthtraining.traditional")
-    static var accentColorMain: Color = Color("accent")
-    static var accentColorSecondary: Color = Color(UIColor.systemGray4)
-    static var accentColorTertiary: Color = Color(UIColor.systemGray)
-    static var textColor: Color = Color(UIColor.label)
-    static var textColorSecondary: Color = Color("accent")
-    static var backgroundColor: Color = Color(UIColor.systemBackground)
-    static var backgroundAccent: Color = Color(UIColor.secondarySystemBackground)
-    static var buttonColor: Color = accentColorMain
-    static var buttonTextColor: Color = Color.white
-    static var listBackgroundColor: Color = Color.white.opacity(0.5)
-    static var cardBackgroundColor: Color = accentColorMain
+    static var accent1: Color = Color("accent")
+    static var gray1: Color = Color(UIColor.systemGray4)
+    static var gray2: Color = Color(UIColor.systemGray3)
+    static var gray3: Color = Color(UIColor.systemGray2)
+    static var gray4: Color = Color(UIColor.systemGray)
+    static var text1: Color = Color(UIColor.label)
+    static var text2: Color = Color("accent")
+    static var background1: Color = Color(UIColor.systemBackground)
+    static var background2: Color = Color(UIColor.secondarySystemBackground)
+    static var background3: Color = Color(UIColor.tertiarySystemBackground)
+    static var button: Color = accent1
+    static var white: Color = Color.white
+    static var listBackground: Color = Color.white.opacity(0.5)
+    static var cardBackground: Color = accent1
     static var shadowColor: Color = Color.black.opacity(0)
 }

@@ -59,16 +59,16 @@ struct PlanRowView: View {
                 Image(systemName: imageName)
                     .imageScale(.small)
                     .font(.title)
-                    .foregroundColor(AssetsManager.accentColorMain)
+                    .foregroundColor(AssetsManager.accent1)
                 Spacer()
                 Text(text)
                     .font(.headline)
-                    .foregroundColor(AssetsManager.textColor)
+                    .foregroundColor(AssetsManager.text1)
                 
             }
             .frame(maxWidth: 200)
             .padding(8)
-            .background(AssetsManager.accentColorSecondary)
+            .background(AssetsManager.gray1)
             .cornerRadius(8)
         }
     }

@@ -14,38 +14,21 @@ struct SettingsView: View {
         VStack {
             if let user = cloudService.currentUser {
                 List {
-                    Section {
-                        HStack { // example user
-                            Text(user.initial)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .foregroundColor(AssetsManager.textColor)
-                                .frame(width: 72, height: 72)
-                                .background(AssetsManager.backgroundColor)
-                                .clipShape(Circle())
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(user.nickname)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 4)
-                                Text(user.email)
-                                    .font(.footnote)
-                                    .accentColor(AssetsManager.accentColorTertiary)
-                            }
-                        }
-                    }
+                    UserCard(user: user)
+                    .listRowBackground(AssetsManager.background3)
                     Section("GENERAL") {
                         HStack {
                             SettingsRowView(imageName: "gear",
                                             title: "Version",
-                                            color: AssetsManager.textColor)
+                                            color: AssetsManager.text1)
                             Spacer()
                             Text(AppInfo.version)
                                 .font(.subheadline)
-                                .accentColor(AssetsManager.accentColorTertiary)
+                                .accentColor(AssetsManager.gray2)
                         }
                         
                     }
+                    .listRowBackground(AssetsManager.background3)
                     Section("ACCOUNT") {
                         Button(action: { Task { cloudService.signOut() } }) {
                             SettingsRowView(imageName: "arrow.left.circle.fill",
@@ -58,12 +41,13 @@ struct SettingsView: View {
                                             color: .red)
                         }
                     }
+                    .listRowBackground(AssetsManager.background3)
                 }
+                .background(AssetsManager.background2)
+                .scrollContentBackground(.hidden)
             }
         }
-        .padding()
-        .navigationBarTitle("Settings", displayMode: .inline)
-        .background(AssetsManager.backgroundAccent)
+        //.navigationBarTitle("Settings", displayMode: .inline)
     }
 }
 

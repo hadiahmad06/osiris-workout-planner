@@ -1,5 +1,5 @@
 //
-//  SettingsToggleView.swift
+//  SettingsRowView.swift
 //  Osiris
 //
 //  Created by Hadi Ahmad on 12/23/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsToggleView: View {
+struct SettingsRowView: View {
     let imageName: String
     let title: String
     let color: Color
@@ -21,7 +21,7 @@ struct SettingsToggleView: View {
                 
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(AssetsManager.textColor)
+                .foregroundColor(AssetsManager.text1)
         }
     }
 }

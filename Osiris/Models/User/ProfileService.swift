@@ -30,17 +30,15 @@ class ProfileService {
         didSet { Task { await parseConnections() }}
     }
     
-    func queueChange(username: String, change: Change) async {
-        let ref = Firestore.firestore().collection("profiles")
-        
+    func queueChange(forID id: String, change: Change) async {
         // attempt to locate profile
-        guard let querySnapshot = try? await ref.whereField("username", isEqualTo: username).getDocuments() else {
+        guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
             print("DEBUG: Failed to fetch profile to queue a change")
             return
         }
         
         // attempt to decode profile
-        if let profile = try? querySnapshot.documents.first!.data(as: Profile.self) {
+        if let profile = try? profileSnapshot.data(as: Profile.self) {
             let id = profile.id
             let type: ConnectionType
             
@@ -57,9 +55,41 @@ class ProfileService {
         }
     }
     
+    func queueChange(forUsername username: String, change: Change) async {
+        let ref = Firestore.firestore().collection("profiles")
+        
+        // attempt to locate profile
+        guard let querySnapshot = try? await ref.whereField("username", isEqualTo: username).getDocuments() else {
+            print("DEBUG: Failed to fetch profile to queue a change")
+            return
+        }
+        // if a profile is found
+        if let snapshot = querySnapshot.documents.first {
+            // attempt to decode profile
+            if let profile = try? snapshot.data(as: Profile.self) {
+                let id = profile.id
+                let type: ConnectionType
+                
+                // checks for if theres already a connection
+                if let connection = connections.first(where: { $0.id == id }) {
+                    type = connection.type
+                } else {
+                    // if no connection, add to cached
+                    connections.append(Connection(id: id, type: .cached))
+                    type = .cached
+                }
+                // pushes change to queue
+                changes.append(SocialChange(id: id, type: type, change: change))
+            } else {
+                print("DEBUG: Failed to decode profile snapshot")
+            }
+        } else {
+            print("DEBUG: No profile found with username: \(username)")
+        }
+    }
+    
     // fetches current user's profile
     func fetchProfile(_ user: User) async -> FunctionResult {
-        
         // attempt to locate profile
         let id = user.profileID
         guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
