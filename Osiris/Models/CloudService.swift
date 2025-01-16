@@ -165,7 +165,7 @@ class CloudService: ObservableObject {
         // fetch user
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else {
             print("Failed to fetch user data")
-            authErrorMessage("Try again later.")
+            authErrorMessage = "Try again later."
             return .failure
         }
         

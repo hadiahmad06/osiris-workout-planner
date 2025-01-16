@@ -206,8 +206,8 @@
             filePath = "Osiris/Models/User/ProfileService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "parseConnections()"
             landmarkType = "7">
          </BreakpointContent>
@@ -222,13 +222,13 @@
             filePath = "Osiris/Models/User/ProfileService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "queueChange(forUsername:change:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead23"
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead86"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -238,11 +238,11 @@
                   urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69">
+                  startingLineNumber = "74"
+                  endingLineNumber = "74">
                </Location>
                <Location
-                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead23"
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4fead86"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -252,11 +252,11 @@
                   urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69">
+                  startingLineNumber = "74"
+                  endingLineNumber = "74">
                </Location>
                <Location
-                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0fa0"
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0f05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -266,11 +266,11 @@
                   urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69">
+                  startingLineNumber = "74"
+                  endingLineNumber = "74">
                </Location>
                <Location
-                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0fa0"
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0f05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -280,8 +280,64 @@
                   urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69">
+                  startingLineNumber = "74"
+                  endingLineNumber = "74">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4feade1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 12074a54a4feade1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0f62"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71">
+               </Location>
+               <Location
+                  uuid = "C59AECAF-194B-46BC-A971-95DEEFE4604E - 3caaf17cda3b0f62"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Osiris.ProfileService.queueChange(forUsername: Swift.String, change: Osiris.Change) async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71">
                </Location>
             </Locations>
          </BreakpointContent>
