@@ -11,29 +11,63 @@ struct SocialView: View {
     @EnvironmentObject var cloudService: CloudService
     @State private var currentView: ConnectionType = .friend
     @State private var inputUsername: String = ""
+    @State private var socialErrorMessage: String = ""
+    
+    private func updateErrorMessage() {
+        socialErrorMessage = cloudService.profile.socialErrorMessage
+    }
     
     var body: some View {
         VStack {
+            // list selection
             HStack{
                 SwitchSocialListButton(view: $currentView, newView: .friend, text: "Friends")
                 SwitchSocialListButton(view: $currentView, newView: .inbound, text: "Incoming")
                 SwitchSocialListButton(view: $currentView, newView: .outbound, text: "Outgoing")
             }
             .padding()
-            let friends = cloudService.profile.friends
-            if friends.isEmpty {
+            
+            // list of friends, incoming, or outgoing
+            let list: [Profile] = getList()
+            if list.isEmpty {
                 Spacer()
-                Text("Couldn't load friends. Try adding a friend below!")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
+                switch currentView {
+                case .friend:
+                    Text("Couldn't load friends. Try adding a friend below!")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                case .inbound:
+                    Text("No incoming requests.")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                case .outbound:
+                    Text("You haven't sent any requests yet. Try adding a friend below!")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                default:
+                    Text("how did you get here dawg")
+                }
                 Spacer()
             } else {
-                List(cloudService.profile.friends) { friend in
-                    ProfileCard(profile: friend, type: .friend)
+                List(list) { profile in
+                    ProfileCard(profile: profile, type: currentView)
                 }
                 .background(AssetsManager.background2)
                 .scrollContentBackground(.hidden)
             }
+            
+            // error message
+            Text(socialErrorMessage)
+            .onAppear {
+                updateErrorMessage()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .socialErrorMessageChanged)) {_ in
+                updateErrorMessage()
+            }
+            .foregroundStyle(Color.red)
+            .fontWeight(.bold)
+            
+            // add new friend
             HStack {
                 Section {
                     InputView(text: $inputUsername,
@@ -52,6 +86,21 @@ struct SocialView: View {
             .padding()
         }
         .navigationBarTitle("Social", displayMode: .inline)
+    }
+    
+    private func getList() -> [Profile] {
+        switch currentView {
+        case .friend:
+            return cloudService.profile.friends
+        case .inbound:
+            return cloudService.profile.inRequests
+        case .outbound:
+            return cloudService.profile.outRequests
+        case .blocked:
+            return cloudService.profile.blocked
+        case .cached:
+            return []
+        }
     }
 }
 

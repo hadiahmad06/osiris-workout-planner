@@ -133,7 +133,8 @@ class CloudService: ObservableObject {
             self.online = false
             if userSession != nil { self.userSession = nil }
             self._currentUser = nil
-            self.log._currentLog = nil
+            self.log = LogService()
+            self.profile = ProfileService()
         } catch {
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }

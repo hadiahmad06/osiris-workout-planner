@@ -31,7 +31,7 @@ struct LoginView: View {
             }
             .padding(.horizontal, 15)
             .padding(.top, 10)
-            .background(AssetsManager.background1)
+            .background(AssetsManager.background2)
             .cornerRadius(25)
             .padding(.horizontal, 40)
             

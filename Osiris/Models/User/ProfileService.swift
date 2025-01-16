@@ -23,50 +23,34 @@ class ProfileService {
     var inRequests: [Profile] = []
     var blocked: [Profile] = []
     
+    var socialErrorMessage = "" {
+        didSet {
+            NotificationCenter.default.post(name: .socialErrorMessageChanged, object: nil)
+        }
+    }
+    
 //    var changesQueue: QueueArray<SocialChange> = QueueArray()
-    var changes: [SocialChange] = []
+    var changes: [SocialChange] = [] {
+        didSet { if !changes.isEmpty {Task { await pushChanges() }}}
+    }
     
     var connections: [Connection] = [] {
         didSet { Task { await parseConnections() }}
     }
     
     func queueChange(forID id: String, change: Change) async {
-        // attempt to locate profile
-        guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
-            print("DEBUG: Failed to fetch profile to queue a change")
-            return
-        }
-        
-        // attempt to decode profile
-        if let profile = try? profileSnapshot.data(as: Profile.self) {
-            let id = profile.id
-            let type: ConnectionType
-            
-            // checks for if theres already a connection
-            if let connection = connections.first(where: { $0.id == id }) {
-                type = connection.type
-            } else {
-                // if no connection, add to cached
-                connections.append(Connection(id: id, type: .cached))
-                type = .cached
+        // if they somehow have their own profile in a connections menu
+        if id == currentProfile!.id {
+            socialErrorMessage = "how did you end up here??"
+        } else {
+            // attempt to locate profile
+            guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
+                print("DEBUG: Failed to fetch profile to queue a change")
+                return
             }
-            // pushes change to queue
-            changes.append(SocialChange(id: id, type: type, change: change))
-        }
-    }
-    
-    func queueChange(forUsername username: String, change: Change) async {
-        let ref = Firestore.firestore().collection("profiles")
-        
-        // attempt to locate profile
-        guard let querySnapshot = try? await ref.whereField("username", isEqualTo: username).getDocuments() else {
-            print("DEBUG: Failed to fetch profile to queue a change")
-            return
-        }
-        // if a profile is found
-        if let snapshot = querySnapshot.documents.first {
+            
             // attempt to decode profile
-            if let profile = try? snapshot.data(as: Profile.self) {
+            if let profile = try? profileSnapshot.data(as: Profile.self) {
                 let id = profile.id
                 let type: ConnectionType
                 
@@ -80,38 +64,92 @@ class ProfileService {
                 }
                 // pushes change to queue
                 changes.append(SocialChange(id: id, type: type, change: change))
-            } else {
-                print("DEBUG: Failed to decode profile snapshot")
             }
+        }
+    }
+    
+    func queueChange(forUsername username: String, change: Change) async {
+        // if they enter their own username
+        if username == currentProfile!.username {
+            socialErrorMessage = "Cannot add yourself as a friend 🫵😂"
         } else {
-            print("DEBUG: No profile found with username: \(username)")
+            let ref = Firestore.firestore().collection("profiles")
+            
+            // attempt to locate profile
+            guard let querySnapshot = try? await ref.whereField("username", isEqualTo: username).getDocuments() else {
+                print("DEBUG: Failed to fetch profile to queue a change")
+                return
+            }
+            // if a profile is found
+            if let snapshot = querySnapshot.documents.first {
+                // attempt to decode profile
+                if let profile = try? snapshot.data(as: Profile.self) {
+                    let id = profile.id
+                    let type: ConnectionType
+                    
+                    // checks for if theres already a connection
+                    if let connection = connections.first(where: { $0.id == id }) {
+                        type = connection.type
+                    } else {
+                        // if no connection, add to cached
+                        connections.append(Connection(id: id, type: .cached))
+                        type = .cached
+                    }
+                    // pushes change to queue
+                    changes.append(SocialChange(id: id, type: type, change: change))
+                } else {
+                    print("DEBUG: Failed to decode profile snapshot")
+                }
+            } else {
+                print("DEBUG: No profile found with username: \(username)")
+            }
         }
     }
     
     // fetches current user's profile
     func fetchProfile(_ user: User) async -> FunctionResult {
+        let ref = Firestore.firestore().collection("profiles").document(user.profileID)
         // attempt to locate profile
-        let id = user.profileID
-        guard let profileSnapshot = try? await Firestore.firestore().collection("profiles").document(id).getDocument() else {
+        guard let profileSnapshot = try? await ref.getDocument() else {
             print("DEBUG: Failed to fetch profile for user")
+            return .failure
+        }
+        guard let connectionsSnapshot = try? await ref.collection("connections").getDocuments() else {
+            print("DEBUG: Failed to fetch connections for user")
             return .failure
         }
         
         // attempt to decode profile
         if let profile = try? profileSnapshot.data(as: Profile.self) {
             self.currentProfile = profile
-            let _ = await parseConnections()
             print("DEBUG: PROFILE FETCHED")
+            // attempt to decode connections
+            var connections: [Connection] = []
+            for document in connectionsSnapshot.documents {
+                if let connection = try? document.data(as: Connection.self) {
+                    connections.append(connection)
+                }
+            }
+            self.connections = connections
+            print("DEBUG: CONNECTIONS FETCHED")
             return .success
         } else {
             print("DEBUG: Failed to decode profile")
             return .failure
         }
-        
     }
+    
+    
+//    guard let connectionsSnapshot = try? await Firestore.firestore().collection("profiles").document(id).collection("connections").getDocuments() else {
+//        print("DEBUG: Failed to fetch connections for user")
+//        //return .failure
+//    }
     
     // fetches profiles for all connections
     func parseConnections() async -> FunctionResult {
+        // reset parsed connections
+        friends = []; inRequests = []; outRequests = []
+        
         // attempt to locate profile
         for connection in connections {
             let id = connection.id
@@ -141,9 +179,7 @@ class ProfileService {
         return .success
     }
     
-    
-    
-    func parseChanges() async {
+    func pushChanges() async {
         for (index, change) in changes.enumerated() {
             switch change.type {
             case .friend:
@@ -290,6 +326,9 @@ class ProfileService {
         do {
             if let check = await checkBlocked(id: id) {
                 if check {
+                    print("Didn't change other user's connection as self is blocked")
+                    return .failure
+                } else {
                     // creates new connection
                     let connection = Connection(id: currentProfile!.id, type: type)
                     // attempts to encode connection
@@ -297,9 +336,6 @@ class ProfileService {
                     try await Firestore.firestore().collection("profiles").document(id)
                         .collection("connections").document(currentProfile!.id).setData(encodedConnection)
                     return .success
-                } else {
-                    print("Didn't change other user's connection as self is blocked")
-                    return .failure
                 }
             } else {
                 // failed to load other's profile
@@ -318,12 +354,12 @@ class ProfileService {
         do {
             if let check = await checkBlocked(id: id) {
                 if check {
+                    print("Didn't remove other user's connection as self is blocked")
+                    return .failure
+                } else {
                     try await Firestore.firestore().collection("profiles").document(id)
                         .collection("connections").document(currentProfile!.id).delete()
                     return .success
-                } else {
-                    print("Didn't remove other user's connection as self is blocked")
-                    return .failure
                 }
             } else {
                 // failed to load other's profile
@@ -334,6 +370,10 @@ class ProfileService {
             return .failure
         }
     }
+}
+
+extension Notification.Name {
+    static let socialErrorMessageChanged = Notification.Name("socialErrorMessageChanged")
 }
 
 enum ConnectionType: Codable {
