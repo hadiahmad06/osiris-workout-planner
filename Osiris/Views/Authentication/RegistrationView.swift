@@ -73,13 +73,16 @@ struct RegistrationView: View {
             .padding(.top, 30)
             
             Text(authErrorMessage)
-                .onAppear {
-                    updateErrorMessage()
-                }
-                .foregroundStyle(Color.red)
-                .fontWeight(.bold)
-                .padding(.top, 10)
-                .frame(alignment: .center)
+            .onAppear {
+                updateErrorMessage()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .authErrorMessageChanged)) {_ in 
+                updateErrorMessage()
+            }
+            .foregroundStyle(Color.red)
+            .fontWeight(.bold)
+            .padding(.top, 10)
+            .frame(alignment: .center)
             
             Spacer()
             

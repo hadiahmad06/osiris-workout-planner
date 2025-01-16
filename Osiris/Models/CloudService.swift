@@ -32,7 +32,9 @@ class CloudService: ObservableObject {
     }
     
     var _currentUser: User?
-    var authErrorMessage: String
+    var authErrorMessage: String {
+        didSet {NotificationCenter.default.post(name: .authErrorMessageChanged, object: nil)}
+    }
     
     init() {
         self.profile = ProfileService()
@@ -46,18 +48,6 @@ class CloudService: ObservableObject {
             await fetchData()
         }
     }
-    
-    // should only change when userSession changes value, not when it goes from nil -> nil
-//    @objc private func handleUserSessionChange() {
-//        Task {
-//            await fetchData()
-//        }
-//    }
-//    
-//    @objc private func handleUserSignOut() {
-//        
-//    }
-        
     
     func fetchData() async {
         if await fetchUser() == .success {
@@ -100,6 +90,18 @@ class CloudService: ObservableObject {
                     username: String,
                     nickname: String) async throws {
         do {
+            // Checks if username already exists
+            let querySnapshot = try await Firestore.firestore()
+                .collection("users")
+                .whereField("username", isEqualTo: username)
+                .getDocuments()
+
+            if !querySnapshot.isEmpty {
+                // If duplicate username -> throw error
+                authErrorMessage = "Username already taken."
+                throw NSError(domain: "UserCreationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Username already taken."])
+            }
+            
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             let user = User(id: result.user.uid, username: username, nickname: nickname, email: email)
             
@@ -118,6 +120,9 @@ class CloudService: ObservableObject {
             self.userSession = result.user
             //let _ = await fetchUser()
         } catch {
+            if (error as NSError).code == 17009 {
+                authErrorMessage = "Email already in use."
+            }
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
         }
     }
@@ -160,6 +165,7 @@ class CloudService: ObservableObject {
         // fetch user
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else {
             print("Failed to fetch user data")
+            authErrorMessage("Try again later.")
             return .failure
         }
         
@@ -207,3 +213,6 @@ extension CloudService {
     }()
 }
 
+extension Notification.Name {
+    static let authErrorMessageChanged = Notification.Name("authErrorMessageChanged")
+}

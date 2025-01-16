@@ -14,9 +14,9 @@ struct LoginView: View {
     @Binding var showLoginView: Bool
     @State private var authErrorMessage: String = ""
     
-    func updateErrorMessage() {
-        self.authErrorMessage = cloudService.authErrorMessage
-    }
+//    func updateErrorMessage() {
+//        self.authErrorMessage = cloudService.authErrorMessage
+//    }
     
     var body: some View {
         //Group {
@@ -57,12 +57,16 @@ struct LoginView: View {
             .padding(.top, 30)
             
             Text(authErrorMessage)
-                .onAppear {
-                    updateErrorMessage()
-                }
-                .foregroundStyle(Color.red)
-                .fontWeight(.bold)
-                .padding(.top, 10)
+            .onAppear {
+                authErrorMessage = cloudService.authErrorMessage
+            }
+            .onChange(of: cloudService.authErrorMessage) { _, newValue in
+                print("updated")
+                authErrorMessage = newValue
+            }
+            .foregroundStyle(Color.red)
+            .fontWeight(.bold)
+            .padding(.top, 10)
             
             Spacer()
             

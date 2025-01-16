@@ -8,13 +8,9 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
    
-### Jan 14, 2024
-   - Added [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift) and created most of the UI. Still need to add error messages and fix some [`ProfileService`](Osiris/Models/Planning/PlanService.swift) calls.
-   - Created [`ProfileCard`](Osiris/Views/Menu/Tabs/Social/ProfileCard.swift) to display profiles and buttons to change the connection status with that profile.
-   - Fixed [`SettingsView`](Osiris/Views/Menu/Tabs/Settings/SettingsView.swift) issues with unmatching colors in List component.
-   - Current bugs: can't add friends by username as of yet. Still figuring out why. Also trying to figure out embedded button UI for the profiles, so that pressing the whole profile card will load more details, but pressing the X or Checkmark button will change connection status.
-   - Plans: I plan to add trophies into SocialView, but for right now I'll leave it as be.
-   - I will start back on workout logging and plans after I complete this.
+### Jan 15, 2024
+   - Fixed a bug that allowed creation of accounts with duplicate usernames
+   - Fixed a bug that didn't update the error message in [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift)
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -73,6 +69,14 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 14, 2024
+   - Added [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift) and created most of the UI. Still need to add error messages and fix some [`ProfileService`](Osiris/Models/Planning/PlanService.swift) calls.
+   - Created [`ProfileCard`](Osiris/Views/Menu/Tabs/Social/ProfileCard.swift) to display profiles and buttons to change the connection status with that profile.
+   - Fixed [`SettingsView`](Osiris/Views/Menu/Tabs/Settings/SettingsView.swift) issues with unmatching colors in List component.
+   - Current bugs: can't add friends by username as of yet. Still figuring out why. Also trying to figure out embedded button UI for the profiles, so that pressing the whole profile card will load more details, but pressing the X or Checkmark button will change connection status.
+   - Plans: I plan to add trophies into SocialView, but for right now I'll leave it as be.
+   - I will start back on workout logging and plans after I complete this.
 
 ### Jan 14, 2024
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
