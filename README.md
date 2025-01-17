@@ -8,10 +8,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
    
-### Jan 15, 2024
+### Jan 15-16, 2024
    - Fixed a bug that causes log and profile data to be retained after signing out.
-   - Found a bug that pushes a connection with `currentProfile.id` rather than the other profile's `id`
-   - I plan to fix this by adding two new functions `updateConnectionWithSelf()` and `removeConnectionWithSelf()`. I'll make it more efficient after it works as intended
+   - Fixed a bug that pushes a connection with `currentProfile.id` rather than the other profile's `id`
+   - To fix this I added two new functions `updateConnectionWithSelf()` and `removeConnectionWithSelf()`. Now adding friends works as intended.
+   - Still working on accepting and declining incoming requests as well as removing outgoing requests.
    - Fixed a bug that allowed creation of accounts with duplicate usernames
    - Fixed a bug that didn't update the error message in [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift)
    - Added `socialErrorMessage` which is managed by [`ProfileService`](Osiris/Models/User/ProfileService.swift) and displayed on [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift)

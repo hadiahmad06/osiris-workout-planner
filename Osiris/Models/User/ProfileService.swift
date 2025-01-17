@@ -170,12 +170,12 @@ class ProfileService {
                 case .blocked: self.blocked.append(profile)
                 case .cached: break // -> to be removed or to be added
                 }
-                return .success
             } else {
                 print("DEBUG: Failed to decode profile data")
                 return .failure
             }
         }
+        NotificationCenter.default.post(name: NSNotification.Name("connectionsParsed"), object: nil)
         return .success
     }
     
@@ -191,7 +191,7 @@ class ProfileService {
                         if await removeConnectionForUser(id: change.id) == .success {
                             // ONLY after ensuring both parties have removed the connection
                             // removes pending change from queue
-                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                            if await removeConnectionForSelf(id: change.id) == .success {
                                 // removes connection locally
                                 connections.remove(at: idx)
                                 changes.remove(at: index)
@@ -199,7 +199,7 @@ class ProfileService {
                         }
                     case .block:
                         // blocked users are one-sided connections
-                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
                             connections[idx].type = .blocked
                             changes.remove(at: index)
                         }
@@ -213,7 +213,7 @@ class ProfileService {
                         // sets connection to inbound for other party (current user is sending an outgoing request)
                         if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
                             // ONLY after ensuring both users have recieved and sent the request
-                            if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
                                 // sets local current users connection to inbound
                                 connections[idx].type = .outbound
                                 // removes pending change from queue
@@ -222,13 +222,13 @@ class ProfileService {
                         }
                     case .remove:
                         if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                            if await removeConnectionForSelf(id: change.id) == .success {
                                 connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
                         }
                     case .block:
-                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
                             connections[idx].type = .blocked
                             changes.remove(at: index)
                         }
@@ -241,13 +241,13 @@ class ProfileService {
                     case .add: break
                     case .remove:
                         if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                            if await removeConnectionForSelf(id: change.id) == .success {
                                 connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
                         }
                     case .block:
-                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
                             connections[idx].type = .blocked
                             changes.remove(at: index)
                         }
@@ -262,7 +262,7 @@ class ProfileService {
                     case .block: break
                     case .unblock:
                         if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForUser(id: currentProfile!.id) == .success {
+                            if await removeConnectionForSelf(id: change.id) == .success {
                                 connections.remove(at: idx)
                                 changes.remove(at: index)
                             }
@@ -274,14 +274,14 @@ class ProfileService {
                     switch change.change {
                     case .add:
                         if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
-                            if await updateConnectionForUser(id: currentProfile!.id, type: .outbound) == .success {
+                            if await updateConnectionForSelf(id: change.id, type: .outbound) == .success {
                                 connections[idx].type = .outbound
                                 changes.remove(at: index)
                             }
                         }
                     case .remove: break
                     case .block:
-                        if await updateConnectionForUser(id: currentProfile!.id, type: .blocked) == .success {
+                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
                             connections[idx].type = .outbound
                             changes.remove(at: index)
                         }
@@ -291,10 +291,6 @@ class ProfileService {
             }
         
         }
-    }
-    
-    private func getProfile(id: String) async -> FunctionResult {
-        return .failure
     }
     
     private func checkBlocked(id: String) async -> Bool? {
@@ -318,6 +314,32 @@ class ProfileService {
         }
         // otherwise return false
         return false
+    }
+    
+    private func updateConnectionForSelf(id: String, type: ConnectionType) async -> FunctionResult {
+        do {
+            // creates new connection
+            let connection = Connection(id: id, type: type)
+            // attempts to encode connection
+            let encodedConnection = try Firestore.Encoder().encode(connection)
+            try await Firestore.firestore().collection("profiles").document(currentProfile!.id)
+                .collection("connections").document(id).setData(encodedConnection)
+            return .success
+        } catch {
+            print("DEBUG: Failed to update connection with error \(error.localizedDescription)")
+            return .failure
+        }
+    }
+    
+    private func removeConnectionForSelf(id: String) async -> FunctionResult {
+        do {
+            try await Firestore.firestore().collection("profiles").document(currentProfile!.id)
+                .collection("connections").document(id).delete()
+            return .success
+        } catch {
+            print("DEBUG: Failed to remove connection with error \(error.localizedDescription)")
+            return .failure
+        }
     }
     
     // updates connection for user on the other end
@@ -374,6 +396,7 @@ class ProfileService {
 
 extension Notification.Name {
     static let socialErrorMessageChanged = Notification.Name("socialErrorMessageChanged")
+    static let connectionsParsed = Notification.Name("connectionsParsed")
 }
 
 enum ConnectionType: Codable {

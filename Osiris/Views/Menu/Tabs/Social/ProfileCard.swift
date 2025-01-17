@@ -17,7 +17,7 @@ struct ProfileCard: View {
 //    }
     
     var body: some View {
-        Section {
+        //Section {
             HStack {
                 Text(profile.nickname.first?.uppercased() ?? "?")
                     .font(.title)
@@ -56,7 +56,7 @@ struct ProfileCard: View {
                 }
                 
             }
-        }
+        //}
     }
 }
 

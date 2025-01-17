@@ -12,6 +12,7 @@ struct SocialView: View {
     @State private var currentView: ConnectionType = .friend
     @State private var inputUsername: String = ""
     @State private var socialErrorMessage: String = ""
+    @State private var list: [Profile] = []
     
     private func updateErrorMessage() {
         socialErrorMessage = cloudService.profile.socialErrorMessage
@@ -28,7 +29,6 @@ struct SocialView: View {
             .padding()
             
             // list of friends, incoming, or outgoing
-            let list: [Profile] = getList()
             if list.isEmpty {
                 Spacer()
                 switch currentView {
@@ -55,6 +55,7 @@ struct SocialView: View {
                 .background(AssetsManager.background2)
                 .scrollContentBackground(.hidden)
             }
+            
             
             // error message
             Text(socialErrorMessage)
@@ -85,21 +86,26 @@ struct SocialView: View {
             }
             .padding()
         }
-        .navigationBarTitle("Social", displayMode: .inline)
+        .onAppear { getList() }
+        .onChange(of: currentView) { getList() }
+        .onReceive(NotificationCenter.default.publisher(for: .connectionsParsed)) {_ in
+            getList()
+        }
+//        .navigationBarTitle("Social", displayMode: .inline)
     }
     
-    private func getList() -> [Profile] {
+    private func getList() {
         switch currentView {
         case .friend:
-            return cloudService.profile.friends
+            list = cloudService.profile.friends
         case .inbound:
-            return cloudService.profile.inRequests
+            list = cloudService.profile.inRequests
         case .outbound:
-            return cloudService.profile.outRequests
+            list = cloudService.profile.outRequests
         case .blocked:
-            return cloudService.profile.blocked
+            list = cloudService.profile.blocked
         case .cached:
-            return []
+            list = []
         }
     }
 }
