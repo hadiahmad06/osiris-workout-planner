@@ -8,14 +8,9 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
    
-### Jan 15-16, 2024
-   - Fixed a bug that causes log and profile data to be retained after signing out.
-   - Fixed a bug that pushes a connection with `currentProfile.id` rather than the other profile's `id`
-   - To fix this I added two new functions `updateConnectionWithSelf()` and `removeConnectionWithSelf()`. Now adding friends works as intended.
-   - Still working on accepting and declining incoming requests as well as removing outgoing requests.
-   - Fixed a bug that allowed creation of accounts with duplicate usernames
-   - Fixed a bug that didn't update the error message in [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift)
-   - Added `socialErrorMessage` which is managed by [`ProfileService`](Osiris/Models/User/ProfileService.swift) and displayed on [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift)
+### Jan 17, 2025
+   - Changed 2024 -> 2025 in a lot of my entries
+
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -75,7 +70,16 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Recent Updates
 
-### Jan 14, 2024
+### Jan 15-16, 2025
+   - Fixed a bug that causes log and profile data to be retained after signing out.
+   - Fixed a bug that pushes a connection with `currentProfile.id` rather than the other profile's `id`
+   - To fix this I added two new functions `updateConnectionWithSelf()` and `removeConnectionWithSelf()`. Now adding friends works as intended.
+   - Still working on accepting and declining incoming requests as well as removing outgoing requests.
+   - Fixed a bug that allowed creation of accounts with duplicate usernames
+   - Fixed a bug that didn't update the error message in [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift)
+   - Added `socialErrorMessage` which is managed by [`ProfileService`](Osiris/Models/User/ProfileService.swift) and displayed on [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift)
+
+### Jan 14, 2025
    - Added [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift) and created most of the UI. Still need to add error messages and fix some [`ProfileService`](Osiris/Models/Planning/PlanService.swift) calls.
    - Created [`ProfileCard`](Osiris/Views/Menu/Tabs/Social/ProfileCard.swift) to display profiles and buttons to change the connection status with that profile.
    - Fixed [`SettingsView`](Osiris/Views/Menu/Tabs/Settings/SettingsView.swift) issues with unmatching colors in List component.
@@ -83,25 +87,25 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - Plans: I plan to add trophies into SocialView, but for right now I'll leave it as be.
    - I will start back on workout logging and plans after I complete this.
 
-### Jan 14, 2024
+### Jan 14, 2025
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) now maintains synchronization of connection statuses between users.
    - [`Profile`](Osiris/Models/User/Profile.swift) was created and added to collection `profiles` so that some user data can be kept private. These changes are reflected in [`ProfileService`](Osiris/Models/User/ProfileService.swift)
    - Added method `queueChange(username: String, change: Change)` to [`ProfileService`](Osiris/Models/User/ProfileService.swift)
    - Have already drawn out a SocialView to recreate in Swift! 
    - I took a break from workout logging as I ran into an issue but I'll revisit that after I'm done with socials.
 
-### Jan 13, 2024
+### Jan 13, 2025
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles connection changes and updates locally only if Firestore changes are successful.
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) was created to manage user connections and handle changes to connection requests.
    - The method `pushChanges()` was created to ensure local changes reflect changes on the cloud
    - `parseConnections()` initializes user connections, adding them to relevant categories to be displayed on SocialView (incomplete atm) (friends, inbound, outbound, blocked).
 
-### Jan 12, 2024
+### Jan 12, 2025
    - Still figuring out local data
    - Changed [CloudService](Osiris/Models/CloudService.swift) to include authentication
    - Deprecated AuthService
 
-### Jan 11, 2024
+### Jan 11, 2025
    - Trying to figure out how I want to store local data and when I want to push it to the cloud.
 
 Goals for now:
@@ -109,18 +113,18 @@ Goals for now:
    - Add social page
    - Allow viewing of logs with StatsView
 
-### Jan 9-10, 2024
+### Jan 9-10, 2025
    - [PlanService](Osiris/Models/Planning/PlanService.swift) was created to track workout plans
    - [LocalData](Osiris/Models/LocalData.swift) was created to store local data (like in progress workout entries) before they are pushed using [CloudService](Osiris/Models/CloudService.swift)
    - [WeekView](Osiris/Views/Menu/Tabs/Today/WeekView.swift) was added to control animations between [TodayView](Osiris/Views/Menu/Tabs/Today/TodayView.swift) and [WorkoutView](Osiris/Views/Menu/Tabs/Today/WorkoutView.swift)
    - [Animations](Osiris/Models/Animation/Animations) is a work-in-progress struct with functions that aims to allow modularity in views with similar animations.
 
-### Jan 7, 2024
+### Jan 7, 2025
    - Created [`AuthView`](Osiris/Views/Authentication/AuthView.swift) -> animates [`LoginView`](Osiris/Views/Authentication/LoginView.swift) and [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift) smoothly, only rendering what's on screen.
    - [`ControllerView`](Osiris/Views/ControllerView.swift) -> implements [`AuthView`](Osiris/Views/Authentication/AuthView.swift)
    - [`LoginView`](Osiris/Views/Authentication/LoginView.swift) + [`RegistrationView`](Osiris/Views/Authentication/RegistrationView.swift) -> moved logo component to [`AuthView`](Osiris/Views/Authentication/AuthView.swift)
 
-### Jan 4-6, 2024
+### Jan 4-6, 2025
    - `CloudService` -> main access to Firebase
    - `AuthService` -> originally `AuthViewModel`, now only includes methods related to the `user` collection
    - `LogService` -> originally a part of `AuthViewModel`, now solely contains methods related to the `logs` collection
