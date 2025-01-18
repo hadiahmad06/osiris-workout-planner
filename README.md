@@ -10,6 +10,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    
 ### Jan 17, 2025
    - Changed 2024 -> 2025 in a lot of my entries
+   - Updated [Firebase Rules](#firebase-rules)
 
    
 ## Table of Contents
@@ -20,6 +21,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    4. [User Interface](#4-user-interface)
 2. [To-do](#to-do)
 3. [Recent Updates](#recent-updates)
+4. [Firebase Rules](#firebase-rules)
 
 ## Features Implemented
 
@@ -160,3 +162,50 @@ Goals for now:
 ### Dec 28th and prior
    - look at commits i didnt write this down
 
+## Firebase Rules
+Since I'm not planning on releasing this on the app store, I decided to provide my firebase rules:
+
+```
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // "users" collection
+    match /users/{userId} {
+      // only allows
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Match the "profile" collection (public data)
+    match /profiles/{profileId} {
+      // everyone can read (will change later to connections only)
+      allow read: if true;
+      
+      // only owner of profile can write
+      allow write: if request.auth != null && 
+      profileId == get(/databases/$(database)/documents/users/$(request.auth.uid)).profileId;
+    }
+    
+    // "profiles" -> "connections" subcollection
+    match /profiles/{profileId}/connections/{connectionId} {
+      // anyone can read or write to the connections subcollection
+      allow read, write: if true;
+    }
+
+    // Match the "log" collection (public data)
+    match /logs/{logId} {
+      // everyone can read (for now)
+      allow read: if true;
+
+      // only owner of log can write
+      allow write: if request.auth != null &&
+      logId == get(/databases/$(database)/documents/users/$(request.auth.uid)).logId;
+    }
+      
+    // TESTING RULES
+    // match /{document=**} {
+    //   allow read, write: if request.time < timestamp.date(2025, 1, 22);
+    // }
+  }
+}
+```
