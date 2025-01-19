@@ -274,6 +274,36 @@
             endingLineNumber = "347"
             landmarkName = "updateConnectionForUser(id:type:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "19996B5A-E21D-4EE7-A2E3-121FE1AAAB8A - 7432b0aeb52490b5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Osiris.ProfileService.updateConnectionForUser(id: Swift.String, type: Osiris.ConnectionType) async -&gt; Osiris.FunctionResult"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "347"
+                  endingLineNumber = "347">
+               </Location>
+               <Location
+                  uuid = "19996B5A-E21D-4EE7-A2E3-121FE1AAAB8A - da1d556296c09814"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Osiris.ProfileService.updateConnectionForUser(id: Swift.String, type: Osiris.ConnectionType) async -&gt; Osiris.FunctionResult"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "347"
+                  endingLineNumber = "347">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -302,8 +332,8 @@
             filePath = "Osiris/Views/Menu/Tabs/Social/SocialView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -334,8 +364,8 @@
             filePath = "Osiris/Views/Menu/Tabs/Social/SocialView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -418,6 +448,52 @@
             endingLineNumber = "354"
             landmarkName = "updateConnectionForUser(id:type:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1F5B170D-011B-4D3F-BB7C-9CDFB0E3B8F9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Osiris/Models/User/ProfileService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "pushChanges()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1F5B170D-011B-4D3F-BB7C-9CDFB0E3B8F9 - 613f6dbd9ed27a49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Osiris.ProfileService.pushChanges() async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182">
+               </Location>
+               <Location
+                  uuid = "1F5B170D-011B-4D3F-BB7C-9CDFB0E3B8F9 - 2519f72758220da2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Osiris.ProfileService.pushChanges() async -&gt; ()"
+                  moduleName = "Osiris.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hadiahmad/Documents/repositories/Osiris/Osiris/Models/User/ProfileService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "182"
+                  endingLineNumber = "182">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

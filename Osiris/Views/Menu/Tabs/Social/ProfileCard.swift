@@ -11,6 +11,7 @@ struct ProfileCard: View {
     @EnvironmentObject var cloudService: CloudService
     @State var profile: Profile
     var type: ConnectionType
+    @Binding var profileInView: Profile?
     
 //    init(_ profile: Profile) {
 //        self.profile = profile
@@ -18,7 +19,8 @@ struct ProfileCard: View {
     
     var body: some View {
         //Section {
-            HStack {
+        HStack {
+            //Button(action: {profileInView = profile}) {
                 Text(profile.nickname.first?.uppercased() ?? "?")
                     .font(.title)
                     .fontWeight(.semibold)
@@ -35,27 +37,29 @@ struct ProfileCard: View {
                         .font(.footnote)
                         .accentColor(AssetsManager.gray2)
                 }
-                Spacer()
-                switch type {
-                case .friend:
-                    ForEach(profile.trophies, id: \.self) { trophy in
-                        // will add later
-                        Image(systemName: trophy)
-                            .font(.subheadline)
-                        Spacer()
-                    }
-                    RemoveButton(profile: $profile)
-                case .inbound:
-                    AddButton(profile: $profile)
-                case .outbound:
-                    RemoveButton(profile: $profile)
-                case .blocked:
-                    Text("")
-                case .cached:
-                    Text("")
+            //}
+            Spacer()
+            switch type {
+            case .friend:
+                ForEach(profile.trophies, id: \.self) { trophy in
+                    // will add later
+                    Image(systemName: trophy)
+                        .font(.subheadline)
+                    Spacer()
                 }
-                
+                RemoveButton(profile: $profile)
+            case .inbound:
+                AddButton(profile: $profile)
+                RemoveButton(profile: $profile)
+            case .outbound:
+                RemoveButton(profile: $profile)
+            case .blocked:
+                Text("")
+            case .cached:
+                Text("")
             }
+            
+        }
         //}
     }
 }

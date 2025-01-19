@@ -8,9 +8,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
    
-### Jan 17, 2025
+### Jan 17-18, 2025
    - Changed 2024 -> 2025 in a lot of my entries
    - Updated [Firebase Rules](#firebase-rules)
+   - Fixed add and remove button UI in [`SocialView`](Osiris/Views/Menu/Social/SocialView.swift)
+   - Found a problem in [`ProfileService`](Osiris/Models/User/ProfileService.swift) which doesnt push changes correctly due to an error in removing the latest change
 
    
 ## Table of Contents

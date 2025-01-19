@@ -13,6 +13,8 @@ struct SocialView: View {
     @State private var inputUsername: String = ""
     @State private var socialErrorMessage: String = ""
     @State private var list: [Profile] = []
+    @State var profileInView: Profile?
+//    @State private var inView: Bool = false // MIGHT CHANGE LATER
     
     private func updateErrorMessage() {
         socialErrorMessage = cloudService.profile.socialErrorMessage
@@ -50,7 +52,9 @@ struct SocialView: View {
                 Spacer()
             } else {
                 List(list) { profile in
-                    ProfileCard(profile: profile, type: currentView)
+                    ProfileCard(profile: profile,
+                                type: currentView,
+                                profileInView: $profileInView)
                 }
                 .background(AssetsManager.background2)
                 .scrollContentBackground(.hidden)
@@ -91,7 +95,11 @@ struct SocialView: View {
         .onReceive(NotificationCenter.default.publisher(for: .connectionsParsed)) {_ in
             getList()
         }
-//        .navigationBarTitle("Social", displayMode: .inline)
+//        .slideViews(to: ProfileView(profile: $profileInView), when: $inView)
+        //        .navigationBarTitle("Social", displayMode: .inline)
+//        .onChange(of: profileInView) { _, newValue in
+//            inView = newValue != nil
+//        }
     }
     
     private func getList() {
@@ -138,3 +146,26 @@ struct SocialView_Previews: PreviewProvider {
             .environmentObject(CloudService.EXAMPLE_CLOUD_SERVICE)
     }
 }
+
+// from https://github.com/GeorgeElsham on stackoverflow.com
+// used in SocialView
+//extension View {
+//    func slideViews<NewView: View>(to view: NewView, profile bound: Binding<Profile>) -> some View {
+//        ZStack {
+//            if bound.wrappedValue == nil {
+//                self
+//                    .navigationBarTitle("")
+//                    .navigationBarHidden(true)
+//            }
+//            if bound.wrappedValue != nil {
+//                view
+//                    .navigationBarTitle("")
+//                    .navigationBarHidden(true)
+//        }
+//        .onChange(of: bound.wrappedValue) { _, newValue in
+//            if !newValue {
+//                
+//            }
+//        }
+//    }
+//}
