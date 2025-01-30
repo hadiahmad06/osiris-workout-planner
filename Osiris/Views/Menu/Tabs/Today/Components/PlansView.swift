@@ -54,7 +54,7 @@ struct PlanRowView: View {
 //    }
     
     var body: some View {
-        Button(action: {action(); onUpdate = true}) {
+        //Button(action: {action(); onUpdate = true}) {
             HStack {
                 Image(systemName: imageName)
                     .imageScale(.small)
@@ -67,10 +67,10 @@ struct PlanRowView: View {
                 
             }
             .frame(maxWidth: 200)
-            .padding(8)
+            .padding(15)
             .background(AssetsManager.gray1)
             .cornerRadius(8)
-        }
+        //}
     }
 }
 

@@ -18,6 +18,9 @@ struct SocialView: View {
     
     private func updateErrorMessage() {
         socialErrorMessage = cloudService.profile.socialErrorMessage
+        if socialErrorMessage == "" {
+            inputUsername = ""
+        }
     }
     
     var body: some View {

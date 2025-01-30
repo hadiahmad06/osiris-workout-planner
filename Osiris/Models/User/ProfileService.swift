@@ -25,14 +25,16 @@ class ProfileService {
     
     var socialErrorMessage = "" {
         didSet {
-            NotificationCenter.default.post(name: .socialErrorMessageChanged, object: nil)
+            DispatchQueue.main.async {NotificationCenter.default.post(name: .socialErrorMessageChanged, object: nil)}
         }
     }
     
-//    var changesQueue: QueueArray<SocialChange> = QueueArray()
-    var changes: [SocialChange] = [] {
-        didSet { if !changes.isEmpty {Task { await pushChanges() }}}
+    var changes: QueueArray<SocialChange> = QueueArray() {
+        didSet { if !changes.isEmpty {Task { await pushChange() }}}
     }
+//    var changes: [SocialChange] = [] {
+//        didSet { if !changes.isEmpty {Task { await pushChange() }}}
+//    }
     
     var connections: [Connection] = [] {
         didSet { Task { await parseConnections() }}
@@ -63,7 +65,7 @@ class ProfileService {
                     type = .cached
                 }
                 // pushes change to queue
-                changes.append(SocialChange(id: id, type: type, change: change))
+                let _ = changes.enqueue(SocialChange(id: id, type: type, change: change))
             }
         }
     }
@@ -96,11 +98,14 @@ class ProfileService {
                         type = .cached
                     }
                     // pushes change to queue
-                    changes.append(SocialChange(id: id, type: type, change: change))
+                    let _ = changes.enqueue(SocialChange(id: id, type: type, change: change))
+                    socialErrorMessage = ""
                 } else {
+                    socialErrorMessage = "Failed to add friend. Please try again later."
                     print("DEBUG: Failed to decode profile snapshot")
                 }
             } else {
+                socialErrorMessage = "Failed to add friend. Please try again later."
                 print("DEBUG: No profile found with username: \(username)")
             }
         }
@@ -175,121 +180,123 @@ class ProfileService {
                 return .failure
             }
         }
-        NotificationCenter.default.post(name: NSNotification.Name("connectionsParsed"), object: nil)
+        DispatchQueue.main.async{ NotificationCenter.default.post(name: NSNotification.Name("connectionsParsed"), object: nil)}
         return .success
     }
     
-    func pushChanges() async {
-        for (index, change) in changes.enumerated() {
-            switch change.type {
-            case .friend:
-                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
-                    switch change.change {
-                    case .add: break
-                    case .remove:
-                        // first removes the connection for the other user
-                        if await removeConnectionForUser(id: change.id) == .success {
-                            // ONLY after ensuring both parties have removed the connection
-                            // removes pending change from queue
-                            if await removeConnectionForSelf(id: change.id) == .success {
-                                // removes connection locally
-                                connections.remove(at: idx)
-                                changes.remove(at: index)
-                            }
-                        }
-                    case .block:
-                        // blocked users are one-sided connections
-                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
-                            connections[idx].type = .blocked
-                            changes.remove(at: index)
-                        }
-                    case .unblock: break
-                    }
-                }
-            case .inbound:
-                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
-                    switch change.change {
-                    case .add:
-                        // sets connection to inbound for other party (current user is sending an outgoing request)
-                        if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
-                            // ONLY after ensuring both users have recieved and sent the request
-                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
-                                // sets local current users connection to inbound
-                                connections[idx].type = .outbound
+    func pushChange() async {
+        if changes.isEmpty { return }
+        else {
+            if let change = changes.peek {
+                switch change.type {
+                case .friend:
+                    if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                        switch change.change {
+                        case .add: break
+                        case .remove:
+                            // first removes the connection for the other user
+                            if await removeConnectionForUser(id: change.id) == .success {
+                                // ONLY after ensuring both parties have removed the connection
                                 // removes pending change from queue
-                                changes.remove(at: index)
+                                if await removeConnectionForSelf(id: change.id) == .success {
+                                    // removes connection locally
+                                    connections[idx].type = .cached
+                                    let _ = changes.dequeue()
+                                }
                             }
-                        }
-                    case .remove:
-                        if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForSelf(id: change.id) == .success {
-                                connections.remove(at: idx)
-                                changes.remove(at: index)
+                        case .block:
+                            // blocked users are one-sided connections
+                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
+                                connections[idx].type = .blocked
+                                let _ = changes.dequeue()
                             }
-                        }
-                    case .block:
-                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
-                            connections[idx].type = .blocked
-                            changes.remove(at: index)
-                        }
-                    case .unblock: break
-                    }
-                }
-            case .outbound:
-                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
-                    switch change.change {
-                    case .add: break
-                    case .remove:
-                        if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForSelf(id: change.id) == .success {
-                                connections.remove(at: idx)
-                                changes.remove(at: index)
-                            }
-                        }
-                    case .block:
-                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
-                            connections[idx].type = .blocked
-                            changes.remove(at: index)
-                        }
-                    case .unblock: break
-                    }
-                }
-            case .blocked:
-                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
-                    switch change.change {
-                    case .add: break
-                    case .remove: break
-                    case .block: break
-                    case .unblock:
-                        if await removeConnectionForUser(id: change.id) == .success {
-                            if await removeConnectionForSelf(id: change.id) == .success {
-                                connections.remove(at: idx)
-                                changes.remove(at: index)
-                            }
+                        case .unblock: break
                         }
                     }
-                }
-            case .cached:
-                if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
-                    switch change.change {
-                    case .add:
-                        if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
-                            if await updateConnectionForSelf(id: change.id, type: .outbound) == .success {
-                                connections[idx].type = .outbound
-                                changes.remove(at: index)
+                case .inbound:
+                    if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                        switch change.change {
+                        case .add:
+                            // sets connection to friend for other party (current user is accepting an incoming request)
+                            if await updateConnectionForUser(id: change.id, type: .friend) == .success {
+                                // ONLY after ensuring both users have updated the connection
+                                if await updateConnectionForSelf(id: change.id, type: .friend) == .success {
+                                    // sets local current users connection to friend
+                                    connections[idx].type = .friend
+                                    // removes pending change from queue
+                                    let _ = changes.dequeue()
+                                }
+                            }
+                        case .remove:
+                            if await removeConnectionForUser(id: change.id) == .success {
+                                if await removeConnectionForSelf(id: change.id) == .success {
+                                    connections[idx].type = .cached
+                                    let _ = changes.dequeue()
+                                }
+                            }
+                        case .block:
+                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
+                                connections[idx].type = .blocked
+                                let _ = changes.dequeue()
+                            }
+                        case .unblock: break
+                        }
+                    }
+                case .outbound:
+                    if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                        switch change.change {
+                        case .add: break
+                        case .remove:
+                            if await removeConnectionForUser(id: change.id) == .success {
+                                if await removeConnectionForSelf(id: change.id) == .success {
+                                    connections[idx].type = .cached
+                                    let _ = changes.dequeue()
+                                }
+                            }
+                        case .block:
+                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
+                                connections[idx].type = .blocked
+                                let _ = changes.dequeue()
+                            }
+                        case .unblock: break
+                        }
+                    }
+                case .blocked:
+                    if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                        switch change.change {
+                        case .add: break
+                        case .remove: break
+                        case .block: break
+                        case .unblock:
+                            if await removeConnectionForUser(id: change.id) == .success {
+                                if await removeConnectionForSelf(id: change.id) == .success {
+                                    connections.remove(at: idx)
+                                    let _ = changes.dequeue()
+                                }
                             }
                         }
-                    case .remove: break
-                    case .block:
-                        if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
-                            connections[idx].type = .outbound
-                            changes.remove(at: index)
+                    }
+                case .cached:
+                    if let idx = connections.firstIndex(where: { $0.id == change.id } ) {
+                        switch change.change {
+                        case .add:
+                            if await updateConnectionForUser(id: change.id, type: .inbound) == .success {
+                                if await updateConnectionForSelf(id: change.id, type: .outbound) == .success {
+                                    connections[idx].type = .outbound
+                                    let _ = changes.dequeue()
+                                }
+                            }
+                        case .remove: break
+                        case .block:
+                            if await updateConnectionForSelf(id: change.id, type: .blocked) == .success {
+                                connections[idx].type = .blocked
+                                let _ = changes.dequeue()
+                            }
+                        case .unblock: break
                         }
-                    case .unblock: break
                     }
                 }
             }
-        
         }
     }
     

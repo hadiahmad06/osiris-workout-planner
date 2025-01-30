@@ -7,13 +7,11 @@
 Osiris is a workout tracking app designed to help users track their exercise routines and build workout plans using AI. The app is built using SwiftUI and integrates with Firebase for authentication and data storage.
 
 ## Most Recent
-   
-### Jan 17-18, 2025
-   - Changed 2024 -> 2025 in a lot of my entries
-   - Updated [Firebase Rules](#firebase-rules)
-   - Fixed add and remove button UI in [`SocialView`](Osiris/Views/Menu/Social/SocialView.swift)
-   - Found a problem in [`ProfileService`](Osiris/Models/User/ProfileService.swift) which doesnt push changes correctly due to an error in removing the latest change
 
+### Jan 23-30, 2025
+   - Fixed `changes` in [`ProfileService`](Osiris/Models/User/ProfileService.swift) so that it uses a queue rather than a list, allowing for changes to be pushed asynchronously.
+   - Fixed an issue where `connections` in [`ProfileService`](Osiris/Models/User/ProfileService.swift) would fail upon attempt of removal of a connection.
+   - Fixed add and remove buttons in [`SocialView`](Osiris/Views/Menu/Tabs/Social/SocialView.swift) and [`ProfileCard`](Osiris/Views/Menu/Tabs/Social/ProfileCard.swift)
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -37,16 +35,20 @@ Osiris is a workout tracking app designed to help users track their exercise rou
     <img src="GithubAssets/switch_auth.gif" alt="Switch auth screen GIF" width="200"/>   
 </div>
 
+### 3. **Friends and Social**
+   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles friends, pending requests, and blocked users while ensuring local data is synchronized with the cloud.
+   - `SocialView` (in-progress) will display friends, pending outgoing and incoming requests, and blocked users and allow the user to add new friends by entering their username.
+   
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="GithubAssets/friends_ss.png" alt="Friends View PNG" width="200"/>
+</div>
+
 ### 2. **Cloud Storage**
    - All online pushes and pulls are handled with [`CloudService`](Osiris/Models/CloudService.swift)
    - Authentication is also done using [`CloudService`](Osiris/Models/CloudService.swift)
    - Firebase is used to store and sync data, including workout logs in [`LogService`](Osiris/Models/Logging/LogService.swift).
    - [`ProfileService`](Osiris/Models/User/ProfileService.swift) safely handles user connections, like friends, requests, blocked users, etc. 
    - Workout plans and logs are stored in separate database collections, allowing users to share workout plans without compromising their own data.
-   
-### 3. **Friends and Social**
-   - [`ProfileService`](Osiris/Models/User/ProfileService.swift) handles friends, pending requests, and blocked users while ensuring local data is synchronized with the cloud.
-   - `SocialView` (in-progress) will display friends, pending outgoing and incoming requests, and blocked users and allow the user to add new friends by entering their username.
    
 ### 4. **User Interface**
    - Created an interactive login/signup screen using SwiftUI animations, in [`AuthView`](Osiris/Views/Authentication/AuthView.swift) 
@@ -73,6 +75,12 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 17-18, 2025
+   - Changed 2024 -> 2025 in a lot of my entries
+   - Updated [Firebase Rules](#firebase-rules)
+   - Fixed add and remove button UI in [`SocialView`](Osiris/Views/Menu/Social/SocialView.swift)
+   - Found a problem in [`ProfileService`](Osiris/Models/User/ProfileService.swift) which doesnt push changes correctly due to an error in removing the latest change
 
 ### Jan 15-16, 2025
    - Fixed a bug that causes log and profile data to be retained after signing out.

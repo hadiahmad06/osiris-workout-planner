@@ -20,25 +20,27 @@ struct ProfileCard: View {
     var body: some View {
         //Section {
         HStack {
-            //Button(action: {profileInView = profile}) {
-                Text(profile.nickname.first?.uppercased() ?? "?")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundColor(AssetsManager.text1)
-                    .frame(width: 56, height: 56)
-                    .background(AssetsManager.gray1)
-                    .clipShape(Circle())
-                    .padding(.trailing, 10)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(profile.nickname)
-                        .font(.headline)
+            Section{
+                //Button(action: {profileInView = profile}) {
+                    Text(profile.nickname.first?.uppercased() ?? "?")
+                        .font(.title)
                         .fontWeight(.semibold)
-                    Text(profile.username)
-                        .font(.footnote)
-                        .accentColor(AssetsManager.gray2)
-                }
-            //}
-            Spacer()
+                        .foregroundColor(AssetsManager.text1)
+                        .frame(width: 56, height: 56)
+                        .background(AssetsManager.gray1)
+                        .clipShape(Circle())
+                        .padding(.trailing, 10)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(profile.nickname)
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                        Text(profile.username)
+                            .font(.footnote)
+                            .accentColor(AssetsManager.gray2)
+                    }
+                //}
+                Spacer()
+            }
             switch type {
             case .friend:
                 ForEach(profile.trophies, id: \.self) { trophy in
@@ -68,10 +70,14 @@ struct AddButton: View {
     @EnvironmentObject var cloudService: CloudService
     @Binding var profile: Profile
     var body: some View {
-        Button(action: {Task{await cloudService.profile.queueChange(forID: profile.id, change: .add)}}) {
-            Image(systemName: "checkmark.square.fill")
-                .foregroundColor(.green)
-                .imageScale(.large)
+        Section{
+            Button(action: {Task{await cloudService.profile.queueChange(forID: profile.id, change: .add)}}) {
+                Image(systemName: "checkmark.square.fill")
+                    .foregroundColor(.green)
+                    .imageScale(.large)
+                    .padding(10)
+            }
+            .buttonStyle(.borderless)
         }
     }
 }
@@ -80,10 +86,14 @@ struct RemoveButton: View {
     @EnvironmentObject var cloudService: CloudService
     @Binding var profile: Profile
     var body: some View {
-        Button(action: {Task{await cloudService.profile.queueChange(forID: profile.id, change: .remove)}}) {
-            Image(systemName: "multiply.square.fill")
-                .foregroundColor(.red)
-                .imageScale(.large)
+        Section {
+            Button(action: {Task{await cloudService.profile.queueChange(forID: profile.id, change: .remove)}}) {
+                Image(systemName: "multiply.square.fill")
+                    .foregroundColor(.red)
+                    .imageScale(.large)
+                    .padding(10)
+            }
+            .buttonStyle(.borderless)
         }
     }
 }

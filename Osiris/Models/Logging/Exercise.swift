@@ -16,7 +16,7 @@ class Exercise: Identifiable, Equatable, Codable {
     var id: String
     
     var name: String
-    var movement: MovementType                  // isometric, eccentric, regular
+//    var movement: MovementType                  // isometric, eccentric, regular
     var angle: Angle                            // incline, decline, etc
     var laterality: Laterality                  // unilateral, bilateral, both
     var focus: Focus                            // strengthen vs stretch
@@ -30,10 +30,10 @@ class Exercise: Identifiable, Equatable, Codable {
     var musclesTargeted: [MuscleWeightage]      // muscle heads that are targeted in said exercise
     
 
-    init(id: String, name: String, movement: MovementType, angle: Angle, laterality: Laterality, focus: Focus, impact: Double, rating: Double, progressions: [Exercise] = [], regressions: [Exercise] = [], restrictions: [Condition] = [], similarExercises: [Exercise] = [], equipmentRequired: [Equipment], musclesTargeted: [MuscleWeightage]) {
+    init(id: String, name: String, angle: Angle, laterality: Laterality, focus: Focus, impact: Double, rating: Double, progressions: [Exercise] = [], regressions: [Exercise] = [], restrictions: [Condition] = [], similarExercises: [Exercise] = [], equipmentRequired: [Equipment], musclesTargeted: [MuscleWeightage]) {
         self.id = id
         self.name = name
-        self.movement = movement
+//        self.movement = movement
         self.angle = angle
         self.laterality = laterality
         self.focus = focus
