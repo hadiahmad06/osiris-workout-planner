@@ -18,14 +18,14 @@ class Plan: Identifiable, Codable {
     var id: String
     var publicName: String
     var name: String
-    var symbol: Bool
+    var symbol: String?
     var exercises: [Exercise]
 
-    init (id: String, publicName: String, name: String, s: Bool = false) {
+    init (id: String, publicName: String, name: String, symbol: String? = nil) {
         self.id = id
         self.publicName = publicName
         self.name = name
-        self.symbol = s
+        self.symbol = symbol
         self.exercises = []
     }
     

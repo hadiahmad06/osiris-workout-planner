@@ -9,29 +9,27 @@ import SwiftUI
 
 struct PlansView: View {
     @EnvironmentObject var cloudService: CloudService
+    @EnvironmentObject var localService: LocalService
     @Binding var selectedDate: Date
     @Binding var onUpdate: Bool
-//    @Binding var week: [(Date,StreakStatus)]
     
     var body: some View {
         VStack(spacing: 11) {
-            PlanRowView(imageName: "bed.double.fill",
-                        text: "Set Rest Day",
-                        action: {Task {await cloudService.log.updateStatus(date: selectedDate)}},
-                        onUpdate: $onUpdate)
-//            ForEach(cloudService.plan.plans) { plan in
-//                PlanRowView(imageName: "bed.double.fill",
-//                            text: plan.text,
-//                            action: {Task {await cloudService.log.}})
-//            }
-            PlanRowView(imageName: "bed.double.fill",
-                        text: "Set Rest Day",
-                        action: {Task {await cloudService.log.updateStatus(date: selectedDate)}},
+            
+            PlanRowView(imageName: "figure.mixed.cardio",
+                        text: "Custom Workout",
+                        action: {localService.startWorkout()},
                         onUpdate: $onUpdate)
             PlanRowView(imageName: "bed.double.fill",
                         text: "Set Rest Day",
                         action: {Task {await cloudService.log.updateStatus(date: selectedDate)}},
                         onUpdate: $onUpdate)
+            ForEach(cloudService.plan.plans) { plan in
+                PlanRowView(imageName: plan.symbol ?? "figure",
+                            text: plan.name,
+                            action: {localService.startWorkout(plan)},
+                            onUpdate: $onUpdate)
+            }
         }
         .padding()
     }
@@ -54,7 +52,7 @@ struct PlanRowView: View {
 //    }
     
     var body: some View {
-        //Button(action: {action(); onUpdate = true}) {
+        Button(action: {action(); onUpdate = true}) {
             HStack {
                 Image(systemName: imageName)
                     .imageScale(.small)
@@ -70,7 +68,7 @@ struct PlanRowView: View {
             .padding(15)
             .background(AssetsManager.gray1)
             .cornerRadius(8)
-        //}
+        }
     }
 }
 

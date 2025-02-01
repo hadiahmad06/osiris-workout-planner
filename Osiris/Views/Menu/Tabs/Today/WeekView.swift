@@ -9,22 +9,17 @@ import SwiftUI
 
 struct WeekView: View {
     @EnvironmentObject var cloudService: CloudService
-    @Binding var working: Bool
     
-    //@State private var showPopUp = false
     @State private var weekOffset: Int = 0
     @State private var selectedDate: Date = Log.calendar().startOfDay(for: Date())
     
     @State private var week: [(Date,StreakStatus)] = []
-    @State private var onUpdate: Bool = false
-    
-//    init(_ working: Binding<Bool>) {
-//        self.working = working.wrappedValue
-//    }
+    @State var onUpdate: Bool = false
     
     func updateWeek() {
         self.week = cloudService.log.getWeekStatuses(weekOffset: weekOffset)
     }
+    
     var body: some View {
         VStack {
             // Display Dates for This Week (Sunday-Saturday)
@@ -40,7 +35,6 @@ struct WeekView: View {
                     .fontWeight(.bold)
             }
             HStack {
-                //let week = cloudService.log.getWeekStatuses(weekOffset: weekOffset)
                 Button(action: {weekOffset -= 1}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 15))
@@ -48,7 +42,6 @@ struct WeekView: View {
                 }
                 if !onUpdate {
                     ForEach(week, id: \.0) { (date, status) in
-                        // i had to add empty id value because of foreach
                         Button(action: {selectedDate = date}) {
                             Text("\(Calendar.current.component(.day, from: date))") // day of month
                                 .foregroundColor(AssetsManager.text1)
@@ -74,12 +67,9 @@ struct WeekView: View {
             .onChange(of: weekOffset) {
                 updateWeek()
             }
-            .onChange(of: onUpdate) { _, newValue in
-                if newValue {
-                    self.week = .init()
-                    updateWeek()
-                    onUpdate = false
-                }
+            .onChange(of: onUpdate) {
+                updateWeek()
+                onUpdate = false
             }
             
             WorkoutEntryView(selectedDate: $selectedDate)
@@ -110,7 +100,8 @@ struct WeekView: View {
                 
                 ZStack {
                     Menu {
-                        PlansView(selectedDate: $selectedDate, onUpdate: $onUpdate)
+                        PlansView(selectedDate: $selectedDate,
+                                  onUpdate: $onUpdate)
                             .offset(y: -40)
                             .frame(alignment: .bottom)
                     } label: {
@@ -121,24 +112,6 @@ struct WeekView: View {
                                 .background(AssetsManager.cardBackground)
                                     .cornerRadius(50)
                     }
-//                    Button(action: {
-//                        Task {
-//                            showPopUp.toggle()
-//                        }
-//                    }) {
-//                        Image(systemName: "plus")
-//                            .font(.title)
-//                            .foregroundColor(AssetsManager.buttonTextColor)
-//                            .frame(width:60, height: 60)
-//                            .background(AssetsManager.cardBackgroundColor)
-//                            .cornerRadius(50)
-//                    }
-//                    if showPopUp {
-//                        PlansView()
-//                            .offset(y: -40)
-//                            .frame(alignment: .bottom)
-//                    }
-                        
                 }
             }
         }

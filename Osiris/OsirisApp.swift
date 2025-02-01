@@ -7,6 +7,7 @@ import Firebase
 @main
 struct OsirisApp: App {
     @StateObject var cloudService: CloudService = CloudService()
+    @StateObject var localService: LocalService = LocalService()
     @State private var isActive = false
     
     init() {
@@ -19,6 +20,7 @@ struct OsirisApp: App {
                 if isActive {
                     ControllerView()
                         .environmentObject(cloudService)
+                        .environmentObject(localService)
                         .transition(.opacity.animation(.easeIn(duration: 0.4)))
                 } else {
                     LaunchView()

@@ -8,15 +8,29 @@ import SwiftUI
 import Foundation
 
 struct TodayView: View {
-    @State var working: Bool = false
+    @EnvironmentObject var localService: LocalService
+    @State var showWorkoutView: Bool = false
+    
+    private func updateInView() {
+        showWorkoutView = localService.working
+    }
     
     var body: some View {
-        if working {
-            WorkoutView(working: $working)
-        } else {
-            WeekView(working: $working)
+        Group{
+            SlideViews(view1: WorkoutView(),
+                       view2: WeekView(),
+                       animationTime: 0.5,
+                       direction: .vertical,
+                       showView1: $showWorkoutView)
+        }
+        .onAppear {
+            updateInView()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showWorkoutViewChanged)) {_ in
+            updateInView()
         }
     }
+        
 }
 
 struct TodayView_Previews: PreviewProvider {

@@ -1,15 +1,14 @@
 //
-//  WorkoutView.swift
-//  Osiris - Workout Planner
+//  WorkoutStart.swift
+//  Osiris
 //
-//  Created by Hadi Ahmad on 12/19/24.
+//  Created by Hadi Ahmad on 1/31/25.
 //
 
 import SwiftUI
 
-struct WorkoutView: View {
-    @Binding var working: Bool
-    
+struct WorkoutStartView: View {
+    @EnvironmentObject var localService: LocalService
     @StateObject private var timerManager = TimerManager()
     
     @State private var timerIsRunning = true
@@ -19,14 +18,11 @@ struct WorkoutView: View {
     var body: some View {
         VStack {
             ZStack {
-                // Rounded rectangle with the top hidden and bottom curves visible
                 RoundedRectangle(cornerRadius: 50)
                     .frame(height: 300)
                     .foregroundColor(AssetsManager.background2)
-                    .offset(y: -75)  // Move the rectangle up to hide the top part
-                    .clipped() // Ensure that only the bottom curve is visible
-                
-                // Text inside the rectangle
+                    .offset(y: -75)
+                    //.clipped()
                 HStack {
                     VStack {
                         Text("Workout")
@@ -74,85 +70,11 @@ struct WorkoutView: View {
                     }
                 }
             }
-            .frame(height: 75) // Ensure the geometry takes up full height
-            .background(AssetsManager.background1)
             
-            // Additional content below the rectangle
-            Spacer()
-            Text("WorkoutView")
+            //.frame(height: 75) // Ensure the geometry takes up full height
+            .background(AssetsManager.background1)
             
         }
         .background(AssetsManager.background1)
-    }
-}
-
-struct ExerciseView: View {
-    init() {
-        
-    }
-    var body: some View {
-        VStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(AssetsManager.background2)
-        }
-    }
-}
-
-class TimerManager: ObservableObject {
-    @Published var timeElapsed = 0
-    @Published var formattedTime = "00:00"
-    @Published var timerIsRunning = false
-    
-    var timer: Timer?
-    
-    // Function to start the timer
-    func startTimer() {
-        timerIsRunning = true
-        timeElapsed = 0
-        
-        // Start the timer using a repeating timer
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let self = self else { return }
-            if self.timerIsRunning {
-                self.timeElapsed += 1
-                self.updateFormattedTime()
-            } else {
-                self.stopTimer()
-            }
-        }
-    }
-    
-    // Function to stop the timer
-    func stopTimer() {
-        timerIsRunning = false
-        timer?.invalidate() // Stop the timer when not running
-    }
-    
-    // Function to format the time as "00:00"
-    func updateFormattedTime() {
-        let minutes = timeElapsed / 60
-        let seconds = timeElapsed % 60
-        formattedTime = String(format: "%02d:%02d", minutes, seconds)
-    }
-}
-
-struct TimerView: View {
-    @ObservedObject var timerManager: TimerManager
-        
-    var body: some View {
-        VStack {
-            Text(timerManager.formattedTime)
-                .font(.system(size: 23))
-                .padding()
-        }
-        .onAppear {
-            timerManager.formattedTime = "00:00"
-        }
-    }
-}
-
-struct WorkoutView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutView(working: .constant(true))
     }
 }

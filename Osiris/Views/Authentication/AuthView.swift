@@ -8,18 +8,10 @@
 import SwiftUI
 
 struct AuthView: View {
-    
-    @State private var showLoginView: Bool      // current selected view
-    @State private var __showLoginView: Bool    // next in animation
-    
-    static private var position: CGFloat = UIScreen.main.bounds.width / 2
-    @State private var posOffset: CGFloat = position
-    
-    static private var animationTime: CGFloat = 0.5
+    @State private var showLoginView: Bool = false   // when changing view
     
     init() {
         showLoginView = false
-        __showLoginView = false
     }
     
     var body: some View {
@@ -32,44 +24,11 @@ struct AuthView: View {
                 .padding(.top, 80)
                 .padding(.vertical, 50)
             
-//            Animations.slideViews(view1: LoginView, view2: RegistrationView, animationTime: 0.5, state: $showLoginView)
-            ZStack {
-                // LoginView
-                if showLoginView || __showLoginView {
-                    VStack {
-                        LoginView(showLoginView: $__showLoginView)
-                            .offset(x: AuthView.position + posOffset)
-                    }
-                }
-                // RegistrationView
-                if !showLoginView || !__showLoginView {
-                    VStack {
-                        RegistrationView(showLoginView: $__showLoginView)
-                            .offset(x: -AuthView.position + posOffset)
-                    }
-                }
-            }
-            .onChange(of: __showLoginView) { oldValue, newValue in
-                // guarantees that unselected view remains rendered during animation
-                showLoginView = oldValue
-                
-                // if switching to registration view
-                if oldValue {
-                    withAnimation(.easeInOut(duration: AuthView.animationTime)) {
-                        posOffset = AuthView.position
-                    }
-                // if switching to login view
-                } else {
-                    withAnimation(.easeInOut(duration: AuthView.animationTime)) {
-                        posOffset = -1 * AuthView.position
-                    }
-                }
-                // unrenders unselected view after the animation is complete
-                DispatchQueue.main.asyncAfter(deadline: .now() + AuthView.animationTime) {
-                    showLoginView = newValue
-                    
-                }
-            }
+            SlideViews(view1: LoginView(showLoginView: $showLoginView),
+                       view2: RegistrationView(showLoginView: $showLoginView),
+                       animationTime: 0.5,
+                       direction: .horizontal,
+                       showView1: $showLoginView)
         }
         .frame(minHeight: UIScreen.main.bounds.height)
         .background(AssetsManager.background1)
