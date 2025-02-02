@@ -1,0 +1,34 @@
+//
+//  ExerciseEntryView.swift
+//  Osiris
+//
+//  Created by Hadi Ahmad on 1/5/25.
+//
+import SwiftUI
+
+struct ExerciseEntryView<Entry: Identifiable, Content: View>: View {
+    let entries: [ExerciseEntryUI]
+    
+    @State private var currentIndex: Int = 0
+    
+    var body: some View {
+        TabView(selection: $currentIndex) {
+            ForEach(entries) { entry in
+                Text(entry.base.exerciseID)
+                    .tag(index)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(.systemBackground)) // Adjust background if needed
+                    .cornerRadius(15)
+                    .padding()
+            }
+            Text(entry.base.exerciseID)
+                .tag(index)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.systemBackground)) // Adjust background if needed
+                .cornerRadius(15)
+                .padding()
+        }
+        .tabViewStyle(.page(indexDisplayMode: .always))
+        .animation(.easeInOut, value: currentIndex)
+    }
+}

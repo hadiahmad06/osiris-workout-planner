@@ -10,9 +10,6 @@ import SwiftUICore
 
 @MainActor
 class LocalService: ObservableObject {
-    var working: Bool {
-        self.currentWorkout != nil
-    }
     @EnvironmentObject var cloudService: CloudService
     private var currentWorkout: WorkoutEntryUI? {
         didSet {
@@ -21,7 +18,10 @@ class LocalService: ObservableObject {
             }
         }
     }
-    private var selectedExercise: ExerciseEntryUI?
+    
+    var working: Bool {
+        self.currentWorkout != nil
+    }
     
     func startWorkout(_ plan: Plan? = nil) {
         let name = plan?.name ?? "Custom"
@@ -35,44 +35,44 @@ class LocalService: ObservableObject {
                                       exerciseID: id)
             
             currentWorkout!.base.exerciseEntries.append(entry.base)
-            selectedExercise = entry
+            currentWorkout!.selectedExercise = entry
         }
     }
     
     func addSet() {
-        if self.selectedExercise != nil {
-            let nextOrder = selectedExercise!.nextOrder
-            selectedExercise!.base.sets.append(Set(order: nextOrder,
+        if self.currentWorkout!.selectedExercise != nil {
+            let nextOrder = currentWorkout!.selectedExercise!.nextOrder
+            currentWorkout!.selectedExercise!.base.sets.append(Set(order: nextOrder,
                                               reps: -1,
                                               weight: -1))
-            selectedExercise!.selectedSet = findIdx(nextOrder)!
+            currentWorkout!.selectedExercise!.selectedSet = findIdx(nextOrder)!
         }
     }
     
     func popSet(order: Int? = nil) { // needs to be fixed
-        if self.selectedExercise != nil {
+        if self.currentWorkout!.selectedExercise != nil {
             if order != nil {
                 print("Cannot remove at specified index")
 //                if let realIdx = selectedExercise!.sets.firstIndex(of: Set(idx: idx)) {
 //                    
 //                }
             } else {
-                selectedExercise!.base.sets.removeLast()
-                selectedExercise!.nextOrder -= 1
+                currentWorkout!.selectedExercise!.base.sets.removeLast()
+                currentWorkout!.selectedExercise!.nextOrder -= 1
             }
         }
     }
     
     func editWeight(_ weight: Int?) {
-        if self.selectedExercise != nil {
-            let idx = selectedExercise!.selectedSet
-            selectedExercise!.base.sets[idx].weight = weight
+        if self.currentWorkout!.selectedExercise != nil {
+            let idx = currentWorkout!.selectedExercise!.selectedSet
+            currentWorkout!.selectedExercise!.base.sets[idx].weight = weight
         }
     }
     func editReps(_ reps: Int?) {
-        if self.selectedExercise != nil {
-            let idx = selectedExercise!.selectedSet
-            selectedExercise!.base.sets[idx].reps = reps
+        if self.currentWorkout!.selectedExercise != nil {
+            let idx = currentWorkout!.selectedExercise!.selectedSet
+            currentWorkout!.selectedExercise!.base.sets[idx].reps = reps
         }
     }
     
@@ -84,7 +84,7 @@ class LocalService: ObservableObject {
     }
     
     func findIdx(_ order: Int) -> Int? {
-        return selectedExercise!.base.sets.firstIndex(where: { $0.order == order } )
+        return currentWorkout!.selectedExercise!.base.sets.firstIndex(where: { $0.order == order } )
     }
     
     func pushWorkout() -> FunctionResult {
@@ -95,6 +95,11 @@ class LocalService: ObservableObject {
             return .success
         }
         return .failure
+    }
+    
+    func cancelWorkout() {
+        currentWorkout = nil
+        print("DEBUG: workout cancelled")
     }
 }
 

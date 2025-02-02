@@ -8,11 +8,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Jan 31, 2025
-   - Created counterparts for `WorkoutEntry` and `ExerciseEntry` that use composition to store temporary data, like `nextOrder` which dictates the index of the next exercise or set.
-   - Created [`SlideViews`](Osiris/Models/Animation/SlideViews.swift) which takes 2 views and animates them when a binding is changed.
-   - [`WorkoutView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutView.swift) is be animated with [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift), while still being able to animate newly created views, [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and [`WorkoutEndView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutEndView.swift). 
-   - [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift) now has an option to start a workout. It also lists the user's workout plans, but there is no way to add or create plans yet.
+### Feb 1, 2025
+   - Added a new parameter `showView2` to [`SlideViews`](Osiris/Models/Animation/SlideViews.swift), allowing a streamlined way of animating two views without manually inverting a bool binding.
+   - Days of the week with matching statuses are now connected visually in [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift).
+   - Created [`ExerciseService`](Osiris/Models/Logging/ExerciseService.swift) which is designed to read json files containing exercises following the class [`Exercise`](Osiris/Models/Logging/Static/Exercise.swift).
+   - Worked on making [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift) just overall more visually appealing and scalable.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -54,7 +54,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 ### 4. **User Interface**
    - Created an interactive login/signup screen using SwiftUI animations, in [`AuthView`](Osiris/Views/Authentication/AuthView.swift) 
    - Created a [`TodayView`](Osiris/Views/Menu/Tabs/Today/TodayView.swift) page which shows statuses for each day in the current week. It also gives an overview of previous workouts for the selected day and allows users to start a new workout.
-   
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="GithubAssets/friends_ss.png" alt="Friends View PNG" width="200"/>
+    <img src="GithubAssets/week_view_screen.png" alt="Week View PNG" width="200"/>
+</div>
 
 
 ## To Do
@@ -76,6 +80,12 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Jan 31, 2025
+   - Created counterparts for `WorkoutEntry` and `ExerciseEntry` that use composition to store temporary data, like `nextOrder` which dictates the index of the next exercise or set.
+   - Created [`SlideViews`](Osiris/Models/Animation/SlideViews.swift) which takes 2 views and animates them when a binding is changed.
+   - [`WorkoutView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutView.swift) is be animated with [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift), while still being able to animate newly created views, [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and [`WorkoutEndView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutEndView.swift). 
+   - [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift) now has an option to start a workout. It also lists the user's workout plans, but there is no way to add or create plans yet.
 
 ### Jan 23-30, 2025
    - Fixed `changes` in [`ProfileService`](Osiris/Models/User/ProfileService.swift) so that it uses a queue rather than a list, allowing for changes to be pushed asynchronously.

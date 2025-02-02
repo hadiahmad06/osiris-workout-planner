@@ -22,7 +22,7 @@ struct WorkoutStartView: View {
                     .frame(height: 300)
                     .foregroundColor(AssetsManager.background2)
                     .offset(y: -75)
-                    //.clipped()
+                    .clipped()
                 HStack {
                     VStack {
                         Text("Workout")
@@ -70,10 +70,15 @@ struct WorkoutStartView: View {
                     }
                 }
             }
-            
             //.frame(height: 75) // Ensure the geometry takes up full height
             .background(AssetsManager.background1)
-            
+            Button(action: {localService.cancelWorkout()}) {
+                Text("Cancel workout")
+                    .padding(20)
+                    .cornerRadius(15)
+                    .background(AssetsManager.accent1)
+                    .foregroundColor(AssetsManager.text1)
+            }
         }
         .background(AssetsManager.background1)
     }

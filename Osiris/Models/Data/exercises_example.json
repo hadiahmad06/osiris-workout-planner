@@ -1,0 +1,27 @@
+{
+  "id": "e1",
+  "name": "Squat",
+  "angle": "neutral",
+  "laterality": "bilateral",
+  "focus": "strength",
+  "impact": 7.5,
+  "rating": 4.8,
+  "equipmentRequired": ["barbell"],
+  "musclesTargeted": [
+    {
+      "muscle": "quadriceps",
+      "role": "Agonist",
+      "weight": 0.5
+    },
+    {
+      "muscle": "glutes",
+      "role": "Synergist",
+      "weight": 0.3
+    },
+    {
+      "muscle": "core",
+      "role": "Stabilizer",
+      "weight": 0.2
+    }
+  ]
+}

@@ -17,11 +17,11 @@ struct TodayView: View {
     
     var body: some View {
         Group{
-            SlideViews(view1: WorkoutView(),
-                       view2: WeekView(),
+            SlideViews(view1: WeekView(),
+                       view2: WorkoutView(),
                        animationTime: 0.5,
                        direction: .vertical,
-                       showView1: $showWorkoutView)
+                       showView2: $showWorkoutView)
         }
         .onAppear {
             updateInView()

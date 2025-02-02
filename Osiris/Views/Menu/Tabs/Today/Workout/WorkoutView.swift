@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct WorkoutView: View {
-    @State var showEndView: Bool = true
+    @State var showEndView: Bool = false
     
     var body: some View {
         SlideViews(view1: WorkoutStartView(),
                    view2: WorkoutEndView(),
                    animationTime: 0.5,
                    direction: .horizontal,
-                   showView1: $showEndView)
+                   showView2: $showEndView)
     }
 }
 

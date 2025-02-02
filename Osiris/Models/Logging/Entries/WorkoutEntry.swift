@@ -51,7 +51,7 @@ class WorkoutEntryUI {
             _nextOrder = newValue
         }
     }
-    var currentExercise: ExerciseEntry? = nil
+    var selectedExercise: ExerciseEntryUI? = nil
     
     init(planID: String?, name: String = "") {
         self.base = WorkoutEntry(planID: planID, name: name)

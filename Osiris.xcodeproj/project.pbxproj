@@ -50,12 +50,20 @@
 				Info.plist,
 				Models/Animation/Animations.swift,
 				Views/LaunchScreen.swift,
+				Views/Menu/Tabs/Today/Components/ExerciseEntryView,
 			);
 			target = 01C91AE72D1222D30014D964 /* Osiris */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		0108EDC72D4F0CD400372282 /* Exceptions for "Osiris" folder in "Compile Sources" phase from "Osiris" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 01C91AE42D1222D30014D964 /* Sources */;
+			membershipExceptions = (
+				Views/Menu/Tabs/Today/Components/ExerciseEntryView,
+			);
+		};
 		019BE5F02D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Copy Bundle Resources" phase from "Osiris" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = 01C91AE62D1222D30014D964 /* Resources */;
@@ -76,6 +84,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				019BE5EF2D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Osiris" target */,
+				0108EDC72D4F0CD400372282 /* Exceptions for "Osiris" folder in "Compile Sources" phase from "Osiris" target */,
 				019BE5F02D2CAE3500C81651 /* Exceptions for "Osiris" folder in "Copy Bundle Resources" phase from "Osiris" target */,
 			);
 			path = Osiris;

@@ -24,11 +24,11 @@ struct AuthView: View {
                 .padding(.top, 80)
                 .padding(.vertical, 50)
             
-            SlideViews(view1: LoginView(showLoginView: $showLoginView),
-                       view2: RegistrationView(showLoginView: $showLoginView),
+            SlideViews(view1: RegistrationView(showLoginView: $showLoginView),
+                       view2: LoginView(showLoginView: $showLoginView),
                        animationTime: 0.5,
                        direction: .horizontal,
-                       showView1: $showLoginView)
+                       showView2: $showLoginView)
         }
         .frame(minHeight: UIScreen.main.bounds.height)
         .background(AssetsManager.background1)

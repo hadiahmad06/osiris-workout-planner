@@ -26,11 +26,12 @@ class Exercise: Identifiable, Equatable, Codable {
     var regressions: [Exercise]                 // exercises with similar musclesTargeted, but lower rating, eg: Pushups -> Knee Pushups
     var restrictions: [Condition]               // conditions which could prevent an exercise from being perfomed, ie: Back Squat -> Torn ACL
     var similarExercises: [Exercise]            // similar exercises (Barbell Back Squat -> Dumbbell Bulgarian Split Squat)
+    var tags: [String]                          // search tags
     var equipmentRequired: [Equipment]          // equipment required to perform the exercise
     var musclesTargeted: [MuscleWeightage]      // muscle heads that are targeted in said exercise
     
 
-    init(id: String, name: String, angle: Angle, laterality: Laterality, focus: Focus, impact: Double, rating: Double, progressions: [Exercise] = [], regressions: [Exercise] = [], restrictions: [Condition] = [], similarExercises: [Exercise] = [], equipmentRequired: [Equipment], musclesTargeted: [MuscleWeightage]) {
+    init(id: String, name: String, angle: Angle, laterality: Laterality, focus: Focus, impact: Double, rating: Double, progressions: [Exercise] = [], regressions: [Exercise] = [], restrictions: [Condition] = [], similarExercises: [Exercise] = [], tags: [String] = [], equipmentRequired: [Equipment], musclesTargeted: [MuscleWeightage]) {
         self.id = id
         self.name = name
 //        self.movement = movement
@@ -43,6 +44,7 @@ class Exercise: Identifiable, Equatable, Codable {
         self.regressions = regressions
         self.restrictions = restrictions
         self.similarExercises = similarExercises
+        self.tags = tags
         self.equipmentRequired = equipmentRequired
         self.musclesTargeted = musclesTargeted
         
