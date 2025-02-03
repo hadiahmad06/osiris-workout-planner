@@ -27,7 +27,7 @@ struct PlansView: View {
             ForEach(cloudService.plan.plans) { plan in
                 PlanRowView(imageName: plan.symbol ?? "figure",
                             text: plan.name,
-                            action: {localService.startWorkout(plan)},
+                            action: {localService.startWorkout(fromPlan: plan)},
                             onUpdate: $onUpdate)
             }
         }

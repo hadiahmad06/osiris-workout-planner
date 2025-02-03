@@ -8,7 +8,7 @@
 import Foundation
 
 class ExerciseService: ObservableObject {
-    @Published var exercises: [Exercise] = []
+    @Published var exercises: [Exercise] = [Exercise.EXAMPLE_EXERCISE]
     
     init() {
         loadExercises()
@@ -29,12 +29,12 @@ class ExerciseService: ObservableObject {
         }
     }
     
-    func getExercise(byName name: String) -> Exercise? {
-        return exercises.first { $0.name.lowercased() == name.lowercased() }
+    func getExercise(byName name: String) -> Exercise {
+        return exercises.first { $0.name.lowercased() == name.lowercased() } ?? Exercise.EXAMPLE_EXERCISE
     }
     
-    func getExercise(byId id: String) -> Exercise? {
-        return exercises.first { $0.id == id }
+    func getExercise(byId id: String) -> Exercise {
+        return exercises.first { $0.id == id } ?? Exercise.EXAMPLE_EXERCISE
     }
     
     func getExercises(byTag tag: String) -> [Exercise] {

@@ -13,7 +13,7 @@ import FirebaseFirestore
 
 class PlanService {
     private var _plans: [Plan] = []
-    private var _planIDs: [String] = []
+    private var _planIds: [String] = []
     
     var plans: [Plan] {
         get {
@@ -24,9 +24,9 @@ class PlanService {
         }
     }
     
-    var planIDS: [String] {
+    var planIds: [String] {
         get {
-            _planIDs
+            _planIds
         }
         set {
             print("DEBUG: Cannot set planIDS directly")
@@ -57,9 +57,30 @@ class PlanService {
                 return .failure
             }
         }
-        self._planIDs = plans
+        self._planIds = plans
         //if list is empty
         return .success
+    }
+    
+    func getPlan(fromId id: String) async -> Plan? {
+        if let plan = plans.first(where: { $0.id == id }) {
+            return plan
+        } else {
+            guard let planSnapshot =
+                try? await Firestore.firestore().collection("plans").document(id).getDocument() else {
+                print("Failed to fetch plan: \(id)")
+                return nil
+            }
+            
+            // attempt to decode plan
+            if let plan = try? planSnapshot.data(as: Plan.self) {
+                print("DEBUG: PLAN \(id) FETCHED")
+                return plan
+            } else {
+                print("Failed to decode plan: \(id)")
+                return nil
+            }
+        }
     }
     
     

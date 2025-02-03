@@ -7,58 +7,14 @@
 
 import SwiftUI
 
-// Global color configuration
-//class Object: Identifiable {
-//    var text: String
-//    var data: Int
-//    var color: Color
-//    var symbol: Bool
-//    
-//    var id : Int
-//    private static var nextID: Int = 0
-//    private static let idQueue = DispatchQueue(label: "com.myApp.objectIDQueue")
-//    
-//    // Initializer for Object
-//    init(t: String, d: Int, s: Bool = false, c: Color = .primary) {
-//        text = t
-//        data = d
-//        symbol = s
-//        color = c
-//        
-//        self.id = Object.idQueue.sync {
-//            let currentID = Object.nextID
-//            Object.nextID += 1
-//            return currentID
-//        }
-//    }
-//}
-
-//var daysOfWeek: [Object] = [
-//    Object(t: "S", d: 2, c:AssetsManager.accentColorMain), // 0 -> date is in the future or today
-//    Object(t: "M", d: 1, c:AssetsManager.accentColorSecondary), // 1 -> rest day
-//    Object(t: "T", d: 1, c:AssetsManager.accentColorTertiary), // 2 -> completed day
-//    Object(t: "W", d: 0, c:AssetsManager.accentColorTertiary),
-//    Object(t: "T", d: 0, c:AssetsManager.accentColorTertiary),
-//    Object(t: "F", d: 0, c:AssetsManager.accentColorTertiary),
-//    Object(t: "S", d: 0, c:AssetsManager.accentColorTertiary)
-//]
-
-//var workoutPlans: [Plan] = [
-//    Plan(id: "awd", name: "Plan 1"),
-//    Plan(id: "awd", name: "Plan 2"),
-//    Plan(id: "awd", name: "Plan 3"),
-//    Plan(id: "awd", name: "Plan 4"),
-//    Plan(id: "awd", name: "Plan 5"),
-//    Plan(id: "awd", name: "Plan 6"),
-//    Plan(id: "awd", name: "Plan 7"),
-//    Plan(id: "awd", name: "Plan 8"),
-//    Plan(id: "awd", name: "Plan 9")]
 var friends = ["John", "Emma", "Liam"]
 
 
 struct ContentView: View {
     @EnvironmentObject var cloudService: CloudService
     @State private var selectedTab: Tab = .today
+    static var tabMenuHeight: CGFloat = 75
+    static var allowedHeight: CGFloat = UIScreen.main.bounds.height - ContentView.tabMenuHeight
     
     enum Tab {
         case stats, social, today, plan, settings
@@ -66,23 +22,17 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            // Content Area based on selected Tab
-            switch selectedTab {
-            case .stats:
-                StatsView()
-            case .social:
-                SocialView()
-            case .today:
-                TodayView()
-            case .plan:
-                HomeView()
-            case .settings:
-                SettingsView()
+            Group {
+                switch selectedTab {
+                case .stats: StatsView()
+                case .social: SocialView()
+                case .today: TodayView()
+                case .plan: HomeView()
+                case .settings: SettingsView()
+                }
             }
+            .frame(maxHeight: ContentView.allowedHeight)
 
-            Spacer()
-
-            // Bottom Navigation Bar
             HStack {
                 Spacer()
 
@@ -101,9 +51,8 @@ struct ContentView: View {
                 TabButton(tab: .settings, selectedTab: $selectedTab)
                 Spacer()
             }
-            .padding()
+            .frame(maxHeight: ContentView.tabMenuHeight)
             .background(AssetsManager.background1)
-            .shadow(color: AssetsManager.shadowColor, radius: 5)
         }
         .background(AssetsManager.background2)
     }
@@ -115,20 +64,14 @@ struct TabButton: View {
     var isMainButton: Bool = false
     
     var body: some View {
-        Button(action: {
-            selectedTab = tab
-        }) {
+        Button(action: { selectedTab = tab }) {
             VStack {
                 Image(systemName: iconName(for: tab))
                     .font(.system(size: isMainButton ? 32 : 24))
                     .foregroundColor(selectedTab == tab ? AssetsManager.accent1 : AssetsManager.gray1)
-//                Text(tabTitle(for: tab))
-//                    .foregroundColor(AssetsManager.textColor)
-//                    .font(.system(size: isMainButton ? 16 : 12))
-//                    .foregroundColor(selectedTab == tab ? AssetsManager.accentColorMain : AssetsManager.accentColorSecondary)
             }
+            .frame(width: 48, height: 48)
         }
-        .frame(maxWidth: .infinity)
     }
     
     func iconName(for tab: ContentView.Tab) -> String {
@@ -140,16 +83,6 @@ struct TabButton: View {
         case .settings: return "gearshape.fill"
         }
     }
-    
-//    func tabTitle(for tab: ContentView.Tab) -> String {
-//        switch tab {
-//        case .stats: return "Stats"
-//        case .social: return "Social"
-//        case .today: return "Today"
-//        case .plan: return "Plan"
-//        case .settings: return "Settings"
-//        }
-//    }
 }
 
 struct StatsView: View {

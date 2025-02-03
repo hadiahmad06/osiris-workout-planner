@@ -11,8 +11,8 @@ struct WorkoutView: View {
     @State var showEndView: Bool = false
     
     var body: some View {
-        SlideViews(view1: WorkoutStartView(),
-                   view2: WorkoutEndView(),
+        SlideViews(view1: WorkoutStartView(showEndView: $showEndView),
+                   view2: WorkoutEndView(showEndView: $showEndView),
                    animationTime: 0.5,
                    direction: .horizontal,
                    showView2: $showEndView)
@@ -81,10 +81,9 @@ struct TimerView: View {
         VStack {
             Text(timerManager.formattedTime)
                 .font(.system(size: 23))
-                .padding()
         }
         .onAppear {
-            timerManager.timeElapsed = localService.getTimeElapsed()
+            timerManager.timeElapsed = localService.workout.base.timeElapsed
             timerManager.updateFormattedTime()
         }
     }

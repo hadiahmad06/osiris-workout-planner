@@ -35,6 +35,8 @@ class ExerciseEntryUI {
         }
     }
     var selectedSet: Int = 1
+    // temporary placeholders
+    var exercise: Exercise = Exercise.EXAMPLE_EXERCISE
     
     // utilizes composition so that we can have extra properties when editing.
     init(order: Int, exerciseID: String) {
@@ -44,5 +46,6 @@ class ExerciseEntryUI {
     // for when editing an old entry
     init(_ base: ExerciseEntry) {
         self.base = base
+        
     }
 }

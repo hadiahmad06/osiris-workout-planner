@@ -19,7 +19,7 @@ class Plan: Identifiable, Codable {
     var publicName: String
     var name: String
     var symbol: String?
-    var exercises: [Exercise]
+    var exercises: [String]
 
     init (id: String, publicName: String, name: String, symbol: String? = nil) {
         self.id = id
@@ -29,21 +29,22 @@ class Plan: Identifiable, Codable {
         self.exercises = []
     }
     
-    func addExercise(exercise: Exercise, index: Int) -> FunctionResult {
-            // Check if the index is valid
-            if index < 0 || index > exercises.count {
-                return .failure
-            }
+    func addExercise(id: String, index: Int) -> FunctionResult {
+        if index < 0 || index > exercises.count { return .failure }
+        if exercises.contains(where: { $0 == id }) { return .failure }
             
-            // Check if the exercise is already in the workout plan
-            if exercises.contains(where: { $0.id == exercise.id }) {
-                return .failure
-            }
-            
-            // Insert the exercise at the specified index and shift the others
-            exercises.insert(exercise, at: index)
-            return .success
-        }
+        exercises.insert(id, at: index)
+        return .success
+    }
+    
+    func moveExercise(start fromIdx: Int, end toIdx: Int) -> FunctionResult {
+        if fromIdx < 0 || fromIdx >= exercises.count || toIdx < 0 || toIdx >= exercises.count { return .failure }
+        if fromIdx == toIdx { return .success }
+        
+        let exercise = exercises.remove(at: fromIdx)
+        exercises.insert(exercise, at: toIdx)
+        return .success
+    }
 }
 
 

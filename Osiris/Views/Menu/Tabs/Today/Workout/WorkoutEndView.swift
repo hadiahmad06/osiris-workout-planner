@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct WorkoutEndView: View {
+    @Binding var showEndView: Bool
+    
     var body: some View {
+        
+        
         Text("Workout End")
     }
 }

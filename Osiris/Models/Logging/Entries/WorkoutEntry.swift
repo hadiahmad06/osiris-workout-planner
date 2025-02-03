@@ -10,16 +10,16 @@ import Foundation
 class WorkoutEntry: Identifiable, Codable {
     var id: String
     var exerciseEntries: [ExerciseEntry]
-    var totalTime: Int                  // total time of workout recorded
+    var timeElapsed: Int                  // total time of workout recorded
     var planID: String?                 // workout plan associated with the workout
-    var name: String
+    var name: String?
     var timestamp: Date
     var musclesUtilized: [MuscleWeightage]
     
-    init(planID: String?, name: String = "") {
+    init(planID: String?, name: String? = nil) {
         self.id = UUID().uuidString
         self.exerciseEntries = []
-        self.totalTime = 0
+        self.timeElapsed = 0
         self.planID = planID
         self.name = name
         self.timestamp = Date()
@@ -52,9 +52,15 @@ class WorkoutEntryUI {
         }
     }
     var selectedExercise: ExerciseEntryUI? = nil
+    var plan: Plan? = nil
+    var exerciseEntriesUI: [ExerciseEntryUI] = []
     
-    init(planID: String?, name: String = "") {
+    init(planID: String? = nil, name: String? = nil, plan: Plan? = nil) {
         self.base = WorkoutEntry(planID: planID, name: name)
+        self.plan = plan
+        for id in plan?.exercises ?? [] {
+            exerciseEntriesUI.append(ExerciseEntryUI(order: nextOrder, exerciseID: id))
+        }
     }
     
     init(_ base: WorkoutEntry) {

@@ -14,7 +14,7 @@ struct SlideViews<View1: View, View2: View>: View {
     private var direction: Axis
     @Binding var showView1: Bool
     
-    @State private var __showView1: Bool = false
+    @State private var __showView1: Bool
     private var position: CGFloat
     @State private var posOffset: CGFloat
     
@@ -35,8 +35,9 @@ struct SlideViews<View1: View, View2: View>: View {
         } else if let showView1 = showView1 {
             self._showView1 = showView1
         } else {
-            fatalError("Either showView1 or showView2 must be provided.")
+            fatalError("A binding bool value must be provided")
         }
+        self.__showView1 = self._showView1.wrappedValue
         
         let screen = UIScreen.main.bounds
         let pos = direction == .horizontal ? screen.width / 2 : screen.height / 2

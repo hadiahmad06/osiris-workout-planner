@@ -31,51 +31,18 @@ struct WeekView: View {
                     .font(.title)
                     .fontWeight(.bold)
             }
-            let spacing = 7
+            let spacing: CGFloat = 7.0
             HStack(spacing: spacing) {
                 Button(action: {weekOffset -= 1}) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 15))
-                        .foregroundColor(AssetsManager.accent1)
+                        .foregroundColor(AssetsManager.text1)
                 }
-                if !onUpdate {
-                    let scale = 9
-                    ForEach(week.indices, id: \.self) { index in
-                        let date = week[index].0
-                        let status = week[index].1
-                        let colors = getColorFromStatus(status: status)
-                        ZStack {
-                            if (index < 6 && week[index+1].1 == status) {
-                                Rectangle()
-                                    .frame(width: (scale*4+spacing/2), height: (scale*4))
-                                    .foregroundColor(colors[1])
-                                    .offset(x: (scale*2+spacing/2))
-                            }
-                            Text("\(Calendar.current.component(.day, from: date))") // day of month
-                                .foregroundColor(colors[0])
-                                .font(.system(size: 14))
-                                .frame(width: scale*2, height: scale*2)
-                                .padding(scale)
-                                .background(colors[1])
-                                .cornerRadius(25)
-                            .onTapGesture {
-                                self.selectedDate = date
-                                let today = Calendar.current.startOfDay(for: Date())
-                                if Calendar.current.isDate(selectedDate, inSameDayAs: today) {
-                                    self.dateOffset = 0
-                                } else {
-                                    let components = Calendar.current.dateComponents([.day], from: today, to: selectedDate)
-                                    self.dateOffset = components.day ?? 0
-                                }
-                            }
-                        }
-                        .frame(width: scale*4)
-                    }
-                }
+                SlideWeek(week: week, selectedDate: $selectedDate, dateOffset: $dateOffset, spacing: spacing)
                 Button(action: {weekOffset += 1}) {
                     Image(systemName: "chevron.forward")
                         .font(.system(size: 15))
-                        .foregroundColor(AssetsManager.accent1)
+                        .foregroundColor(AssetsManager.text1)
                 }
             }
             .padding(.bottom, 15)
@@ -97,29 +64,19 @@ struct WeekView: View {
                     Menu {
                         PlansView(selectedDate: $selectedDate,
                                   onUpdate: $onUpdate)
-                            .offset(y: -40)
-                            .frame(alignment: .bottom)
+                        .offset(y: -40)
+                        .frame(alignment: .bottom)
                     } label: {
                         Image(systemName: "plus")
                             .font(.title)
                             .foregroundColor(AssetsManager.white)
-                                .frame(width:60, height: 60)
-                                .background(AssetsManager.cardBackground)
-                                    .cornerRadius(50)
+                            .frame(width:60, height: 60)
+                            .background(AssetsManager.cardBackground)
+                            .cornerRadius(50)
                     }
+                    .padding()
                 }
             }
-        }
-        .padding()
-        .navigationBarTitle("Today", displayMode: .inline)
-    }
-    
-    private func getColorFromStatus(status: StreakStatus) -> [Color] {
-        switch status {
-        case .completed: return [AssetsManager.text1, AssetsManager.accent1]
-        case .skipped: return [AssetsManager.text1, Color.indigo]
-        case .missed: return [Color.black, Color.white]
-        case .pending: return [AssetsManager.text1, AssetsManager.gray2]
         }
     }
     
@@ -151,7 +108,7 @@ struct SlideWorkouts: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundColor(AssetsManager.text1)
                         .background(AssetsManager.background3)
-                        .cornerRadius(15)
+                        .cornerRadius(30)
                         .padding()
                 }
                 ForEach(entries) { entry in
@@ -159,7 +116,7 @@ struct SlideWorkouts: View {
                         .frame(width: 100, height: 100)
                         .foregroundColor(AssetsManager.text1)
                         .background(AssetsManager.cardBackground)
-                        .cornerRadius(15)
+                        .cornerRadius(30)
                         .padding(10)
                 }
             } else {
@@ -168,7 +125,7 @@ struct SlideWorkouts: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundColor(AssetsManager.text1)
                         .background(AssetsManager.background3)
-                        .cornerRadius(15)
+                        .cornerRadius(30)
                         .padding()
                 }
             }
@@ -185,5 +142,59 @@ struct SlideWorkouts: View {
             text = "how did u get here dawg"
         }
         return text
+    }
+}
+
+struct SlideWeek: View {
+    
+    var week: [(Date, StreakStatus)]
+    @Binding var selectedDate: Date
+    @Binding var dateOffset: Int
+    var spacing: CGFloat
+    
+    var body: some View {
+        let scale: CGFloat = 9.0
+        ForEach(week.indices, id: \.self) { index in
+            let date = week[index].0
+            let status = week[index].1
+            let colors = getColorFromStatus(status: status)
+            ZStack {
+                if (index < 6 && week[index+1].1 == status) {
+                    Rectangle()
+                        .frame(width: (scale*4+spacing/2), height: (scale*4))
+                        .foregroundColor(colors[1])
+                        .offset(x: (scale*2+spacing/2))
+                }
+                Text("\(Calendar.current.component(.day, from: date))") // day of month
+                    .foregroundColor(colors[0])
+                    .font(.system(size: 16))
+                    .frame(width: scale*2, height: scale*2)
+                    .padding(scale)
+                    .background(colors[1])
+                    .cornerRadius(25)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                    .onTapGesture {
+                        self.selectedDate = date
+                        let today = Calendar.current.startOfDay(for: Date())
+                        if Calendar.current.isDate(selectedDate, inSameDayAs: today) {
+                            self.dateOffset = 0
+                        } else {
+                            let components = Calendar.current.dateComponents([.day], from: today, to: selectedDate)
+                            self.dateOffset = components.day ?? 0
+                        }
+                    }
+            }
+            .frame(width: scale*4)
+        }
+    }
+    
+    private func getColorFromStatus(status: StreakStatus) -> [Color] {
+        switch status {
+        case .completed: return [AssetsManager.text1, AssetsManager.accent1]
+        case .skipped: return [AssetsManager.text1, Color.indigo]
+        case .missed: return [Color.black, Color.white]
+        case .pending: return [AssetsManager.text1, AssetsManager.gray2]
+        }
     }
 }

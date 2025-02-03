@@ -10,9 +10,6 @@
 import Dispatch
 
 class Exercise: Identifiable, Equatable, Codable {
-//    private static var nextID: Int = 0
-//    private static let idQueue = DispatchQueue(label: "com.myApp.objectIDQueue")
-    
     var id: String
     
     var name: String
@@ -47,49 +44,43 @@ class Exercise: Identifiable, Equatable, Codable {
         self.tags = tags
         self.equipmentRequired = equipmentRequired
         self.musclesTargeted = musclesTargeted
-        
-//        self.id = Exercise.idQueue.sync {
-//            let currentID = Exercise.nextID
-//            Exercise.nextID += 1
-//            return currentID
-//        }
     }
 
-    func addTargetedMuscle(weightage: MuscleWeightage) -> FunctionResult {
-        if self.musclesTargeted.contains(where: {$0.muscle == weightage.muscle} ) {
-            return .failure
-        }
-        musclesTargeted.append(weightage)
-        return .success
-    }
-    func addRestriction(restriction: Condition) -> FunctionResult {
-        if self.restrictions.contains(where: {$0 == restriction} ) {
-            return .failure
-        }
-        self.restrictions.append(restriction)
-        return .success
-    }
-    func addSimilarExercise(exercise: Exercise) -> FunctionResult {
-        if self.similarExercises.contains(where: {$0 == exercise} ) {
-            return .failure
-        }
-        self.similarExercises.append(exercise)
-        return .success
-    }
-    func addProgression(progression: Exercise) -> FunctionResult {
-        if self.progressions.contains(where: {$0 == progression} ) {
-            return .failure
-        }
-        self.progressions.append(progression)
-        return .success
-    }
-    func addRegression(regression: Exercise) -> FunctionResult {
-        if self.regressions.contains(where: {$0 == regression} ) {
-            return .failure
-        }
-        self.regressions.append(regression)
-        return .success
-    }
+//    func addTargetedMuscle(weightage: MuscleWeightage) -> FunctionResult {
+//        if self.musclesTargeted.contains(where: {$0.muscle == weightage.muscle} ) {
+//            return .failure
+//        }
+//        musclesTargeted.append(weightage)
+//        return .success
+//    }
+//    func addRestriction(restriction: Condition) -> FunctionResult {
+//        if self.restrictions.contains(where: {$0 == restriction} ) {
+//            return .failure
+//        }
+//        self.restrictions.append(restriction)
+//        return .success
+//    }
+//    func addSimilarExercise(exercise: Exercise) -> FunctionResult {
+//        if self.similarExercises.contains(where: {$0 == exercise} ) {
+//            return .failure
+//        }
+//        self.similarExercises.append(exercise)
+//        return .success
+//    }
+//    func addProgression(progression: Exercise) -> FunctionResult {
+//        if self.progressions.contains(where: {$0 == progression} ) {
+//            return .failure
+//        }
+//        self.progressions.append(progression)
+//        return .success
+//    }
+//    func addRegression(regression: Exercise) -> FunctionResult {
+//        if self.regressions.contains(where: {$0 == regression} ) {
+//            return .failure
+//        }
+//        self.regressions.append(regression)
+//        return .success
+//    }
     
     static func ==(lhs: Exercise, rhs: Exercise) -> Bool {
         return lhs.id == rhs.id
@@ -550,4 +541,12 @@ enum MuscleRole: Codable {
         case .stabilizer: return "Stabilizer"
         }
     }
+}
+
+
+extension Exercise {
+    static var EXAMPLE_EXERCISE = Exercise(id: "example", name: "Exercise", angle: .regular,
+                                           laterality: .both, focus: .strengthen,
+                                           impact: 0.0, rating: 0.0,
+                                           equipmentRequired: [], musclesTargeted: [])
 }
