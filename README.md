@@ -8,12 +8,10 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Feb 2, 2025
-   - Worked on making the UI for [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift)
-   - Minor tweaks in [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift)
-   - Many changes in [`LocalService`](Osiris/Models/LocalService) for better compatibility with [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift)
-   - [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) is in progress but I mainly worked on animation for entry tabs which is complete.
-   - Plans: I plan to finish [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) by the end of Feb 3. After which I will be adding some more exercises and experimenting with a visual component displaying the `musclesTargeted` of exercises.
+### Feb 3, 2025
+   - Created [`WorkoutService`] so that functions regarding `currentWorkout` can be run without worrying about a fatal error.
+   - Worked more on exercise tabs to [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) that have data on each set and a few other UI components
+   - Plans: I plan to finish [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and move on to [`WorkoutEndView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutEndView.swift)] so that it can be pushed to a log and onto Firebase.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -81,6 +79,13 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Feb 2, 2025
+   - Worked on making the UI for [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift)
+   - Minor tweaks in [`WeekView`](Osiris/Views/Menu/Tabs/Today/WeekView.swift)
+   - Many changes in [`LocalService`](Osiris/Models/LocalService) for better compatibility with [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift)
+   - [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) is in progress but I mainly worked on animation for entry tabs which is complete.
+   - Plans: I plan to finish [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) by the end of Feb 3. After which I will be adding some more exercises and experimenting with a visual component displaying the `musclesTargeted` of exercises.
 
 ### Feb 1, 2025
    - Added a new parameter `showView2` to [`SlideViews`](Osiris/Models/Animation/SlideViews.swift), allowing a streamlined way of animating two views without manually inverting a bool binding.
