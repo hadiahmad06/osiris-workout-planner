@@ -13,17 +13,15 @@ struct InputView: View {
     let placeholder: String
     var isSecureField = false
     var caseSensitive = true
+    var align: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-//            Text(title)
-//                .foregroundColor(AssetsManager.textColor)
-//                .fontWeight(.semibold)
-//                .font(.headline)
-                
+        //, spacing: 12
+        VStack(alignment: .leading) {
             if isSecureField {
                 SecureField(placeholder, text: $text)
                     .font(.system(size: 16))
+                    .multilineTextAlignment(align ? .center : .leading)
                     .onChange(of: text) { _, newValue in
                         if !caseSensitive {
                             text = newValue.lowercased()
@@ -32,14 +30,16 @@ struct InputView: View {
             } else {
                 TextField(placeholder, text: $text)
                     .font(.system(size: 16))
+                    .multilineTextAlignment(align ? .center : .leading)
                     .onChange(of: text) { _, newValue in
-                        // only allows lower case, while keeping placeholder unchanged
                         if !caseSensitive {
                             text = newValue.lowercased()
                         }
                     }
             }
-            Divider()
+            if !align {
+                Divider()
+            }
         }
     }
 }

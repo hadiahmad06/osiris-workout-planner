@@ -8,10 +8,14 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ## Most Recent
 
-### Feb 3, 2025
-   - Created [`WorkoutService`] so that functions regarding `currentWorkout` can be run without worrying about a fatal error.
-   - Worked more on exercise tabs to [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) that have data on each set and a few other UI components
-   - Plans: I plan to finish [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and move on to [`WorkoutEndView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutEndView.swift)] so that it can be pushed to a log and onto Firebase.
+### Feb 21-22, 2025
+   - Took a break to work on a new project (Carp) will split my time between the two projects.
+   - Modularized some components from [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and created [`ExerciseSliderView`](Osiris/Views/Menu/Tabs/Today/Workout/ExerciseSliderView.swift) specifically for swiping between exercise entries.
+   - For [`ExerciseSliderView`](Osiris/Views/Menu/Tabs/Today/Workout/ExerciseSliderView.swift), I used `GeometryReader` to track the dragging gesture. This way the user can slide in between exercise cards freely and intuitively.
+   - I also utilized a HStack rather than a ZStack so that scrolling is possible.
+   - Fixed issues with alignment in InputView
+   - Planning on adding options to adjusting set types (eccentric, isometric), as well as differentiating between warmup vs working sets.
+   - Done with animationon 
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)
@@ -79,6 +83,11 @@ Osiris is a workout tracking app designed to help users track their exercise rou
    - If this is not possible, I can create my own dataset using statistics online regarding lifts, as well as user data.
 
 ## Recent Updates
+
+### Feb 3, 2025
+   - Created [`WorkoutService`] so that functions regarding `currentWorkout` can be run without worrying about a fatal error.
+   - Worked more on exercise tabs to [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) that have data on each set and a few other UI components
+   - Plans: I plan to finish [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift) and move on to [`WorkoutEndView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutEndView.swift)] so that it can be pushed to a log and onto Firebase.
 
 ### Feb 2, 2025
    - Worked on making the UI for [`WorkoutStartView`](Osiris/Views/Menu/Tabs/Today/Workout/WorkoutStartView.swift)

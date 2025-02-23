@@ -40,6 +40,7 @@ class WorkoutService: ObservableObject {
         let nextOrder = selectedExercise.nextOrder
         selectedExercise.base.sets.append(Set(order: nextOrder, reps: nil, weight: nil))
         selectedExercise.selectedSet = findIdx(nextOrder)!
+        NotificationCenter.default.post(name: .workoutUpdated, object: nil)
     }
     
     func removeExercise(_ idx: Int? = nil) {
@@ -48,6 +49,7 @@ class WorkoutService: ObservableObject {
         } else {
             _currentWorkout.exerciseEntriesUI.removeLast()
         }
+        NotificationCenter.default.post(name: .workoutUpdated, object: nil)
     }
     
     func removeSet(order: Int? = nil) {

@@ -11,147 +11,35 @@ struct WorkoutStartView: View {
     @EnvironmentObject var localService: LocalService
     @StateObject private var timerManager = TimerManager()
     
-    @State private var selectedIndex: Int = -1
-    @State private var _updateView: Bool = false
+    @State private var selectedIndex: Int = 0
+    @State private var updateView: Bool = false
     
     @Binding var showEndView: Bool
     
+    // header
     @State private var timerIsRunning = true
     @State private var confirmCancel = false
     
     @State private var entries: [ExerciseEntryUI] = []
     
-    private func updateView() {
-        _updateView.toggle()
-    }
     
     var body: some View {
         if localService.working {
             VStack {
                 WorkoutHeaderView(showEndView: $showEndView)
-                
                 Spacer()
                 
-                let entries = localService.workout.exerciseEntriesUI
-
-                GeometryReader { geometry in
-                    let cardWidth = geometry.size.width * 0.8
-                    let cardHeight = geometry.size.height
-                    let spacing: CGFloat = 15
-
-                    ZStack {
-                        ForEach(entries.indices, id: \.self) { index in
-                            VStack {
-                                HStack {
-                                    Text(entries[index].exercise.name)
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .padding(25)
-                                    
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        localService.removeExercise(selectedIndex)
-                                        if selectedIndex != 0 { selectedIndex -= 1
-                                        }
-                                    } ) {
-                                        Image(systemName: "multiply.square.fill")
-                                            .font(.system(size: 25))
-                                            .foregroundColor(Color.red)
-                                    }
-                                    .padding(25)
-                                }
-                                Spacer()
-                                VStack{
-                                    VStack(spacing: 5) {
-                                        let weightWidth: CGFloat = 80
-                                        let repsWidth: CGFloat = 80
-                                        let repsSmallWidth: CGFloat = 60
-                                        HStack {
-                                            Text("Set")
-                                            Spacer()
-                                            Text("Reps")
-                                                .frame(width: repsWidth)
-                                            Text("Weight")
-                                                .frame(width: weightWidth)
-                                        }
-                                        .padding(.horizontal, 20)
-                                        ForEach(entries[index].base.sets) { set in
-                                            let reps = Binding<String>(
-                                                get: { "\(set.reps ?? 0)" },
-                                                set: { newValue in
-                                                    if let intValue = Int(newValue) {
-                                                        localService.editReps(intValue)
-                                                    }
-                                                }
-                                            )
-                                            let weight = Binding<String>(
-                                                get: { "\(set.weight ?? 0)" },
-                                                set: { newValue in
-                                                    if let intValue = Int(newValue) {
-                                                        localService.editWeight(intValue)
-                                                    }
-                                                }
-                                            )
-
-                                            HStack {
-                                                Text("\(set.order)")
-                                                Spacer()
-                                                InputView(text: reps, placeholder: "10")
-                                                    .frame(width: set.working ? repsWidth : repsSmallWidth)
-                                                InputView(text: weight, placeholder: "10")
-                                                    .frame(width: weightWidth)
-                                            }
-                                            .padding(.horizontal, 20)
-                                            .font(.subheadline)
-                                            .foregroundColor(.white.opacity(0.8))
-                                        }
-                                    }
-                                    .padding(25)
-                                    
-                                    Button(action: { localService.addSet() }) {
-                                        Image(systemName: "plus.rectangle.fill")
-                                            .foregroundColor(AssetsManager.accent1)
-                                            .font(.system(size: 22))
-                                            .shadow(radius: 3)
-                                    }
-                                    .padding(.bottom, 10)
-                                    Spacer()
-                                }
-                            }
-                            .frame(width: cardWidth, height: cardHeight)
-                            .background(AssetsManager.background3)
-                            .cornerRadius(30)
-                            .shadow(color: .black.opacity(0.2), radius: 8)
-                            .scaleEffect(index == selectedIndex ? 1.0 : 0.85)
-                            .offset(x: CGFloat(index - selectedIndex) * (cardWidth + spacing))
-                            .scaleEffect(index == selectedIndex ? 1.0 : 0.85, anchor: .center)
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3)) {
-                                    selectedIndex = index
-                                }
-                            }
-                        }
-                    }
-                    .frame(width: geometry.size.width)
-                    .clipped()
-                    .id(_updateView)
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .workoutUpdated)) { _ in
-                    updateView()
-                }
-                .onChange(of: selectedIndex) { _, newValue in
-                    localService.navigate(toIdx: newValue)
-                }
-                
+                ExerciseSliderView(entries: localService.workout.exerciseEntriesUI,
+                                   selectedIndex: $selectedIndex,
+                                   updateView: $updateView)
                 Spacer()
                 
                 Button(action: {
-                    localService.addExerciseEntry(id:"example", index: selectedIndex+1)
-                    //auto navigates to newest entry
-                    withAnimation(.spring()) {
-                        selectedIndex = selectedIndex+1
+                    localService.addExerciseEntry(id: "example", index: selectedIndex == 0 ? 0 : selectedIndex + 1)
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3)) {
+                        selectedIndex = localService.workout.exerciseEntriesUI.count - 1
                     }
+                    updateView.toggle()
                 }) {
                     Text("Add Exercise")
                         .font(.system(size: 18))
@@ -164,7 +52,6 @@ struct WorkoutStartView: View {
                 .padding(20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            //        .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: ContentView.allowedHeight)
             .background(AssetsManager.background2)
         } else {
             Text("Loading...")
@@ -178,7 +65,6 @@ struct WorkoutStartView_Previews: PreviewProvider {
             .environmentObject(LocalService.EXAMPLE_LOCAL_SERVICE)
     }
 }
-
 
 
 struct WorkoutHeaderView: View {
@@ -237,5 +123,82 @@ struct WorkoutHeaderView: View {
         .frame(height: 175, alignment: .top)
         .shadow(radius: 3)
         .ignoresSafeArea(edges: .top)
+    }
+}
+
+
+struct SetsView: View {
+    @EnvironmentObject var localService: LocalService
+    var entry: ExerciseEntryUI
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            let setHeight: CGFloat = 22
+            let setWidth: CGFloat = 50
+            let weightWidth: CGFloat = 80
+            let repsWidth: CGFloat = 80
+            let repsSmallWidth: CGFloat = 60
+            HStack {
+                Text("Set")
+                    .frame(width: setWidth, alignment: .center)
+                Spacer()
+                Text("Reps")
+                    .frame(width: repsWidth, alignment: .center)
+                Text("Weight")
+                    .frame(width: weightWidth, alignment: .center)
+            }
+            .padding(.horizontal, 20)
+            ScrollView {
+                VStack(spacing: 5) {
+                    ForEach(entry.base.sets) { set in
+                        let reps = Binding<String>(
+                            get: { set.reps == nil ? "" : "\(set.reps ?? 0)" },
+                            set: { newValue in
+                                if let intValue = Int(newValue) {
+                                    localService.editReps(intValue)
+                                }
+                            }
+                        )
+                        let weight = Binding<String>(
+                            get: { set.weight == nil ? "" : "\(set.weight ?? 0)" },
+                            set: { newValue in
+                                if let intValue = Int(newValue) {
+                                    localService.editWeight(intValue)
+                                }
+                            }
+                        )
+                        
+                        HStack {
+                            Text("\(set.order)")
+                                .frame(width: setWidth)
+                            Spacer()
+                            HStack {
+                                InputView(text: reps,
+                                          placeholder: "10",
+                                          align: true)
+                                .frame(width: set.working ? repsWidth : repsSmallWidth,
+                                       height: setHeight)
+                                Divider()
+                                    .frame(maxHeight: 13)
+                                    .foregroundColor(AssetsManager.text1)
+                                InputView(text: weight,
+                                          placeholder: "10",
+                                          align: true)
+                                .frame(width: weightWidth,
+                                       height: setHeight)
+                            }
+                            .background(AssetsManager.background2)
+                            .cornerRadius(10)
+                        }
+                        //.frame(maxHeight: 15)
+                        .padding(.horizontal, 20)
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                    }
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
+            }
+        }
+        .padding(25)
     }
 }
