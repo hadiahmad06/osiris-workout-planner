@@ -12,6 +12,7 @@ struct ExerciseSliderView: View {
     
     var entries: [ExerciseEntryUI]
     @Binding var selectedIndex: Int
+    @Binding var updateIndex: Bool
     @Binding var updateView: Bool
     
     // for snapping
@@ -89,22 +90,26 @@ struct ExerciseSliderView: View {
                     .onEnded { value in
                         // snaps to card
                         let proposedSnapIndex = Int(round((-offset) / totalCardWidth))
+                        
                         // stops when user slides past left and rightmost cards
                         let validSnapIndex = max(0, min(proposedSnapIndex, entries.count - 1))
                         
-                        let newOffset = -CGFloat(validSnapIndex) * totalCardWidth
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.3)) {
-                            offset = newOffset
                             selectedIndex = validSnapIndex
                         }
                         
-                        lastOffset = offset
+                        updateIndex.toggle()
                     }
             )
-        }
-        .onChange(of: selectedIndex) { _, newValue in
-            localService.navigate(toIdx: newValue)
-            print(localService.workout.selectedExercise?.base.order ?? "none selected?")
+            .onChange(of: updateIndex) {
+                print("index updates")
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.3)) {
+                    offset = -CGFloat(selectedIndex) * totalCardWidth
+                    
+                }
+                lastOffset = offset
+                localService.navigate(toIdx: selectedIndex)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .workoutUpdated)) { _ in
             updateView.toggle()

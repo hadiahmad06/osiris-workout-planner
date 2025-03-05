@@ -1,27 +1,73 @@
-{
-  "id": "e1",
-  "name": "Squat",
-  "angle": "neutral",
-  "laterality": "bilateral",
-  "focus": "strength",
-  "impact": 7.5,
-  "rating": 4.8,
-  "equipmentRequired": ["barbell"],
-  "musclesTargeted": [
+[
     {
-      "muscle": "quadriceps",
-      "role": "Agonist",
-      "weight": 0.5
+        "id": "pushup",
+        "name": "Pushup",
+        "angle": "regular",
+        "laterality": "bilateral",
+        "focus": "strengthen",
+        "impact": 0.5,
+        "rating": 0.8,
+        "progressions": [],
+        "regressions": [],
+        "restrictions": [],
+        "similarExercises": [],
+        "tags": ["bodyweight", "upper body", "chest"],
+        "equipmentRequired": [
+            {
+                "type": "resistance",
+                "value": "calisthenic"
+            }
+        ],
+        "musclesTargeted": [
+            {
+                "type": "agonist",
+                "muscle": {
+                    "type": "chest",
+                    "value": "middle"
+                },
+                "weightage": 0.7
+            },
+            {
+                "type": "synergist",
+                "muscle": {
+                    "type": "triceps",
+                    "value": "lateralhead"
+                },
+                "weightage": 0.3
+            }
+        ]
     },
     {
-      "muscle": "glutes",
-      "role": "Synergist",
-      "weight": 0.3
-    },
-    {
-      "muscle": "core",
-      "role": "Stabilizer",
-      "weight": 0.2
+        "id": "squat",
+        "name": "Bodyweight Squat",
+        "angle": "regular",
+        "laterality": "bilateral",
+        "focus": "strengthen",
+        "impact": 0.6,
+        "rating": 0.9,
+        "progressions": [],
+        "regressions": [],
+        "restrictions": [],
+        "similarExercises": [],
+        "tags": ["bodyweight", "lower body", "legs"],
+        "equipmentRequired": [],
+        "musclesTargeted": [
+            {
+                "type": "agonist",
+                "muscle": {
+                    "type": "quadriceps",
+                    "value": "rectusfemoris"
+                },
+                "weightage": 0.8
+            },
+            {
+                "type": "synergist",
+                "muscle": {
+                    "type": "glutes",
+                    "value": "gluteusmaximus"
+                },
+                "weightage": 0.2
+            }
+        ]
     }
-  ]
-}
+]

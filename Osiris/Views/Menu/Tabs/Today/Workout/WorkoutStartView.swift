@@ -12,6 +12,7 @@ struct WorkoutStartView: View {
     @StateObject private var timerManager = TimerManager()
     
     @State private var selectedIndex: Int = 0
+    @State private var updateIndex: Bool = false
     @State private var updateView: Bool = false
     
     @Binding var showEndView: Bool
@@ -31,7 +32,9 @@ struct WorkoutStartView: View {
                 
                 ExerciseSliderView(entries: localService.workout.exerciseEntriesUI,
                                    selectedIndex: $selectedIndex,
+                                   updateIndex: $updateIndex,
                                    updateView: $updateView)
+                .id(updateView)
                 Spacer()
                 
                 Button(action: {
@@ -39,6 +42,7 @@ struct WorkoutStartView: View {
                     withAnimation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3)) {
                         selectedIndex = localService.workout.exerciseEntriesUI.count - 1
                     }
+                    updateIndex.toggle()
                     updateView.toggle()
                 }) {
                     Text("Add Exercise")
