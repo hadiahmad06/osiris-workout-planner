@@ -175,7 +175,7 @@ enum Muscle: Equatable, Codable {
 }
 
 enum MovementType: Codable {
-    case isometric, eccentric, negative, regular
+    case regular, isometric, eccentric, isometric_eccentric
     
     static func name(movementType: MovementType) -> String {
         switch movementType {
@@ -183,10 +183,10 @@ enum MovementType: Codable {
                 return "Isometric"
             case .eccentric:
                 return "Eccentric"
-            case .negative:
-                return "Negative"
             case .regular:
                 return "Regular"
+            case .isometric_eccentric:
+                return "Isometric & Eccentric"
         }
     }
 }

@@ -38,9 +38,9 @@ struct WorkoutStartView: View {
                 Spacer()
                 
                 Button(action: {
-                    localService.addExerciseEntry(id: "example", index: selectedIndex == 0 ? 0 : selectedIndex + 1)
+                    let newIndex = localService.addExerciseEntry(id: "example", index: selectedIndex == 0 ? 0 : selectedIndex + 1)
                     withAnimation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3)) {
-                        selectedIndex = localService.workout.exerciseEntriesUI.count - 1
+                        selectedIndex = newIndex
                     }
                     updateIndex.toggle()
                     updateView.toggle()

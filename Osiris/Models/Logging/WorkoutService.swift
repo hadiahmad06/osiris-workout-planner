@@ -17,7 +17,7 @@ class WorkoutService: ObservableObject {
         self._currentWorkout = WorkoutEntryUI(planID: id, name: name, plan: plan)
     }
     
-    func addExerciseEntry(id: String, index: Int? = nil) {
+    func addExerciseEntry(id: String, index: Int? = nil) -> Int {
         let entry = ExerciseEntryUI(order: _currentWorkout.nextOrder, exerciseID: id)
         entry.exercise = ExerciseService().getExercise(byId: id)
         
@@ -28,6 +28,9 @@ class WorkoutService: ObservableObject {
         }
         _currentWorkout.selectedExercise = entry
         addSet()
+        
+        let newIndex = index ?? (_currentWorkout.exerciseEntriesUI.endIndex - 1)
+        return newIndex
     }
     
     func navigate(toIdx idx: Int) {
@@ -43,13 +46,18 @@ class WorkoutService: ObservableObject {
         NotificationCenter.default.post(name: .workoutUpdated, object: nil)
     }
     
-    func removeExercise(_ idx: Int? = nil) {
-        if let idx = idx {
-            _currentWorkout.exerciseEntriesUI.remove(at: idx)
+    func removeExercise(_ idx: Int? = nil) -> FunctionResult {
+        if _currentWorkout.exerciseEntriesUI.count > 1 {
+            if let idx = idx {
+                _currentWorkout.exerciseEntriesUI.remove(at: idx)
+            } else {
+                _currentWorkout.exerciseEntriesUI.removeLast()
+            }
+            NotificationCenter.default.post(name: .workoutUpdated, object: nil)
+            return .success
         } else {
-            _currentWorkout.exerciseEntriesUI.removeLast()
+            return .failure
         }
-        NotificationCenter.default.post(name: .workoutUpdated, object: nil)
     }
     
     func removeSet(order: Int? = nil) {
@@ -78,6 +86,37 @@ class WorkoutService: ObservableObject {
     
     func findIdx(_ order: Int) -> Int? {
         return _currentWorkout.selectedExercise?.base.sets.firstIndex(where: { $0.order == order })
+    }
+    
+//    var getMovementType: MovementType {
+//        get {
+//            guard let selectedExercise = _currentWorkout.selectedExercise else { return .regular }
+//            let idx = selectedExercise.selectedSet
+//            return selectedExercise.base.sets[idx].type
+//        }
+//        set {
+//            print("AWODUAWHND")
+//        }
+//    }
+    
+    func cycleMovementType() {
+        guard let selectedExercise = _currentWorkout.selectedExercise else { return }
+        let idx = selectedExercise.selectedSet
+        let oldType = selectedExercise.base.sets[idx].type
+        
+        let newType: MovementType
+        switch oldType {
+        case .regular:
+            newType = .eccentric
+        case .eccentric:
+            newType = .isometric
+        case .isometric:
+            newType = .isometric_eccentric
+        case .isometric_eccentric:
+            newType = .regular
+        }
+        
+        selectedExercise.base.sets[idx].type = newType
     }
     
     func pushWorkout() -> FunctionResult {

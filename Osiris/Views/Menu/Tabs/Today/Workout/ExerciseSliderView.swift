@@ -28,6 +28,8 @@ struct ExerciseSliderView: View {
             let totalCardWidth = cardWidth + cardSpacing
             HStack(spacing: cardSpacing) {
                 ForEach(entries.indices, id: \.self) { index in
+                    let idx = localService.workout.exerciseEntriesUI[index].selectedSet
+                    var entry = localService.workout.exerciseEntriesUI[index]
                     VStack {
                         HStack {
                             Text(entries[index].exercise.name)
@@ -38,8 +40,13 @@ struct ExerciseSliderView: View {
                             Spacer()
                             
                             Button(action: {
-                                localService.removeExercise(selectedIndex)
-                                if selectedIndex != 0 { selectedIndex -= 1 }
+                                let result = localService.removeExercise(selectedIndex)
+                                if result == .success {
+                                    if selectedIndex != 0 {
+                                        selectedIndex -= 1
+                                        updateIndex.toggle()
+                                    }
+                                }
                             }) {
                                 Image(systemName: "multiply.square.fill")
                                     .font(.system(size: 25))
@@ -51,11 +58,14 @@ struct ExerciseSliderView: View {
                         VStack {
                             SetsView(entry: entries[index])
                             
-                            Button(action: { localService.addSet() }) {
-                                Image(systemName: "plus.rectangle.fill")
-                                    .foregroundColor(AssetsManager.accent1)
-                                    .font(.system(size: 22))
-                                    .shadow(radius: 3)
+                            HStack {
+                                MovementTypeCycleButton(entry: entry, idx: idx)
+                                Button(action: { localService.addSet() }) {
+                                    Image(systemName: "plus.rectangle.fill")
+                                        .foregroundColor(AssetsManager.accent1)
+                                        .font(.system(size: 22))
+                                        .shadow(radius: 3)
+                                }
                             }
                             .padding(.bottom, 10)
                             Spacer()
@@ -65,7 +75,7 @@ struct ExerciseSliderView: View {
                     .background(AssetsManager.background3)
                     .cornerRadius(30)
                     .shadow(color: .black.opacity(0.2), radius: 8)
-                    .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3), value: selectedIndex)
+//                    .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.3), value: selectedIndex)
                     .onTapGesture {
                         if selectedIndex != index {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0.3)) {
@@ -115,5 +125,51 @@ struct ExerciseSliderView: View {
             updateView.toggle()
         }
         .id(updateView)
+    }
+}
+
+struct MovementTypeCycleButton: View {
+    @EnvironmentObject var localService: LocalService
+    
+    @State var names: [String] = []
+    var entry: ExerciseEntryUI
+    var idx: Int
+    
+    var body: some View {
+        Button(action: {
+            localService.cycleMovementType()
+            names = getMovementTypeSymbol(entry.base.sets[idx].type)
+        }) {
+            HStack(spacing: 0) {
+                ForEach(names, id: \.self) { name in
+                    Image(systemName: name)
+                        .foregroundColor(AssetsManager.accent1)
+                        .font(.system(size: CGFloat(22-((names.count-1)*5))))
+                        .shadow(radius: 3)
+                }
+            }
+            .frame(width: 50)
+            .onAppear {
+                names = getMovementTypeSymbol(entry.base.sets[idx].type)
+            }
+        }
+    }
+    
+    private func getMovementTypeSymbol(_ type: MovementType) -> [String] {
+        let names: [String]
+        switch type {
+        case .regular:
+            names = ["arrow.2.squarepath"]
+        case .eccentric:
+            names = ["tortoise.fill"]
+//        case .explosive:
+//            names = ["hare.fill"]
+        case .isometric:
+            names = ["pause.fill"]
+        case .isometric_eccentric:
+            names = ["arrow.uturn.left", "pause.fill"]
+        }
+        
+        return names
     }
 }

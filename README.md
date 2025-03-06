@@ -10,7 +10,7 @@ Osiris is a workout tracking app designed to help users track their exercise rou
 
 ### Mar 4, 2025
    - Small fix to updateIndex in [`ExerciseSliderView`](Osiris/Views/Menu/Tabs/Today/Workout/ExerciseSliderView.swift)
-   - working currently
+   - Added `MovementTypeCycleButton()` which cycles the movement type. Will change this so that it toggles different modes, and will be enabled or disabled depending on the exercise.
    
 ## Table of Contents
 1. [Features Implemented](#features-implemented)

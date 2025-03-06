@@ -50,8 +50,8 @@ class LocalService: ObservableObject {
     }
     
     // Expose workoutService functions through LocalService
-    func addExerciseEntry(id: String, index: Int? = nil) {
-        workoutService?.addExerciseEntry(id: id, index: index)
+    func addExerciseEntry(id: String, index: Int? = nil) -> Int {
+        return workoutService?.addExerciseEntry(id: id, index: index) ?? -1
     }
     
     func navigate(toIdx idx: Int) {
@@ -62,8 +62,8 @@ class LocalService: ObservableObject {
         workoutService?.addSet()
     }
     
-    func removeExercise(_ idx: Int? = nil) {
-        workoutService?.removeExercise(idx)
+    func removeExercise(_ idx: Int? = nil) -> FunctionResult {
+        return workoutService?.removeExercise(idx) ?? .failure
     }
     
     func removeSet(order: Int? = nil) {
@@ -76,6 +76,10 @@ class LocalService: ObservableObject {
     
     func editReps(_ reps: Int?) {
         workoutService?.editReps(reps)
+    }
+    
+    func cycleMovementType() {
+        workoutService?.cycleMovementType()
     }
     
     func pushWorkout() -> FunctionResult {
@@ -255,8 +259,8 @@ extension LocalService {
         
         x.startWorkout()
         x.addExerciseEntry(id: "example")
-        x.addExerciseEntry(id: "example")
-        x.addExerciseEntry(id: "example")
+        x.addSet()
+        x.addSet()
         return x
     }()
 }
