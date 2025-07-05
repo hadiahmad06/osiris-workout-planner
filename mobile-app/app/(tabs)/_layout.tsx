@@ -12,7 +12,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome5>['name'];
   color: string;
 }) {
-  return <FontAwesome5 size={24} style={{ marginBottom: -5 }} {...props} />;
+  return <FontAwesome5 size={24} style={{ marginBottom: -10 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -25,7 +25,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false, //useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
         name="social"
