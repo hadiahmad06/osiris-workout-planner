@@ -1,10 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { MotiView } from 'moti';
 
 import { FontAwesome } from '@expo/vector-icons';
 
 import { Text, View } from '@/components/Themed';
+import Toggle from '@/components/common/Toggle';
 
 export default function TabOneScreen() {
+  const [selectedToggle, setSelectedToggle] = useState<'today' | 'week'>('today');
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Today</Text>
@@ -39,14 +43,15 @@ export default function TabOneScreen() {
       <View style={styles.summaryContainer}>
         <View style={styles.summaryHeader}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Summary</Text>
-          <View style={styles.toggleWrapper}>
-            <View style={styles.toggleOption}>
-              <Text style={styles.toggleText}>Today</Text>
-            </View>
-            <View style={{ borderRadius: 6 }}>
-              <Text style={styles.toggleText}>Week</Text>
-            </View>
-          </View>
+          <Toggle
+            options={[
+              { key: 'today', label: 'Today' },
+              { key: 'week', label: 'Week', disabled: true },
+            ]}
+            selected={selectedToggle}
+            onChange={(val) => setSelectedToggle(val as 'today' | 'week')}
+            width={70}
+          />
         </View>
 
         <View style={styles.summaryCard}>
@@ -139,23 +144,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  toggleWrapper: {
-    gap: 4,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 8,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-  },
-  toggleOption: {
-    backgroundColor: '#6a5acd',
-    borderRadius: 6,
-  },
-  toggleText: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    color: '#fff',
   },
   summaryCard: {
     backgroundColor: '#222',
