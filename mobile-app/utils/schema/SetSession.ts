@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const SetSchema = z.object({
+export const SetSessionSchema = z.object({
   id: z.string().uuid(),
   exercise_session_id: z.string().uuid(),
   set_number: z.number().min(1),
@@ -13,4 +13,4 @@ export const SetSchema = z.object({
 //   updated_at: z.string().datetime(),
 });
 
-export type Set = z.infer<typeof SetSchema>;
+export type SetSession = z.infer<typeof SetSessionSchema>;
