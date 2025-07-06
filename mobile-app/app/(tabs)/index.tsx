@@ -36,8 +36,35 @@ export default function TabOneScreen() {
         </View>
         <FontAwesome name="chevron-right" style={styles.arrow} />
       </View>
-      <View style={styles.contentBox}>
-        <Text style={styles.contentText}>Start Today's Workout!</Text>
+      <View style={styles.summaryContainer}>
+        <View style={styles.summaryHeader}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Summary</Text>
+          <View style={styles.toggleWrapper}>
+            <View style={styles.toggleOption}>
+              <Text style={styles.toggleText}>Today</Text>
+            </View>
+            <View style={{ borderRadius: 6 }}>
+              <Text style={styles.toggleText}>Week</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.summaryCard}>
+          <Text style={styles.summaryLabel}>[Muscle Diagram]</Text>
+        </View>
+
+        <View style={styles.summaryHex}>
+          <Text style={styles.summaryLabel}>[Hexagon Chart]</Text>
+        </View>
+
+        <View style={styles.actionRow}>
+          <View style={styles.actionButtonPrimary}>
+            <Text style={styles.actionButtonText}>Start Workout</Text>
+          </View>
+          <View style={styles.actionButtonSecondary}>
+            <Text style={styles.actionButtonText}>Mark Rest Day</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -102,16 +129,70 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
-  contentBox: {
-    backgroundColor: '#333',
+  summaryContainer: {
     flex: 1,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    gap: 16,
+    paddingHorizontal: 20,
+    paddingTop: 12,
   },
-  contentText: {
+  summaryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  toggleWrapper: {
+    gap: 4,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+  },
+  toggleOption: {
+    backgroundColor: '#6a5acd',
+    borderRadius: 6,
+  },
+  toggleText: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     color: '#fff',
-    fontSize: 18,
+  },
+  summaryCard: {
+    backgroundColor: '#222',
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  summaryHex: {
+    backgroundColor: '#1a1a1a',
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  actionRow: {
+    marginTop: 'auto',
+    flexDirection: 'row',
+    gap: 12,
+  },
+  actionButtonPrimary: {
+    flex: 1,
+    backgroundColor: '#6a5acd',
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  actionButtonSecondary: {
+    flex: 1,
+    backgroundColor: '#444',
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  summaryLabel: {
+    color: '#aaa',
   },
 });
