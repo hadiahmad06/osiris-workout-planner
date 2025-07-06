@@ -4,9 +4,9 @@ const itemWidth = screenWidth * 0.44;
 
 import { Text, View } from '@/components/Themed';
 import GridPreview from '@/components/stats/preview/GridPreview';
-import SetsOverTimePreview from '@/components/stats/preview/SetsOverTimePreview';
+import SetsOverTimePreview from '@/components/stats/preview/LineChartPreview';
 
-export default function TabTwoScreen() {
+export default function StatsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.section}>Recent Progress</Text>
