@@ -1,4 +1,5 @@
 
+// not used for now
 // Hierarchical muscle group structure
 // from https://exrx.net/
 export const MuscleGroups = [

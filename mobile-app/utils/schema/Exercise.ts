@@ -9,16 +9,33 @@ enum MuscleRole {
 import { z } from 'zod';
 
 export const ExerciseSchema = z.object({
-  id: z.string().uuid(),
+  exerciseId: z.string(),
   name: z.string(),
-  equipment_id: z.string().uuid(),
-  targeted_muscles: z.array(z.object({
-    muscle: z.string(),
-    percentage: z.number().min(0).max(100),
-    role: z.nativeEnum(MuscleRole)
-  })),
-  is_user_created: z.boolean(),
-  created_by_user_id: z.string().uuid().optional(),
+  equipments: z.array(z.string()),
+  bodyParts: z.array(z.string()),
+  exerciseType: z.string(),
+  targetMuscles: z.array(z.string()),
+  secondaryMuscles: z.array(z.string()).optional(),
+  relatedExerciseIds: z.array(z.string()).optional()
+});
+
+export const ExerciseApiSchema = z.object({
+  exerciseId: z.string(),
+  name: z.string(),
+  imageUrl: z.string().optional(),
+  equipments: z.array(z.string()),
+  bodyParts: z.array(z.string()),
+  exerciseType: z.string(),
+  targetMuscles: z.array(z.string()),
+  secondaryMuscles: z.array(z.string()).optional(),
+  videoUrl: z.string().optional(),
+  keywords: z.array(z.string()).optional(),
+  overview: z.string().optional(),
+  instructions: z.array(z.string()).optional(),
+  exerciseTips: z.array(z.string()).optional(),
+  variations: z.array(z.string()).optional(),
+  relatedExerciseIds: z.array(z.string()).optional()
 });
 
 export type Exercise = z.infer<typeof ExerciseSchema>;
+export type ExerciseApi = z.infer<typeof ExerciseApiSchema>;

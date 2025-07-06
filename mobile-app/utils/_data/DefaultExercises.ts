@@ -1,27 +1,63 @@
 
 
-// import { Exercise } from '../schema/Exercise';
+import { ExerciseApi } from '../schema/Exercise';
 
-// export const DefaultExercises: Exercise[] = [
-//   {
-//     id: '11111111-1111-1111-1111-111111111111',
-//     name: 'Barbell Bench Press',
-//     equipment_id: 'e-barbell',
-//     targeted_muscles: ['Upper Chest', 'Triceps', 'Front Delts'],
-//     is_user_created: false,
-//   },
-//   {
-//     id: '22222222-2222-2222-2222-222222222222',
-//     name: 'Lat Pulldown',
-//     equipment_id: 'e-cable',
-//     targeted_muscles: ['Lats', 'Biceps'],
-//     is_user_created: false,
-//   },
-//   {
-//     id: '33333333-3333-3333-3333-333333333333',
-//     name: 'Dumbbell Shoulder Press',
-//     equipment_id: 'e-dumbbell',
-//     targeted_muscles: ['Front Delts', 'Side Delts', 'Triceps'],
-//     is_user_created: false,
-//   }
-// ];
+export const DefaultExercises: ExerciseApi[] = [
+  {
+    "exerciseId": "K6NnTv0",
+    "name": "Bench Press",
+    "imageUrl": "Barbell-Bench-Press_Chest.png",
+    "equipments": ["Barbell"],
+    "bodyParts": ["Chest"],
+    "exerciseType": "weight_reps",
+    "targetMuscles": ["Pectoralis Major Clavicular Head"],
+    "secondaryMuscles": [
+      "Deltoid Anterior",
+      "Pectoralis Major Clavicular Head",
+      "Triceps Brachii"
+    ],
+    "videoUrl": "Barbell-Bench-Press_Chest_.mp4",
+    "keywords": [
+      "Chest workout with barbell",
+      "Barbell bench press exercise",
+      "Strength training for chest",
+      "Upper body workout with barbell",
+      "Barbell chest exercises",
+      "Bench press for chest muscles",
+      "Building chest muscles with bench press",
+      "Chest strengthening with barbell",
+      "Bench press workout routine",
+      "Barbell exercises for chest muscle growth"
+    ],
+    "overview": "The Bench Press is a classic strength training exercise that primarily targets the chest, shoulders, and triceps, contributing to upper body muscle development. It is suitable for anyone, from beginners to professional athletes, looking to improve their upper body strength and muscular endurance. Individuals may want to incorporate bench press into their routine for its effectiveness in enhancing physical performance, promoting bone health, and improving body composition.",
+    "instructions": [
+      "Grip the barbell with your hands slightly wider than shoulder-width apart, palms facing your feet, and lift it off the rack, holding it straight over your chest with your arms fully extended.",
+      "Slowly lower the barbell down to your chest while keeping your elbows at a 90-degree angle.",
+      "Once the barbell touches your chest, push it back up to the starting position while keeping your back flat on the bench.",
+      "Repeat this process for the desired number of repetitions, always maintaining control of the barbell and ensuring your form is correct."
+    ],
+    "exerciseTips": [
+      "Avoid Arching Your Back: One common mistake is excessively arching the back during the lift. This can lead to lower back injuries. Your lower back should have a natural arch, but it should not be overly exaggerated. Your butt, shoulders, and head should maintain contact with the bench at all times.",
+      "Controlled Movement: Avoid the temptation to lift the barbell too quickly. A controlled, steady lift is more effective and reduces the risk of injury. Lower the bar to your mid-chest slowly, pause briefly, then push it back up without locking your elbows at the top.",
+      "Don't Lift Alone:"
+    ],
+    "variations": [
+      "Decline Bench Press: This variation is performed on a decline bench to target the lower part of the chest.",
+      "Close-Grip Bench Press: This variation focuses on the triceps and the inner part of the chest by placing the hands closer together on the bar.",
+      "Dumbbell Bench Press: This variation uses dumbbells instead of a barbell, allowing for a greater range of motion and individual arm movement.",
+      "Reverse-Grip Bench Press: This variation is performed by flipping your grip so that your palms face towards you, targeting the upper chest and triceps."
+    ],
+    "relatedExerciseIds": [
+      "U0uPZBq",
+      "QD32SbB",
+      "pdm4AfV",
+      "SebLXCG",
+      "T3JogV7",
+      "hiWPEs1",
+      "Y5ppDdt",
+      "C8OV7Pv",
+      "r3tQt3U",
+      "dCSgT7N"
+    ]
+  }
+];

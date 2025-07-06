@@ -1,3 +1,5 @@
+from strengthlogger
+
 Muscle Directory: Complete List of All Exercises
 
 Here is our complete list of strength training exercises, sorted by muscle group and name.
