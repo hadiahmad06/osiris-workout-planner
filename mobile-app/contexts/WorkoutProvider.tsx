@@ -3,19 +3,59 @@ import { SetSession } from "@/utils/schema/SetSession";
 import { WorkoutSession } from "@/utils/schema/WorkoutSession";
 import { useState } from "react";
 import { WorkoutContext } from "./WorkoutContext";
+import { enrichExercise } from "@/repositories/workouts/Exercise";
+import { ExerciseApi } from "@/utils/schema/Exercise";
+
+
+export interface EnrichedExerciseSession extends ExerciseSession {
+  info: ExerciseApi | null
+};
 
 
 export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [workout, setWorkout] = useState<WorkoutSession | null>(null);
-  const [exercises, setExercises] = useState<ExerciseSession[]>([]);
+  const [exercises, setExercises] = useState<EnrichedExerciseSession[]>([]);
   const [sets, setSets] = useState<Record<string, SetSession[]>>({});
 
-  const addExercise = (exercise: ExerciseSession) => {
-    setExercises(prev => [...prev, exercise]);
+  const startWorkout = async (title?: string, exercises: string[] = []) => {
+    const now = new Date().toISOString();
+
+    const newWorkout: WorkoutSession = {
+      date: now,
+      title
+    };
+
+    setWorkout(newWorkout);
+
+    setExercises([]);
+
+    for (let i = 0; i < exercises.length; i++) {
+      const exerciseSession: ExerciseSession = {
+        exercise_id: exercises[i],
+        order: i,
+      };
+      await addExercise(exerciseSession);
+      console.log(`DEBUG: added exercise: ${exercises[i]}`)
+    }
+
+    console.log('DEBUG: WORKOUTS FETCHED')
+  };
+
+  const addExercise = async (exercise: ExerciseSession) => {
+    // Insert the bare exercise first
+    setExercises(prev => [...prev, { ...exercise, info: null }]);
+
+    // Then enrich it once the info is available
+    const exerciseInfo = await enrichExercise(exercise.exercise_id);
+    setExercises(prev =>
+      prev.map(e =>
+        e.exercise_id === exercise.exercise_id ? { ...e, info: exerciseInfo } : e
+      )
+    );
   };
 
   const updateExercise = (updated: ExerciseSession) => {
-    setExercises(prev => prev.map(e => e.id === updated.id ? updated : e));
+    setExercises(prev => prev.map(e => e.id === updated.id ? {...e, updated} : e));
   };
 
   const removeExercise = (exerciseId: string) => {
@@ -54,6 +94,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         workout,
         exercises,
         sets,
+        startWorkout,
         setWorkout,
         addExercise,
         updateExercise,

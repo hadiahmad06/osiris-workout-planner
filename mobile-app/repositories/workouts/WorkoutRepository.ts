@@ -1,8 +1,8 @@
-import { WorkoutSession } from '@/utils/schema/WorkoutSession';
+import { CompleteWorkoutSession, WorkoutSession } from '@/utils/schema/WorkoutSession';
 import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite'
 
-const db = openDatabaseSync('osiris.db');
-console.log(db, { depth: 2 })
+const db = openDatabaseSync('main.db');
+// console.log(db, { depth: 2 })
 
 export async function getRecentWorkouts(limit: number = 30): Promise<WorkoutSession[]> {
   const statement = await db.prepareAsync(
@@ -29,7 +29,7 @@ export async function getWorkoutByDate(date: string): Promise<WorkoutSession | n
   }
 }
 
-export async function insertWorkout(workout: WorkoutSession): Promise<void> {
+export async function insertWorkout(workout: CompleteWorkoutSession): Promise<void> {
   const statement = await db.prepareAsync(
     `INSERT INTO workouts (id, date, duration, title, notes, created_at, updated_at)
      VALUES ($id, $date, $duration, $title, $notes, $created_at, $updated_at)`

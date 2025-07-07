@@ -13,4 +13,9 @@ export const SetSessionSchema = z.object({
 //   updated_at: z.string().datetime(),
 });
 
-export type SetSession = z.infer<typeof SetSessionSchema>;
+export type CompleteSetSession = z.infer<typeof SetSessionSchema>;
+
+export type SetSession = Omit<CompleteSetSession, 'id' | 'exercise_session_id'> & {
+  id?: string;
+  exercise_session_id?: string;
+};

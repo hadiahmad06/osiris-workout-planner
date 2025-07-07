@@ -1,18 +1,16 @@
-import { ExerciseSessionSchema } from '@/utils/schema/ExerciseSession';
-import { SetSessionSchema } from '@/utils/schema/SetSession';
-import { WorkoutSessionSchema } from '@/utils/schema/WorkoutSession';
+import { ExerciseSession, ExerciseSessionSchema } from '@/utils/schema/ExerciseSession';
+import { SetSession, SetSessionSchema } from '@/utils/schema/SetSession';
+import { WorkoutSession, WorkoutSessionSchema } from '@/utils/schema/WorkoutSession';
 import React, { createContext, useContext, useState } from 'react';
 import { z } from 'zod';
-
-type WorkoutSession = z.infer<typeof WorkoutSessionSchema>;
-type ExerciseSession = z.infer<typeof ExerciseSessionSchema>;
-type SetSession = z.infer<typeof SetSessionSchema>;
+import { EnrichedExerciseSession } from './WorkoutProvider';
 
 type WorkoutContextType = {
   workout: WorkoutSession | null;
-  exercises: ExerciseSession[];
+  exercises: EnrichedExerciseSession[];
   sets: Record<string, SetSession[]>; // key = exercise_session_id
   setWorkout: (workout: WorkoutSession | null) => void;
+  startWorkout: (title?: string, exercises?: string[]) => Promise<void>;
   addExercise: (exercise: ExerciseSession) => void;
   updateExercise: (exercise: ExerciseSession) => void;
   removeExercise: (exerciseId: string) => void;
