@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { MotiView } from 'moti';
+import { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 
 type ToggleOption = {
@@ -20,17 +21,51 @@ type ToggleProps = {
 // i used a padding of 4, dont change these values without updating the width calculation
 export default function Toggle({ options, selected, onChange, width = 70, backgroundColor = '#6a5acd' }: ToggleProps) {
   console.log('selected', selected, 'keys:', options.map((opt) => opt.key));
-  const selectedIndex = options.findIndex((opt) => opt.key === selected);
+  const length = options.length;
+  
+  function indexOfKey(key: string): number {
+    return options.findIndex((opt) => opt.key === key)
+  };
+  const selectedIndex = indexOfKey(selected);
+  const translateX = useSharedValue(selectedIndex * (width + 4 + 4/length));
+
+  useEffect(() => {
+    translateX.value = withTiming(selectedIndex * (width + 4 + 4/length));
+  }, [selected]);
+
+  const animateShake = (key: string) => {
+    const base = selectedIndex * (width + 4 + 4/length);
+    translateX.value = withTiming(base);
+    const offset = indexOfKey(key) > selectedIndex ? 10 : -10;
+    setTimeout(() => {
+      translateX.value = withTiming(base + offset);
+      setTimeout(() => {
+        translateX.value = withTiming(base);
+      }, 150);
+    }, 0);
+  };
+
+  const sliderStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const handlePress = (key: string, disabled?: boolean) => {
+    if (disabled) {
+      animateShake(key);
+    } else {
+      onChange(key);
+    }
+  };
+
   return (
     <View style={styles.toggleWrapper}>
       <View style={styles.toggleInner}>
         <MotiView
-          animate={{ translateX: selectedIndex * (width + 4 + 2) }}
+          style={[styles.toggleSlider, sliderStyle, { width: width + 4 + 4/length, backgroundColor }]}
           transition={{ type: 'timing', duration: 200 }}
-          style={[styles.toggleSlider, { width: width + 4+2, backgroundColor: backgroundColor }]}
         />
         {options.map((val) => (
-          <TouchableOpacity key={val.key} onPress={() => onChange(val.key)}>
+          <TouchableOpacity key={val.key} onPress={() => handlePress(val.key, val.disabled)}>
             <View style={[styles.toggleOption, { width }]}>
               <Text style={styles.toggleText}>{val.label}</Text>
             </View>
