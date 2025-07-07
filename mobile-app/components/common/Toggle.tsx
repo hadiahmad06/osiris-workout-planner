@@ -20,7 +20,7 @@ type ToggleProps = {
 
 // i used a padding of 4, dont change these values without updating the width calculation
 export default function Toggle({ options, selected, onChange, width = 70, backgroundColor = '#6a5acd' }: ToggleProps) {
-  console.log('selected', selected, 'keys:', options.map((opt) => opt.key));
+  // console.log('selected', selected, 'keys:', options.map((opt) => opt.key));
   const length = options.length;
   
   function indexOfKey(key: string): number {

@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { HistoryProvider } from '@/contexts/HistoryProvider';
+import { WorkoutProvider } from '@/contexts/WorkoutProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,10 +52,14 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <HistoryProvider>
+        <WorkoutProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </WorkoutProvider>
+      </HistoryProvider>
     </ThemeProvider>
   );
 }
