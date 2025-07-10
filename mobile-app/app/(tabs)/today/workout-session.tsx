@@ -3,10 +3,12 @@ import { useWorkout } from '@/contexts/WorkoutContext';
 import { EnrichedExerciseSession } from '@/contexts/WorkoutProvider';
 import { ExerciseSession } from '@/utils/schema/ExerciseSession';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, TextInput, Text, StyleSheet, useColorScheme, Dimensions, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import { View, TextInput, Text, StyleSheet, useColorScheme, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { KeyboardAvoidingView, KeyboardStickyView, useKeyboardAnimation } from 'react-native-keyboard-controller';
 import Carousel from 'react-native-reanimated-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import { MotiView } from 'moti';
+import Animated from 'react-native';
 
 type ExerciseSlide = EnrichedExerciseSession | 'plus';
 
@@ -18,40 +20,29 @@ export default function WorkoutSession() {
   const slides: ExerciseSlide[] = [...exercises, 'plus'];
   const inputRef = useRef<TextInput>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const { height: keyboardHeight, progress } = useKeyboardAnimation();
 
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-
-  useEffect(() => {
-    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
-    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
-
-    const showSubscription = Keyboard.addListener(showEvent, () => setKeyboardVisible(true));
-    const hideSubscription = Keyboard.addListener(hideEvent, () => setKeyboardVisible(false));
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-
+  const scale = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 2],
+  });
   return (
-    // <KeyboardAvoidingView
-    //   style={{ flex: 1 }}
-    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    //   keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0} // tweak as needed depending on nav/header
-    // >
-    <View style={{ ...styles.container, backgroundColor: Colors[colorScheme ?? 'dark'].background }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={"padding"}
+      keyboardVerticalOffset={75}
+      // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      // keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0} // tweak as needed depending on nav/header
+    >
+    {/* <Animated.View style={{
+      ...styles.container
+    }}> */}
       <MotiView
-        from={{height: height * 0.7}}
-        animate={{
-          height: keyboardVisible ? height * 0.4 : height * 0.7,
-        }}
-        transition={{ type: 'timing', duration: 400 }}
+        style={{...styles.container, height: '90%' }}
       >
         <Carousel
           loop
           width={width}
-          // height={200}
           autoPlay={false}
           data={slides}
           scrollAnimationDuration={500}
@@ -78,6 +69,7 @@ export default function WorkoutSession() {
                     <Text style={styles.recommendedPill}>RDL</Text>
                   </View>
                   <View style={styles.spacer} />
+                  <KeyboardStickyView offset={{ opened: 300 }}>
                   <TouchableWithoutFeedback onPress={() => inputRef.current?.focus()}>
                     <MotiView 
                       from={{borderRadius: 32, width: '60%'}}
@@ -109,6 +101,7 @@ export default function WorkoutSession() {
                       />
                     </MotiView>
                   </TouchableWithoutFeedback>
+                  </KeyboardStickyView>
                 </MotiView>
               );
             }
@@ -131,8 +124,8 @@ export default function WorkoutSession() {
           }}
         />
       </MotiView>
-    </View>
-    // </KeyboardAvoidingView>
+    {/* </Animated.View> */}
+    </KeyboardAvoidingView>
   );
 }
 

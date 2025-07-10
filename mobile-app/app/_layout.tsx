@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { HistoryProvider } from '@/contexts/HistoryProvider';
 import { WorkoutProvider } from '@/contexts/WorkoutProvider';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,14 +53,16 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <HistoryProvider>
-        <WorkoutProvider>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </Stack>
-        </WorkoutProvider>
-      </HistoryProvider>
+      <KeyboardProvider>
+        <HistoryProvider>
+          <WorkoutProvider>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+          </WorkoutProvider>
+        </HistoryProvider>
+      </KeyboardProvider>
     </ThemeProvider>
   );
 }
