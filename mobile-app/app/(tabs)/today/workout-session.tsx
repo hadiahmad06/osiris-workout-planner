@@ -9,6 +9,8 @@ import Carousel from 'react-native-reanimated-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import { MotiView } from 'moti';
 import Animated from 'react-native';
+import AddExerciseCard from '@/components/workout/AddExerciseCard';
+import ExerciseCard from '@/components/workout/ExerciseCard';
 
 type ExerciseSlide = EnrichedExerciseSession | 'plus';
 
@@ -19,7 +21,6 @@ export default function WorkoutSession() {
 
   const slides: ExerciseSlide[] = [...exercises, 'plus'];
   const inputRef = useRef<TextInput>(null);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const { height: keyboardHeight, progress } = useKeyboardAnimation();
 
   const scale = progress.interpolate({
@@ -55,71 +56,11 @@ export default function WorkoutSession() {
           renderItem={({ item }) => {
             if (item === 'plus') {
               return (
-                <MotiView
-                  // animate={{
-                  //   height: keyboardVisible ? height * 0.3 : height * 0.7,
-                  // }}
-                  transition={{ type: 'spring', duration: 400 }}
-                  style={[styles.cardBase, { backgroundColor: '#666' }]}
-                >
-                  <Text style={styles.recommendationLabel}>Recommended</Text>
-                  <View style={styles.recommendedList}>
-                    <Text style={styles.recommendedPill}>Cable Row</Text>
-                    <Text style={styles.recommendedPill}>Incline DB Press</Text>
-                    <Text style={styles.recommendedPill}>RDL</Text>
-                  </View>
-                  <View style={styles.spacer} />
-                  <KeyboardStickyView offset={{ opened: 300 }}>
-                  <TouchableWithoutFeedback onPress={() => inputRef.current?.focus()}>
-                    <MotiView 
-                      from={{borderRadius: 32, width: '60%'}}
-                      animate={{ borderRadius: isSearchFocused ? 16 : 32, width: isSearchFocused ?  '100%' : '85%'}}
-                      style={styles.searchBar}
-                      transition={{
-                        type: 'spring',
-                        duration: 600,
-                      }}
-                    >
-                      <MotiView 
-                        from={{borderRadius: 32}}
-                        animate={{ borderRadius: isSearchFocused ? 16 : 32}}
-                        style={styles.searchIconContainer}
-                        transition={{
-                          type: 'spring',
-                          duration: 600,
-                        }}
-                      >
-                        <Ionicons name="search" size={25} color="#fff" />
-                      </MotiView>
-                      <TextInput
-                        onFocus={() => setIsSearchFocused(true)}
-                        onBlur={() => setIsSearchFocused(false)}
-                        ref={inputRef}
-                        placeholder="Search for exercises!"
-                        placeholderTextColor="#ccc"
-                        style={styles.searchHintText}
-                      />
-                    </MotiView>
-                  </TouchableWithoutFeedback>
-                  </KeyboardStickyView>
-                </MotiView>
+                <AddExerciseCard/>
               );
             }
-
             return (
-              <MotiView
-                // from={{maxHeight: height}}
-                // animate={{
-                //   maxHeight: keyboardVisible ? height * 0.3 : height * 0.7,
-                // }}
-                transition={{ type: 'spring', duration: 400 }}
-                style={[styles.cardBase, { backgroundColor: '#444' }]}
-              >
-                <Text style={styles.text}>Title: {item.info?.name}</Text>
-                <Text style={styles.subtext}>Type: {item.info?.exerciseType}</Text>
-                <Text style={styles.subtext}>Muscles: {item.info?.targetMuscles?.join(', ')}</Text>
-                <Text style={styles.subtext}>Equipment: {item.info?.equipments?.join(', ')}</Text>
-              </MotiView>
+              <ExerciseCard exercise={item}/>
             );
           }}
         />
