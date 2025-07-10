@@ -16,6 +16,7 @@ export const ExerciseSchema = z.object({
   exerciseType: z.string(),
   targetMuscles: z.array(z.string()),
   secondaryMuscles: z.array(z.string()).optional(),
+  keywords: z.array(z.string()).optional(),
   relatedExerciseIds: z.array(z.string()).optional()
 });
 

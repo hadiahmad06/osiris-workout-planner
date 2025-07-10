@@ -5,11 +5,27 @@ import { MotiView } from "moti";
 import { useRef, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { queryExercises } from "@/repositories/workouts/Exercise";
 
 export default function AddExerciseCard() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [query, setQuery] = useState('');
   const inputRef = useRef<TextInput>(null);
-  const [results, setResults] = useState<string[]>([]);
+  const [results, setResults] = useState<{id: string, label: string}[] | null>(null);
+
+  const debounceTimeout = useRef<number | null>(null);
+
+  const handleSearch = (text: string) => {
+    setQuery(text);
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(async () => {
+      console.log('QUERY: ', text);
+      setResults(await queryExercises(text));
+    }, 300);
+  };
 
   return (
     <View
@@ -17,37 +33,49 @@ export default function AddExerciseCard() {
     >
       <MotiView
         style={{ width: '100%' }}
-        key={isSearchFocused ? 'Results' : 'Recommendation'}
+        key={query ? 'Results' : 'Recommendation'}
         from={{ opacity: 0, translateY: -10 }}
         animate={{ opacity: 1, translateY: 0 }}
         exit={{ opacity: 0, translateY: 10 }}
-        transition={{ type: 'timing', duration: 300 }}
+        transition={{ type: 'timing', duration: 350 }}
       >
         <Text style={styles.topLabel}>
-          {isSearchFocused ? 'Results' : 'Recommended Exercises'}
+          {query ? 'Results' : 'Recommended Exercises'}
         </Text>
-        {(isSearchFocused) ? (
+        {(query) ? (
           <View style={styles.resultsList}>
-            {Array(16).fill(null).map((_, i) => (
-              <MotiView
-                key={i}
-                from={{ backgroundColor: '#555' }}
-                animate={{ backgroundColor: '#333' }}
-                transition={{
-                  type: 'timing',
-                  duration: 650,
-                  loop: true,
-                  delay: Math.floor(i / 3) * 60,
-                }}
-                style={[
-                  styles.resultsPill,
-                  {
-                    height: 36,
-                    width: `${[20, 30, 45][(i % 3 + Math.floor(i / 3)) % 3]}%`,
-                  },
-                ]}
-              />
-            ))}
+            {results ? (
+              <>
+                {results.map((val, i) => (
+                  <Text key={i} style={styles.resultsPill}> 
+                    {val.label}
+                  </Text>
+                ))}
+              </>
+            ) : (
+              <>
+                {Array(16).fill(null).map((_, i) => (
+                  <MotiView
+                    key={i}
+                    from={{ backgroundColor: '#555' }}
+                    animate={{ backgroundColor: '#333' }}
+                    transition={{
+                      type: 'timing',
+                      duration: 650,
+                      loop: true,
+                      delay: Math.floor(i / 3) * 60,
+                    }}
+                    style={[
+                      styles.resultsPill,
+                      {
+                        height: 36,
+                        width: `${[20, 30, 45][(i % 3 + Math.floor(i / 3)) % 3]}%`,
+                      },
+                    ]}
+                  />
+                ))}
+              </>
+            )}
           </View>
         ) : (
           <>
@@ -88,6 +116,8 @@ export default function AddExerciseCard() {
               ref={inputRef}
               placeholder="Search for exercises!"
               placeholderTextColor="#ccc"
+              value={query}
+              onChangeText={handleSearch}
               style={styles.searchHintText}
             />
           </MotiView>
@@ -141,7 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   resultsPill: {
-    backgroundColor: '#555',
+    backgroundColor: '#333',
     color: '#fff',
     paddingVertical: 7,
     paddingHorizontal: 14,
