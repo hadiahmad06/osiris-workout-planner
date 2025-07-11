@@ -3,11 +3,12 @@ import { z } from 'zod';
 export const SetSessionSchema = z.object({
   id: z.string().uuid(),
   exercise_session_id: z.string().uuid(),
+  idx: z.number().min(1),
   set_number: z.number().min(1),
-  weight: z.number().min(0),
-  reps: z.number().min(0),
+  weight: z.number().min(0).optional(),
+  reps: z.number().min(0).optional(),
+  toRecord: z.boolean(),
   rir: z.number().optional(),
-  tempo: z.string().optional(),
   notes: z.string().optional(),
 //   created_at: z.string().datetime(),
 //   updated_at: z.string().datetime(),
@@ -15,7 +16,8 @@ export const SetSessionSchema = z.object({
 
 export type CompleteSetSession = z.infer<typeof SetSessionSchema>;
 
-export type SetSession = Omit<CompleteSetSession, 'id' | 'exercise_session_id'> & {
+export type SetSession = Omit<CompleteSetSession, 'id' | 'idx' | 'exercise_session_id'> & {
   id?: string;
+  idx?: number;
   exercise_session_id?: string;
 };
