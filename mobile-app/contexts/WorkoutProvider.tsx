@@ -1,7 +1,7 @@
 import { ExerciseSession } from "@/utils/schema/ExerciseSession";
 import { SetSession } from "@/utils/schema/SetSession";
 import { WorkoutSession } from "@/utils/schema/WorkoutSession";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { WorkoutContext } from "./WorkoutContext";
 import { enrichExercise } from "@/repositories/workouts/Exercise";
 import { ExerciseApi } from "@/utils/schema/Exercise";
@@ -88,24 +88,32 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
       toRecord: true,
     };
 
-    setSets(prev => {
-      const existingSets = prev[exerciseSessionId] ?? [];
-      const updated = [
-        ...existingSets.slice(0, insertAt),
-        newSet,
-        ...existingSets.slice(insertAt)
-      ];
-      return {
-        ...prev,
-        [exerciseSessionId]: updated,
-      };
-    });
+    startTransition(() => {
+      setSets(prev => {
+        const existingSets = prev[exerciseSessionId] ?? [];
+        const updated = [
+          ...existingSets.slice(0, insertAt),
+          newSet,
+          ...existingSets.slice(insertAt)
+        ];
+        return {
+          ...prev,
+          [exerciseSessionId]: updated,
+        };
+      });
+    })
   };
 
-  const updateSet = (exerciseSessionId: string, setIndex: number, updatedSet: SetSession) => {
+  const updateSet = (
+    exerciseSessionId: string,
+    setIndex: number,
+    updatedSet: Partial<SetSession>
+  ) => {
     setSets(prev => ({
       ...prev,
-      [exerciseSessionId]: prev[exerciseSessionId].map((s, i) => i === setIndex ? updatedSet : s),
+      [exerciseSessionId]: prev[exerciseSessionId].map((s, i) =>
+        i === setIndex ? { ...s, ...updatedSet } : s
+      ),
     }));
   };
 
@@ -117,16 +125,18 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     setSets(prev => {
       const currentSets = prev[exerciseSessionId];
+      console.log(currentSets.length)
       if (!currentSets) return prev;
 
       const updatedSets = [...currentSets];
 
       if (updatedSets.length === 1) {
         updatedSets[0] = {
-          id: uuidv4(),
-          exercise_session_id: exerciseSessionId,
+          ...updatedSets[0],
           notes: '',
-          toRecord: true,
+          rir: undefined,
+          reps: undefined,
+          weight: undefined,
         };
         newSelectedIndex = 0;
         return { ...prev, [exerciseSessionId]: updatedSets };

@@ -15,6 +15,8 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
   const [selected, setSelected] = useState<number>(0);
   const inputRefs = useRef<Record<string, TextInput | null>>({});
 
+  const [allowInteract, setAllowInteract] = useState<boolean>(true);
+
   useEffect(() => {
     const currentSets = sets[exercise.id];
     if (currentSets) {
@@ -31,27 +33,52 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
       setSelected(newIdx);
       inputRefs.current[newIdx]?.focus?.()
     });
+    setAllowInteract(true);
   }
 
   // HANDLERS
 
   function handleAdd() {
+    setAllowInteract(false);
     addSet(exercise.id, selected+1);
     deferSelectedUpdate(selected+1);
   }
   function handleNumericInput(text: string, idx: number, field: keyof SetSession) {
     const numeric = parseInt(text.replace(/[^0-9]/g, ''));
-    const currentSets = sets[exercise.id] ?? {};
     updateSet(exercise.id, idx, {
-      ...currentSets[idx],
       [field]: Number.isNaN(numeric) ? undefined : numeric
     });
   }
   function handleDelete() {
+    setAllowInteract(false);
     const newSelectedIndex = removeSet(exercise.id, selected);
+    const currentSets = sets[exercise.id] ?? [];
     if (newSelectedIndex !== undefined) {
       deferSelectedUpdate(newSelectedIndex);
+    } else {
+      const maxIdx = currentSets.length-1;
+      setSelected(maxIdx);
+      setAllowInteract(true);
     }
+  }
+  function handleRepeat() {
+    const src = selected;
+    handleAdd();
+    const prevSet = currentSets[src];
+    if (!prevSet) return;
+    const { id, ...rest } = prevSet;
+    updateSet(exercise.id, src+1, {
+      ...rest,
+      notes: '', // clear notes
+    });
+  }
+  function toggleRecord() {
+    const currentSet = currentSets[selected];
+    if (!currentSet) return;
+    updateSet(exercise.id, selected, {
+      ...currentSet,
+      toRecord: !currentSet.toRecord
+    });
   }
 
   // COMPONENT
@@ -61,7 +88,7 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
   return (
     <View style={[styles.cardBase, { backgroundColor: '#444' }]}>
       <View style={{ backgroundColor: '#444', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <Text style={styles.text}>{exercise.info?.name}</Text>
+        <Text style={styles.text}>{exercise.info?.name ?? 'Loading...'}</Text>
         <MaterialIcons name="info-outline" size={24} color="#fff" />
       </View>
 
@@ -71,16 +98,16 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
         <Text style={styles.setHeader}>Reps</Text>
         <Text style={styles.setHeader}>Weight</Text>
       </View>
-      {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled"> */}
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         {Object.entries(currentSets)
-          .sort((a, b) => a[0].localeCompare(b[0]))
+          .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
           .map(([idxStr, set]) => {
             const idx = parseInt(idxStr);
             return (
               <MotiView
                 key={set.id}
                 from={{ opacity: 0, translateX: -5 }}
-                animate={{ opacity: 1, translateX: 5}}
+                animate={{ opacity: set.toRecord ? 1 : 0.4, translateX: 5}}
                 exit={{ opacity: 0, translateX: -5 }}
                 style={[
                   styles.setRow,
@@ -119,7 +146,7 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
               </MotiView>
             );
           })}
-      {/* </ScrollView> */}
+      </ScrollView>
       <View style={{ flex: 1 }} /> {/* SPACER HERE */}
       <View style={styles.notesAndButtonsRow}>
         <View style={styles.notesStack}>
@@ -139,7 +166,6 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
             value={currentSets[selected]?.notes ?? ''}
             onChangeText={(text) =>
               updateSet(exercise.id, selected, {
-                ...currentSets[selected],
                 notes: text,
               })
             }
@@ -147,19 +173,19 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
         </View>
         <View style={styles.buttonStack}>
           <View style={styles.buttonRow}>
-            <Pressable>
+            <Pressable onPress={handleRepeat}>
               <MaterialIcons name="repeat" style={styles.iconButton} />
             </Pressable>
-            <Pressable>
+            <Pressable onPress={toggleRecord}>
               <MaterialCommunityIcons name="crop-free" style={styles.iconButton} />
             </Pressable>
           </View>
           <View style={styles.buttonRow}>
             <Pressable onPress={handleDelete}>
-              <MaterialIcons name="delete" style={styles.iconButton} />
+              <MaterialIcons name="delete" style={styles.iconButton} disabled={allowInteract} />
             </Pressable>
             <Pressable onPress={handleAdd}>
-              <MaterialIcons name="add" style={styles.iconButton} />
+              <MaterialIcons name="add" style={styles.iconButton} disabled={allowInteract} />
             </Pressable>
           </View>
         </View>
