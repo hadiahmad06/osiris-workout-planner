@@ -10,9 +10,9 @@ export const ExerciseSessionSchema = z.object({
 //   updated_at: z.string().datetime(),
 });
 
-export type CompleteExerciseSession = z.infer<typeof ExerciseSessionSchema>;
+export type ExerciseSession = z.infer<typeof ExerciseSessionSchema>;
 
-export type ExerciseSession = Omit<CompleteExerciseSession, 'id' | 'workout_id'> & {
-  id?: string;
-  workout_id?: string;
-};
+// export type ExerciseSession = Omit<CompleteExerciseSession, 'id' | 'workout_id'> & {
+//   id?: string;
+//   workout_id?: string;
+// };

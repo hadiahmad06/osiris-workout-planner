@@ -12,8 +12,8 @@ export const WorkoutSessionSchema = z.object({
 
 export type CompleteWorkoutSession = z.infer<typeof WorkoutSessionSchema>;
 
-export type WorkoutSession = Omit<CompleteWorkoutSession, 'id' | 'duration' | 'created_at' | 'updated_at'> & {
-  id?: string;
+export type WorkoutSession = Omit<CompleteWorkoutSession, 'duration' | 'created_at' | 'updated_at'> & {
+  // id?: string;
   duration?: number;
   created_at?: string;
   updated_at?: string;

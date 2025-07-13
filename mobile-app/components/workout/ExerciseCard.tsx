@@ -6,123 +6,57 @@ import { View } from '../Themed';
 import { MotiView } from 'moti';
 import { SetSession } from '@/utils/schema/SetSession';
 import { useEffect, useRef, useState } from 'react';
+import { useWorkout } from '@/contexts/WorkoutContext';
+
 export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseSession }) {
 
-  const [sets, setSets] = useState<Record<number, SetSession>>({
-    1: {
-      set_number: 1,
-      notes: '',
-      toRecord: true
-    }
-  });
+  const { sets, addSet, updateSet, removeSet, updateExercise } = useWorkout();
 
-  const nextIdx = useRef(2);
+  const [selected, setSelected] = useState<number>(0);
+  const inputRefs = useRef<Record<string, TextInput | null>>({});
 
   useEffect(() => {
-    console.log(sets[1]);
-  }, [sets]);
+    const currentSets = sets[exercise.id];
+    if (currentSets) {
+      const keys = Object.keys(currentSets).map(Number);
+      if (keys.length > 0) {
+        const maxIdx = Math.max(...keys);
+        setSelected(maxIdx);
+      }
+    }
+  }, [])
 
-  const [selected, setSelected] = useState<number>(1); //selected INDEX not SET_NUMBER
-  const inputRefs = useRef<Record<number, TextInput | null>>({});
+  function deferSelectedUpdate(newIdx: number) {
+    requestAnimationFrame(() => {
+      setSelected(newIdx);
+      inputRefs.current[newIdx]?.focus?.()
+    });
+  }
 
   // HANDLERS
 
   function handleAdd() {
-    if (selected === null) return;
-
-    setSets(prev => {
-      const newSetIdx = nextIdx.current;
-      nextIdx.current++;
-
-      // Create new set
-      const newSet: SetSession = {
-        set_number: 0, // temporary, will be recalculated
-        notes: '',
-        toRecord: true
-      };
-
-      // Insert new set into dictionary
-      const updated = { ...prev };
-
-      // Find the set_number of the selected set
-      const selectedSetNumber = prev[selected]?.set_number ?? 0;
-
-      // Insert new set after selected by set_number order
-      // We need to shift set_numbers of sets with set_number > selectedSetNumber
-      Object.entries(updated).forEach(([key, set]) => {
-        if (set.set_number > selectedSetNumber) {
-          updated[parseInt(key)] = { ...set, set_number: set.set_number + 1 };
-        }
-      });
-
-      updated[newSetIdx] = { ...newSet, set_number: selectedSetNumber + 1 };
-
-      return updated;
-    });
-
-    setSelected(nextIdx.current - 1);
-    requestAnimationFrame(() => {
-      inputRefs.current[nextIdx.current - 1]?.focus?.();
-    });
+    addSet(exercise.id, selected+1);
+    deferSelectedUpdate(selected+1);
   }
   function handleNumericInput(text: string, idx: number, field: keyof SetSession) {
     const numeric = parseInt(text.replace(/[^0-9]/g, ''));
-    setSets(prev => ({
-      ...prev,
-      [idx]: {
-        ...prev[idx],
-        [field]: Number.isNaN(numeric) ? undefined : numeric
-      }
-    }));
+    const currentSets = sets[exercise.id] ?? {};
+    updateSet(exercise.id, idx, {
+      ...currentSets[idx],
+      [field]: Number.isNaN(numeric) ? undefined : numeric
+    });
   }
   function handleDelete() {
-    const keys = Object.keys(sets).map(Number);
-    if (keys.length === 1) {
-      // Reset the only set to the default state
-      setSets({
-        [keys[0]]: {
-          set_number: 1,
-          notes: '',
-          toRecord: true,
-        },
-      });
-      setSelected(keys[0]);
-      return;
+    const newSelectedIndex = removeSet(exercise.id, selected);
+    if (newSelectedIndex !== undefined) {
+      deferSelectedUpdate(newSelectedIndex);
     }
-
-    setSets(prev => {
-      const updated = { ...prev };
-      const deletedSetNumber = updated[selected]?.set_number;
-      delete updated[selected];
-
-      // Decrement set_number of all sets that had higher set_numbers
-      Object.entries(updated).forEach(([key, set]) => {
-        if (set.set_number > deletedSetNumber) {
-          updated[parseInt(key)] = { ...set, set_number: set.set_number - 1 };
-        }
-      });
-
-      return updated;
-    });
-
-    setSelected(prev => {
-      const setEntries = Object.entries(sets);
-      const currentSetNumber = sets[prev]?.set_number;
-      const nextKey = setEntries
-        .map(([key, set]) => ({ key: parseInt(key), set }))
-        .find(({ set }) => set.set_number === currentSetNumber + 1)?.key;
-
-      if (nextKey !== undefined) return nextKey;
-
-      const fallbackKey = setEntries
-        .map(([key, set]) => ({ key: parseInt(key), set }))
-        .find(({ set }) => set.set_number === currentSetNumber - 1)?.key;
-
-      return fallbackKey ?? prev;
-    });
   }
 
   // COMPONENT
+
+  const currentSets = sets[exercise.id] ?? {};
 
   return (
     <View style={[styles.cardBase, { backgroundColor: '#444' }]}>
@@ -138,13 +72,13 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
         <Text style={styles.setHeader}>Weight</Text>
       </View>
       {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled"> */}
-        {Object.entries(sets)
-          .sort((a, b) => a[1].set_number - b[1].set_number)
-          .map(([key, set]) => {
-            const idx = parseInt(key);
+        {Object.entries(currentSets)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([idxStr, set]) => {
+            const idx = parseInt(idxStr);
             return (
               <MotiView
-                key={idx}
+                key={set.id}
                 from={{ opacity: 0, translateX: -5 }}
                 animate={{ opacity: 1, translateX: 5}}
                 exit={{ opacity: 0, translateX: -5 }}
@@ -153,14 +87,14 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
                   { borderRadius: 10, borderLeftWidth: 4, borderLeftColor: selected === idx ? '#6a5acd' : 'transparent' }
                 ]}
               >
-                <Text style={styles.setLabelSmall}>{set.set_number}</Text>
+                <Text style={styles.setLabelSmall}>{idx+1}</Text>
                 <TextInput
                   onFocus={() => setSelected(idx)}
                   style={styles.setInputSmall}
                   keyboardType="numeric"
                   placeholder="RiR"
                   placeholderTextColor={'#777'}
-                  value={String(sets[idx]?.rir ?? '')}
+                  value={String(currentSets[idx]?.rir ?? '')}
                   onChangeText={(text) => handleNumericInput(text, idx, 'rir')}
                 />
                 <TextInput
@@ -169,17 +103,17 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
                   keyboardType="numeric"
                   placeholder="1"
                   placeholderTextColor={'#777'}
-                  value={String(sets[idx]?.reps ?? '')}
+                  value={String(currentSets[idx]?.reps ?? '')}
                   onChangeText={(text) => handleNumericInput(text, idx, 'reps')}
                 />
                 <TextInput
-                  ref={(ref) => { inputRefs.current[idx] = ref }}
+                  ref={(ref) => {inputRefs.current[idx] = ref}}
                   onFocus={() => setSelected(idx)}
                   style={styles.setInput}
                   keyboardType="numeric"
                   placeholder="23"
                   placeholderTextColor={'#777'}
-                  value={String(sets[idx]?.weight ?? '')}
+                  value={String(currentSets[idx]?.weight ?? '')}
                   onChangeText={(text) => handleNumericInput(text, idx, 'weight')}
                 />
               </MotiView>
@@ -194,12 +128,21 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
             placeholder="Notes..."
             placeholderTextColor="#aaa"
             multiline
-          /> 
+            value={exercise.notes ?? ''}
+            onChangeText={(text) => updateExercise({ ...exercise, notes: text })}
+          />
           <TextInput
             style={styles.setNotesBox}
             placeholder="Set Notes..."
             placeholderTextColor="#aaa"
             multiline
+            value={currentSets[selected]?.notes ?? ''}
+            onChangeText={(text) =>
+              updateSet(exercise.id, selected, {
+                ...currentSets[selected],
+                notes: text,
+              })
+            }
           />
         </View>
         <View style={styles.buttonStack}>

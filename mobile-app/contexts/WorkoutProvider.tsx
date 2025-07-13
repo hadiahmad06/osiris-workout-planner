@@ -5,6 +5,8 @@ import { useState } from "react";
 import { WorkoutContext } from "./WorkoutContext";
 import { enrichExercise } from "@/repositories/workouts/Exercise";
 import { ExerciseApi } from "@/utils/schema/Exercise";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from "uuid";
 
 
 export interface EnrichedExerciseSession extends ExerciseSession {
@@ -19,8 +21,16 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const startWorkout = async (title?: string, exercises: string[] = []) => {
     const now = new Date().toISOString();
-
+    console.log(typeof uuidv4)
+    try {
+      const workoutId = uuidv4();
+      console.log("Workout ID:", workoutId);
+    } catch (err) {
+      console.error("Failed to generate UUID:", err);
+    }
+    const workoutId = "1";
     const newWorkout: WorkoutSession = {
+      id: workoutId,
       date: now,
       title
     };
@@ -31,6 +41,8 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     for (let i = 0; i < exercises.length; i++) {
       const exerciseSession: ExerciseSession = {
+        id: uuidv4(),
+        workout_id: workoutId,
         exercise_id: exercises[i],
         order: i,
       };
@@ -52,6 +64,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         e.exercise_id === exercise.exercise_id ? { ...e, info: exerciseInfo } : e
       )
     );
+    addSet(exercise.id, 0);
   };
 
   const updateExercise = (updated: ExerciseSession) => {
@@ -67,11 +80,26 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   };
 
-  const addSet = (exerciseSessionId: string, set: SetSession) => {
-    setSets(prev => ({
-      ...prev,
-      [exerciseSessionId]: [...(prev[exerciseSessionId] || []), set],
-    }));
+  const addSet = (exerciseSessionId: string, insertAt: number) => {
+    const newSet: SetSession = {
+      id: uuidv4(),
+      exercise_session_id: exerciseSessionId,
+      notes: '',
+      toRecord: true,
+    };
+
+    setSets(prev => {
+      const existingSets = prev[exerciseSessionId] ?? [];
+      const updated = [
+        ...existingSets.slice(0, insertAt),
+        newSet,
+        ...existingSets.slice(insertAt)
+      ];
+      return {
+        ...prev,
+        [exerciseSessionId]: updated,
+      };
+    });
   };
 
   const updateSet = (exerciseSessionId: string, setIndex: number, updatedSet: SetSession) => {
@@ -81,11 +109,40 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }));
   };
 
-  const removeSet = (exerciseSessionId: string, setIndex: number) => {
-    setSets(prev => ({
-      ...prev,
-      [exerciseSessionId]: prev[exerciseSessionId].filter((_, i) => i !== setIndex),
-    }));
+  const removeSet = (
+    exerciseSessionId: string,
+    setIndex: number,
+  ): number | undefined => {
+    let newSelectedIndex: number | undefined = undefined;
+
+    setSets(prev => {
+      const currentSets = prev[exerciseSessionId];
+      if (!currentSets) return prev;
+
+      const updatedSets = [...currentSets];
+
+      if (updatedSets.length === 1) {
+        updatedSets[0] = {
+          id: uuidv4(),
+          exercise_session_id: exerciseSessionId,
+          notes: '',
+          toRecord: true,
+        };
+        newSelectedIndex = 0;
+        return { ...prev, [exerciseSessionId]: updatedSets };
+      }
+
+      updatedSets.splice(setIndex, 1);
+
+      newSelectedIndex = updatedSets[setIndex] ? setIndex : (setIndex > 0 ? setIndex - 1 : 0);
+
+      return {
+        ...prev,
+        [exerciseSessionId]: updatedSets,
+      };
+    });
+
+    return newSelectedIndex;
   };
 
   return (

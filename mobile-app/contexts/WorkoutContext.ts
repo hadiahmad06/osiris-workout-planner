@@ -14,9 +14,9 @@ type WorkoutContextType = {
   addExercise: (exercise: ExerciseSession) => void;
   updateExercise: (exercise: ExerciseSession) => void;
   removeExercise: (exerciseId: string) => void;
-  addSet: (exerciseSessionId: string, set: SetSession) => void;
+  addSet: (exerciseSessionId: string, order: number) => void;
   updateSet: (exerciseSessionId: string, setIndex: number, updatedSet: SetSession) => void;
-  removeSet: (exerciseSessionId: string, setIndex: number) => void;
+  removeSet: (exerciseSessionId: string, setIndex: number, setSelected?: (newSelected: number) => void) => void;
 };
 
 export const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
