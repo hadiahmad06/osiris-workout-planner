@@ -1,0 +1,18 @@
+# Python virtual environment
+venv/
+
+# Byte-compiled / cache files
+playwright-report/
+__pycache__/
+*.py[cod]
+
+# Editor files
+*.swp
+*.swo
+*.DS_Store
+
+# Logs/output
+*.log
+
+# Environment variables (if you use any later)
+.env
