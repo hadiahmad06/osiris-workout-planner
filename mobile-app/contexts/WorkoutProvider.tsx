@@ -3,10 +3,10 @@ import { SetSession } from "@/utils/schema/SetSession";
 import { WorkoutSession } from "@/utils/schema/WorkoutSession";
 import { startTransition, useState } from "react";
 import { WorkoutContext } from "./WorkoutContext";
-import { enrichExercise } from "@/repositories/workouts/Exercise";
 import { ExerciseApi } from "@/utils/schema/Exercise";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from "uuid";
+import { getExerciseById } from "@/repositories/workouts/Exercise";
 
 
 export interface EnrichedExerciseSession extends ExerciseSession {
@@ -21,14 +21,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const startWorkout = async (title?: string, exercises: string[] = []) => {
     const now = new Date().toISOString();
-    console.log(typeof uuidv4)
-    try {
-      const workoutId = uuidv4();
-      console.log("Workout ID:", workoutId);
-    } catch (err) {
-      console.error("Failed to generate UUID:", err);
-    }
-    const workoutId = "1";
+    const workoutId = uuidv4();
     const newWorkout: WorkoutSession = {
       id: workoutId,
       date: now,
@@ -40,28 +33,29 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setExercises([]);
 
     for (let i = 0; i < exercises.length; i++) {
-      const exerciseSession: ExerciseSession = {
-        id: uuidv4(),
-        workout_id: workoutId,
-        exercise_id: exercises[i],
-        order: i,
-      };
-      await addExercise(exerciseSession);
-      console.log(`DEBUG: added exercise: ${exercises[i]}`)
+      await addExercise(exercises[i]);
     }
 
-    console.log('DEBUG: WORKOUTS FETCHED')
   };
 
-  const addExercise = async (exercise: ExerciseSession) => {
+  const addExercise = async (exerciseId: string) => {
+
+    const exercise: ExerciseSession = {
+      id: uuidv4(),
+      workout_id: workout?.id ?? '',
+      exercise_id: exerciseId,
+    };
+    // console.log("inserting exercise:", exerciseId);
+
     // Insert the bare exercise first
     setExercises(prev => [...prev, { ...exercise, info: null }]);
 
     // Then enrich it once the info is available
-    const exerciseInfo = await enrichExercise(exercise.exercise_id);
+    const exerciseInfo = await getExerciseById(exerciseId);
+    // console.log(exerciseInfo);
     setExercises(prev =>
       prev.map(e =>
-        e.exercise_id === exercise.exercise_id ? { ...e, info: exerciseInfo } : e
+        e.exercise_id === exerciseId ? { ...e, info: exerciseInfo } : e
       )
     );
     addSet(exercise.id, 0);
@@ -125,7 +119,6 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     setSets(prev => {
       const currentSets = prev[exerciseSessionId];
-      console.log(currentSets.length)
       if (!currentSets) return prev;
 
       const updatedSets = [...currentSets];

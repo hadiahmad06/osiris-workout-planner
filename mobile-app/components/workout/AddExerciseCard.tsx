@@ -1,19 +1,22 @@
-import { StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { View } from "../Themed"
 import { KeyboardStickyView } from "react-native-keyboard-controller";
 import { MotiView } from "moti";
 import { useRef, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { queryExercises } from "@/repositories/workouts/Exercise";
+import { getExercisesBySearch } from "@/repositories/workouts/Exercise";
+import { useWorkout } from "@/contexts/WorkoutContext";
 
 export default function AddExerciseCard() {
+  const { addExercise } = useWorkout();
+
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<TextInput>(null);
   const [results, setResults] = useState<{id: string, label: string}[] | null>(null);
 
-  const debounceTimeout = useRef<number | null>(null);
+  const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearch = (text: string) => {
     setQuery(text);
@@ -23,7 +26,7 @@ export default function AddExerciseCard() {
 
     debounceTimeout.current = setTimeout(async () => {
       console.log('QUERY: ', text);
-      setResults(await queryExercises(text));
+      setResults(await getExercisesBySearch(text));
     }, 300);
   };
 
@@ -47,9 +50,9 @@ export default function AddExerciseCard() {
             {results ? (
               <>
                 {results.map((val, i) => (
-                  <Text key={i} style={styles.resultsPill}> 
-                    {val.label}
-                  </Text>
+                  <TouchableOpacity key={i} onPress={() => addExercise(val.id)}>
+                    <Text style={styles.resultsPill}>{val.label}</Text>
+                  </TouchableOpacity>
                 ))}
               </>
             ) : (
@@ -168,7 +171,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#666',
     flexWrap: 'wrap',
     gap: 8,
-    marginBottom: 24,
   },
   resultsPill: {
     backgroundColor: '#333',
@@ -177,7 +179,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 999,
     fontSize: 20,
-    marginBottom: 8,
   },
   recommendedList: {
     flexDirection: 'row',

@@ -1,74 +1,87 @@
-import { Exercise, ExerciseApi } from '@/utils/schema/Exercise';
-import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite'
+import { ExerciseApi, ExerciseApiSchema, ExerciseQueryResultSchema } from "@/utils/schema/Exercise";
+import Constants from 'expo-constants';
+
+const { RAPID_API_KEY } = Constants.expoConfig?.extra ?? {};
+console.log(RAPID_API_KEY);
+const url = 'https://exercisedb-api1.p.rapidapi.com/api/v1/';
+
+const options: RequestInit = {
+  method: 'GET',
+  headers: {
+    ***REMOVED***
+    'x-rapidapi-host': 'exercisedb-api1.p.rapidapi.com',
+  },
+};
 
 
-const db = openDatabaseSync('main.db');
+// export async function getStatus() {
+//   const res = await fetch(`${url}liveness`, options);
+//   return res.json();
+// }
 
-import { DefaultExercises } from '@/utils/_data/DefaultExercises';
+// export async function getExercises() {
+//   const res = await fetch(`${url}exercises`, options);
+//   return res.json();
+// }
 
-// async function initExercisesTable() {
-//   await db.execAsync(`
-//     CREATE TABLE IF NOT EXISTS exercises (
-//       exerciseId TEXT PRIMARY KEY NOT NULL,
-//       name TEXT NOT NULL,
-//       equipments TEXT NOT NULL,
-//       bodyParts TEXT NOT NULL,
-//       exerciseType TEXT NOT NULL,
-//       targetMuscles TEXT NOT NULL,
-//       secondaryMuscles TEXT,
-//       relatedExerciseIds TEXT
-//     );
-//   `);
+// export async function getExercisesBySearch(query: string) {
+//   try {
+//     const res = await fetch(`${url}exercises/search?search=${encodeURIComponent(query)}`, options);
+//     const data = await res.json();
+//     // console.log(data);
+//     console.log(data.data);
+//     const parsed = ExerciseQueryResultSchema.array().parse(data.data);
 
-//   const stmt = await db.prepareAsync('SELECT COUNT(*) as count FROM exercises');
-//   const result = await stmt.executeAsync();
-//   const row = await result.getFirstAsync() as { count: number };
-//   const count = row?.count ?? 0;
-//   await stmt.finalizeAsync();
-
-//   if (count === 0) {
-//     const insertStmt = await db.prepareAsync(`
-//       INSERT INTO exercises (
-//         exerciseId,
-//         name,
-//         equipments,
-//         bodyParts,
-//         exerciseType,
-//         targetMuscles,
-//         secondaryMuscles,
-//         relatedExerciseIds
-//       ) VALUES (
-//         $exerciseId,
-//         $name,
-//         $equipments,
-//         $bodyParts,
-//         $exerciseType,
-//         $targetMuscles,
-//         $secondaryMuscles,
-//         $relatedExerciseIds
-//       )
-//     `);
-
-//     for (const ex of DefaultExercises) {
-//       await insertStmt.executeAsync({
-//         $exerciseId: ex.exerciseId,
-//         $name: ex.name,
-//         $equipments: JSON.stringify(ex.equipments),
-//         $bodyParts: JSON.stringify(ex.bodyParts),
-//         $exerciseType: ex.exerciseType,
-//         $targetMuscles: JSON.stringify(ex.targetMuscles),
-//         $secondaryMuscles: ex.secondaryMuscles ? JSON.stringify(ex.secondaryMuscles) : null,
-//         $relatedExerciseIds: ex.relatedExerciseIds ? JSON.stringify(ex.relatedExerciseIds) : null,
-//       });
-//     }
-
-//     await insertStmt.finalizeAsync();
+//     return parsed.map(ex => ({
+//       id: ex.exerciseId,
+//       label: ex.name,
+//     }));
+//   } catch (error) {
+//     console.error("Failed to fetch or parse search exercises:", error);
+//     return [];
 //   }
 // }
 
-// initExercisesTable();
+// export async function getExerciseById(id: string) {
+//   try {
+//     const res = await fetch(`${url}exercises/${id}`, options);
+//     const data = await res.json();
+//     console.log(data);
+//     // console.log(ExerciseApiSchema.parse(data));
+//     return ExerciseApiSchema.parse(data);
+//   } catch (error) {
+//     console.error("Failed to fetch or parse exercise:", error);
+//     return null;
+//   }
+// }
 
-export async function queryExercises(query: string): Promise<{ id: string, label: string }[] | null> {
+// export async function getEquipments() {
+//   const res = await fetch(`${url}equipments`, options);
+//   return res.json();
+// }
+
+// export async function getBodyparts() {
+//   const res = await fetch(`${url}bodyparts`, options);
+//   return res.json();
+// }
+
+// export async function getExerciseTypes() {
+//   const res = await fetch(`${url}exercisetypes`, options);
+//   return res.json();
+// }
+
+// export async function getMuscles() {
+//   const res = await fetch(`${url}muscles`, options);
+//   return res.json();
+// }
+
+// const db = openDatabaseSync('main.db');
+
+import { DefaultExercises } from '@/utils/_data/DefaultExercises';
+
+
+
+export async function getExercisesBySearch(query: string): Promise<{ id: string, label: string }[] | null> {
   if (!query) return null;
 
   const lowerQuery = query.toLowerCase();
@@ -92,7 +105,7 @@ export async function queryExercises(query: string): Promise<{ id: string, label
   return [...nameMatches, ...additionalMatches].map(ex => ({ id: ex.exerciseId, label: ex.name }));
 }
 
-export async function enrichExercise(exercise_id: string): Promise<ExerciseApi | null> {
+export async function getExerciseById(exercise_id: string): Promise<ExerciseApi | null> {
   return DefaultExercises.find(ex => ex.exerciseId === exercise_id) ?? null;
 }
 

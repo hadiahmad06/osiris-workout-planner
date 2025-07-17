@@ -147,7 +147,8 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
             );
           })}
       </ScrollView>
-      <View style={{ flex: 1 }} /> {/* SPACER HERE */}
+      {/* spacer goes here vvvv */}
+      <View style={{ flex: 1 }} /> 
       <View style={styles.notesAndButtonsRow}>
         <View style={styles.notesStack}>
           <TextInput
