@@ -38,7 +38,8 @@
     "react-native-screens": "~4.11.1",
     "react-native-web": "~0.20.0",
     "uuid": "^11.1.0",
-    "zod": "^3.25.74"
+    "zod": "^3.25.74",
+    "expo-constants": "~17.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

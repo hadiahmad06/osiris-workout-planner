@@ -38,5 +38,12 @@ export const ExerciseApiSchema = z.object({
   relatedExerciseIds: z.array(z.string()).optional()
 });
 
+export const ExerciseQueryResultSchema = z.object({
+  exerciseId: z.string(),
+  name: z.string(),
+  imageUrl: z.string().optional()
+})
+
 export type Exercise = z.infer<typeof ExerciseSchema>;
 export type ExerciseApi = z.infer<typeof ExerciseApiSchema>;
+export type ExerciseQueryResult = z.infer<typeof ExerciseQueryResultSchema>;
