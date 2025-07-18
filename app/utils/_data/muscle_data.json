@@ -1,0 +1,402 @@
+{
+ "sternocleidomastoid": {
+  "label": "Sternocleidomastoid",
+  "id": "sternocleidomastoid"
+ },
+ "rectus-abdominis": {
+  "label": "Rectus Abdominis",
+  "id": "rectus-abdominis"
+ },
+ "obliques": {
+  "label": "Obliques",
+  "id": "obliques"
+ },
+ "latissimus-dorsi": {
+  "label": "Latissimus Dorsi",
+  "id": "latissimus-dorsi"
+ },
+ "deltoid-posterior": {
+  "label": "Deltoid, Posterior",
+  "id": "deltoid-posterior"
+ },
+ "rhomboids": {
+  "label": "Rhomboids",
+  "id": "rhomboids"
+ },
+ "trapezius-middle": {
+  "label": "Trapezius, Middle",
+  "id": "trapezius-middle"
+ },
+ "trapezius-lower": {
+  "label": "Trapezius, Lower",
+  "id": "trapezius-lower"
+ },
+ "triceps-brachii": {
+  "label": "Triceps Brachii",
+  "id": "triceps-brachii"
+ },
+ "splenius": {
+  "label": "Splenius",
+  "id": "splenius"
+ },
+ "erector-spinae": {
+  "label": "Erector Spinae",
+  "id": "erector-spinae"
+ },
+ "levator-scapulae": {
+  "label": "Levator Scapulae",
+  "id": "levator-scapulae"
+ },
+ "trapezius-upper": {
+  "label": "Trapezius, Upper",
+  "id": "trapezius-upper"
+ },
+ "erector-spinae-cervicis-capitis-fibers": {
+  "label": "Erector Spinae, Cervicis & Capitis Fibers",
+  "id": "erector-spinae-cervicis-capitis-fibers"
+ },
+ "quadriceps": {
+  "label": "Quadriceps",
+  "id": "quadriceps"
+ },
+ "gluteus-medius": {
+  "label": "Gluteus Medius",
+  "id": "gluteus-medius"
+ },
+ "gluteus-minimus": {
+  "label": "Gluteus Minimus",
+  "id": "gluteus-minimus"
+ },
+ "sternocleidomastoid-posterior-fibers": {
+  "label": "Sternocleidomastoid,          Posterior Fibers",
+  "id": "sternocleidomastoid-posterior-fibers"
+ },
+ "pectoralis-major-sternal": {
+  "label": "Pectoralis Major, Sternal",
+  "id": "pectoralis-major-sternal"
+ },
+ "pectoralis-major-clavicular": {
+  "label": "Pectoralis Major, Clavicular",
+  "id": "pectoralis-major-clavicular"
+ },
+ "pectoralis-minor": {
+  "label": "Pectoralis Minor",
+  "id": "pectoralis-minor"
+ },
+ "coracobrachialis": {
+  "label": "Coracobrachialis",
+  "id": "coracobrachialis"
+ },
+ "serratus-anterior": {
+  "label": "Serratus Anterior",
+  "id": "serratus-anterior"
+ },
+ "deltoid-anterior": {
+  "label": "Deltoid, Anterior",
+  "id": "deltoid-anterior"
+ },
+ "no-significant-stabilizers": {
+  "label": "No significant stabilizers",
+  "id": "no-significant-stabilizers"
+ },
+ "gluteus-maximus": {
+  "label": "Gluteus Maximus",
+  "id": "gluteus-maximus"
+ },
+ "longus-capitis": {
+  "label": "Longus capitis",
+  "id": "longus-capitis"
+ },
+ "longus-colli": {
+  "label": "Longus colli",
+  "id": "longus-colli"
+ },
+ "rectus-capitus": {
+  "label": "Rectus capitus",
+  "id": "rectus-capitus"
+ },
+ "biceps-brachii": {
+  "label": "Biceps Brachii",
+  "id": "biceps-brachii"
+ },
+ "teres-major": {
+  "label": "Teres Major",
+  "id": "teres-major"
+ },
+ "wrist-flexors": {
+  "label": "Wrist Flexors",
+  "id": "wrist-flexors"
+ },
+ "wrist-extensors": {
+  "label": "Wrist Extensors",
+  "id": "wrist-extensors"
+ },
+ "extensor-carpi-ulnaris": {
+  "label": "Extensor Carpi        Ulnaris",
+  "id": "extensor-carpi-ulnaris"
+ },
+ "flexor-carpi-ulnaris": {
+  "label": "Flexor Carpi Ulnaris",
+  "id": "flexor-carpi-ulnaris"
+ },
+ "biceps-brachii-short-head": {
+  "label": "Biceps Brachii, Short Head",
+  "id": "biceps-brachii-short-head"
+ },
+ "gastrocnemius": {
+  "label": "Gastrocnemius",
+  "id": "gastrocnemius"
+ },
+ "soleus": {
+  "label": "Soleus",
+  "id": "soleus"
+ },
+ "brachialis": {
+  "label": "Brachialis",
+  "id": "brachialis"
+ },
+ "brachioradialis": {
+  "label": "Brachioradialis",
+  "id": "brachioradialis"
+ },
+ "infraspinatus": {
+  "label": "Infraspinatus",
+  "id": "infraspinatus"
+ },
+ "teres-minor": {
+  "label": "Teres Minor",
+  "id": "teres-minor"
+ },
+ "hamstrings": {
+  "label": "Hamstrings",
+  "id": "hamstrings"
+ },
+ "triceps-long-head": {
+  "label": "Triceps, Long Head",
+  "id": "triceps-long-head"
+ },
+ "flexor-carpi-radialis": {
+  "label": "Flexor Carpi Radialis",
+  "id": "flexor-carpi-radialis"
+ },
+ "extensor-carpi-radialis": {
+  "label": "Extensor Carpi Radialis",
+  "id": "extensor-carpi-radialis"
+ },
+ "pronators": {
+  "label": "Pronators",
+  "id": "pronators"
+ },
+ "supinator": {
+  "label": "Supinator",
+  "id": "supinator"
+ },
+ "back-general": {
+  "label": "Back, General",
+  "id": "back-general"
+ },
+ "adductor-magnus": {
+  "label": "Adductor Magnus",
+  "id": "adductor-magnus"
+ },
+ "triceps-supporting-arm": {
+  "label": "Triceps (Supporting Arm)",
+  "id": "triceps-supporting-arm"
+ },
+ "psoas-major": {
+  "label": "Psoas major",
+  "id": "psoas-major"
+ },
+ "quadratus-lumborum": {
+  "label": "Quadratus        Lumborum",
+  "id": "quadratus-lumborum"
+ },
+ "iliocastalis-lumborum": {
+  "label": "Iliocastalis lumborum",
+  "id": "iliocastalis-lumborum"
+ },
+ "iliocastalis-thoracis": {
+  "label": "Iliocastalis thoracis",
+  "id": "iliocastalis-thoracis"
+ },
+ "general-back": {
+  "label": "General, Back",
+  "id": "general-back"
+ },
+ "deltoid-lateral": {
+  "label": "Deltoid, Lateral",
+  "id": "deltoid-lateral"
+ },
+ "supraspinatus": {
+  "label": "Supraspinatus",
+  "id": "supraspinatus"
+ },
+ "iliopsoas": {
+  "label": "Iliopsoas",
+  "id": "iliopsoas"
+ },
+ "tensor-fasciae-latae": {
+  "label": "Tensor Fasciae Latae",
+  "id": "tensor-fasciae-latae"
+ },
+ "rectus-femoris": {
+  "label": "Rectus Femoris",
+  "id": "rectus-femoris"
+ },
+ "sartorius": {
+  "label": "Sartorius",
+  "id": "sartorius"
+ },
+ "pectineus": {
+  "label": "Pectineus",
+  "id": "pectineus"
+ },
+ "tibialis-anterior": {
+  "label": "Tibialis Anterior",
+  "id": "tibialis-anterior"
+ },
+ "adductor-longus": {
+  "label": "Adductor Longus",
+  "id": "adductor-longus"
+ },
+ "adductor-brevis": {
+  "label": "Adductor Brevis",
+  "id": "adductor-brevis"
+ },
+ "pectoralis-major": {
+  "label": "Pectoralis major",
+  "id": "pectoralis-major"
+ },
+ "adductors-hip-side-of-rotating-direction": {
+  "label": "Adductors, Hip (side of rotating direction)",
+  "id": "adductors-hip-side-of-rotating-direction"
+ },
+ "gluteus-minimus-anterior-fibers": {
+  "label": "Gluteus minimus, anterior fibers",
+  "id": "gluteus-minimus-anterior-fibers"
+ },
+ "adductors-hip": {
+  "label": "Adductors, Hip",
+  "id": "adductors-hip"
+ },
+ "triceps": {
+  "label": "Triceps",
+  "id": "triceps"
+ },
+ "adductors-hip-opposite-side-of-rotating-direction": {
+  "label": "Adductors, Hip (opposite side of rotating direction)",
+  "id": "adductors-hip-opposite-side-of-rotating-direction"
+ },
+ "gracilis": {
+  "label": "Gracilis",
+  "id": "gracilis"
+ },
+ "gluteus-maximus-lower-fibers": {
+  "label": "Gluteus Maximus, Lower Fibers",
+  "id": "gluteus-maximus-lower-fibers"
+ },
+ "hamstrings-top-half": {
+  "label": "Hamstrings (top half)",
+  "id": "hamstrings-top-half"
+ },
+ "hamstrings-bottom-half": {
+  "label": "Hamstrings (bottom half)",
+  "id": "hamstrings-bottom-half"
+ },
+ "see-comments": {
+  "label": "See comments",
+  "id": "see-comments"
+ },
+ "piriformis": {
+  "label": "Piriformis",
+  "id": "piriformis"
+ },
+ "obturator-externus": {
+  "label": "Obturator        externus",
+  "id": "obturator-externus"
+ },
+ "erector-spinae-see-notes": {
+  "label": "Erector Spinae (see notes)",
+  "id": "erector-spinae-see-notes"
+ },
+ "gastrocnemius-second-leg": {
+  "label": "Gastrocnemius        (second leg)",
+  "id": "gastrocnemius-second-leg"
+ },
+ "gastrocnemius-following-leg": {
+  "label": "Gastrocnemius        (following leg)",
+  "id": "gastrocnemius-following-leg"
+ },
+ "gastrocnemius-lead-leg": {
+  "label": "Gastrocnemius (Lead Leg)",
+  "id": "gastrocnemius-lead-leg"
+ },
+ "gluteus-maximus-supporting-leg": {
+  "label": "Gluteus Maximus        (supporting leg)",
+  "id": "gluteus-maximus-supporting-leg"
+ },
+ "gluteus-maximus-lifted-leg": {
+  "label": "Gluteus Maximus        (lifted leg)",
+  "id": "gluteus-maximus-lifted-leg"
+ },
+ "popliteus": {
+  "label": "Popliteus",
+  "id": "popliteus"
+ },
+ "hip-abductors-listed-below": {
+  "label": "Hip Abductors (listed below)",
+  "id": "hip-abductors-listed-below"
+ },
+ "hip-abductors-opposite": {
+  "label": "Hip Abductors (opposite)",
+  "id": "hip-abductors-opposite"
+ },
+ "hip-internal-rotators-listed-below": {
+  "label": "Hip Internal Rotators (listed below)",
+  "id": "hip-internal-rotators-listed-below"
+ },
+ "gluteus-maximus-opposite-leg-only": {
+  "label": "Gluteus Maximus (opposite leg only)",
+  "id": "gluteus-maximus-opposite-leg-only"
+ },
+ "hip-external-rotators-listed-below": {
+  "label": "Hip External Rotators (listed below)",
+  "id": "hip-external-rotators-listed-below"
+ },
+ "gemellus-superior": {
+  "label": "Gemellus superior",
+  "id": "gemellus-superior"
+ },
+ "gemellus-inferior": {
+  "label": "Gemellus inferior",
+  "id": "gemellus-inferior"
+ },
+ "obturator-internus": {
+  "label": "Obturator internus",
+  "id": "obturator-internus"
+ },
+ "quadratus-femoris": {
+  "label": "Quadratus femoris",
+  "id": "quadratus-femoris"
+ },
+ "gluteus-medius-posterior-fibers": {
+  "label": "Gluteus medius, posterior fibers",
+  "id": "gluteus-medius-posterior-fibers"
+ },
+ "piriformis-opposite-leg": {
+  "label": "Piriformis (opposite leg)",
+  "id": "piriformis-opposite-leg"
+ },
+ "gluteus-maximus-opposite-leg": {
+  "label": "Gluteus Maximus (opposite leg)",
+  "id": "gluteus-maximus-opposite-leg"
+ },
+ "gastrocnemius-first-leg": {
+  "label": "Gastrocnemius (first leg)",
+  "id": "gastrocnemius-first-leg"
+ },
+ "adductors-hip-opposite": {
+  "label": "Adductors, Hip          (opposite)",
+  "id": "adductors-hip-opposite"
+ }
+}
