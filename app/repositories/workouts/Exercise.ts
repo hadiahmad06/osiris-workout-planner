@@ -5,13 +5,6 @@ const { RAPID_API_KEY } = Constants.expoConfig?.extra ?? {};
 console.log(RAPID_API_KEY);
 const url = 'https://exercisedb-api1.p.rapidapi.com/api/v1/';
 
-const options: RequestInit = {
-  method: 'GET',
-  headers: {
-    'x-rapidapi-key': '08980c3e54msh528a89717945a4ap1dd097jsna0d68b9271c9',
-    'x-rapidapi-host': 'exercisedb-api1.p.rapidapi.com',
-  },
-};
 
 
 // export async function getStatus() {
@@ -86,27 +79,28 @@ export async function getExercisesBySearch(query: string): Promise<{ id: string,
 
   const lowerQuery = query.toLowerCase();
   const nameMatches = DefaultExercises.filter(ex =>
-    ex.name.toLowerCase().includes(lowerQuery)
+    ex.title.toLowerCase().includes(lowerQuery)
   );
 
-  if (nameMatches.length >= 10) {
-    return nameMatches.map(ex => ({ id: ex.exerciseId, label: ex.name }));
+  const results = [...nameMatches];
+
+  if (results.length < 10) {
+    const additionalMatches = DefaultExercises.filter(ex =>
+      !results.includes(ex) &&
+      (
+        ex.target?.some(m => m.toLowerCase().includes(lowerQuery)) ||
+        ex.synergists?.some(m => m.toLowerCase().includes(lowerQuery))
+      )
+    );
+
+    results.push(...additionalMatches);
   }
 
-  const additionalMatches = DefaultExercises.filter(ex =>
-    !nameMatches.includes(ex) &&
-    (
-      ex.targetMuscles.some(m => m.toLowerCase().includes(lowerQuery)) ||
-      (ex.secondaryMuscles?.some(m => m.toLowerCase().includes(lowerQuery)) ?? false) ||
-      ex.bodyParts.some(p => p.toLowerCase().includes(lowerQuery))
-    )
-  );
-
-  return [...nameMatches, ...additionalMatches].map(ex => ({ id: ex.exerciseId, label: ex.name }));
+  return results.map(ex => ({ id: ex.title, label: ex.title }));
 }
 
 export async function getExerciseById(exercise_id: string): Promise<ExerciseApi | null> {
-  return DefaultExercises.find(ex => ex.exerciseId === exercise_id) ?? null;
+  return DefaultExercises.find(ex => ex.title === exercise_id) ?? null;
 }
 
 // export async function enrichExercise(exercise_id: string): Promise<ExerciseApi | null> {
