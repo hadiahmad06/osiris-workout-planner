@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { View } from "../Themed"
 import { KeyboardStickyView } from "react-native-keyboard-controller";
-import { MotiView } from "moti";
+import { MotiView, ScrollView } from "moti";
 import { useRef, useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
@@ -34,62 +34,69 @@ export default function AddExerciseCard() {
     <View
       style={[styles.cardBase, { backgroundColor: '#666' }]}
     >
-      <MotiView
-        style={{ width: '100%' }}
-        key={query ? 'Results' : 'Recommendation'}
-        from={{ opacity: 0, translateY: -10 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        exit={{ opacity: 0, translateY: 10 }}
-        transition={{ type: 'timing', duration: 350 }}
+      <ScrollView
+        style={{ flex: 1, alignSelf: 'stretch' }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.topLabel}>
-          {query ? 'Results' : 'Recommended Exercises'}
-        </Text>
-        {(query) ? (
-          <View style={styles.resultsList}>
-            {results ? (
-              <>
-                {results.map((val, i) => (
-                  <TouchableOpacity key={i} onPress={() => addExercise(val.id)}>
-                    <Text style={styles.resultsPill}>{val.label}</Text>
-                  </TouchableOpacity>
-                ))}
-              </>
-            ) : (
-              <>
-                {Array(16).fill(null).map((_, i) => (
-                  <MotiView
-                    key={i}
-                    from={{ backgroundColor: '#555' }}
-                    animate={{ backgroundColor: '#333' }}
-                    transition={{
-                      type: 'timing',
-                      duration: 650,
-                      loop: true,
-                      delay: Math.floor(i / 3) * 60,
-                    }}
-                    style={[
-                      styles.resultsPill,
-                      {
-                        height: 36,
-                        width: `${[20, 30, 45][(i % 3 + Math.floor(i / 3)) % 3]}%`,
-                      },
-                    ]}
-                  />
-                ))}
-              </>
-            )}
-          </View>
-        ) : (
-          <>
-            <View style={styles.recommendedList}>
-              <Text style={styles.recommendedPill}>Cable Row</Text>
-              <Text style={styles.recommendedPill}>Incline DB Press</Text>
-              <Text style={styles.recommendedPill}>RDL</Text>
+        <MotiView
+          style={{ width: '100%' }}
+          key={query ? 'Results' : 'Recommendation'}
+          from={{ opacity: 0, translateY: -10 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          exit={{ opacity: 0, translateY: 10 }}
+          transition={{ type: 'timing', duration: 350 }}
+        >
+          <Text style={styles.topLabel}>
+            {query ? 'Results' : 'Recommended Exercises'}
+          </Text>
+          {(query) ? (
+            <View style={styles.resultsList}>
+              {results ? (
+                <>
+                  {results.map((val, i) => (
+                    <TouchableOpacity key={i} onPress={() => addExercise(val.id)} style={styles.resultRow}>
+                      <Text style={styles.resultRowText}>{val.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {Array(8).fill(null).map((_, i) => (
+                    <MotiView
+                      key={i}
+                      from={{ backgroundColor: '#555' }}
+                      animate={{ backgroundColor: '#444' }}
+                      transition={{
+                        type: 'timing',
+                        duration: 500,
+                        loop: true,
+                        delay: Math.floor(i / 3) * 60,
+                      }}
+                      style={[
+                        styles.resultRow,
+                        {
+                          height: 36,
+                          width: '100%'
+                          // width: `${[20, 30, 45][(i % 3 + Math.floor(i / 3)) % 3]}%`,
+                        },
+                      ]}
+                    />
+                  ))}
+                </>
+              )}
             </View>
-          </>
-        )}
-      </MotiView>
+          ) : (
+            <>
+              <View style={styles.recommendedList}>
+                <Text style={styles.recommendedPill}>Cable Row</Text>
+                <Text style={styles.recommendedPill}>Incline DB Press</Text>
+                <Text style={styles.recommendedPill}>RDL</Text>
+              </View>
+            </>
+          )}
+        </MotiView>
+      </ScrollView>
       <View style={styles.spacer} />
       <KeyboardStickyView offset={{ opened: 300 }}>
         <TouchableWithoutFeedback onPress={() => inputRef.current?.focus()}>
@@ -167,10 +174,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   resultsList: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: '#666',
-    flexWrap: 'wrap',
-    gap: 8,
   },
   resultsPill: {
     backgroundColor: '#333',
@@ -178,7 +183,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     paddingHorizontal: 14,
     borderRadius: 999,
-    fontSize: 20,
+    fontSize: 14,
   },
   recommendedList: {
     flexDirection: 'row',
@@ -221,5 +226,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
+  },
+  resultRow: {
+    backgroundColor: '#333',
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 4,
+    width: '100%',
+  },
+  resultRowText: {
+    color: '#fff',
+    fontSize: 18,
   },
 });

@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 import { ExerciseApi, ExerciseApiSchema, ExerciseQueryResultSchema } from "@/utils/schema/Exercise";
 import Constants from 'expo-constants';
 
@@ -14,26 +15,17 @@ const DefaultExercises: ExerciseApi[] = Array.isArray(exercise_data) ? exercise_
 export async function getExercisesBySearch(query: string): Promise<{ id: string, label: string }[] | null> {
   if (!query) return null;
 
-  const lowerQuery = query.toLowerCase();
-  const nameMatches = DefaultExercises.filter(ex =>
-    ex.title.toLowerCase().includes(lowerQuery)
-  );
+  const fuse = new Fuse(DefaultExercises, {
+    keys: ['title', 'target', 'synergists'],
+    threshold: 0.4,
+  });
 
-  const results = [...nameMatches];
+  const results = fuse.search(query).slice(0, 15);
 
-  if (results.length < 10) {
-    const additionalMatches = DefaultExercises.filter(ex =>
-      !results.includes(ex) &&
-      (
-        ex.target?.some(m => m.toLowerCase().includes(lowerQuery)) ||
-        ex.synergists?.some(m => m.toLowerCase().includes(lowerQuery))
-      )
-    );
-
-    results.push(...additionalMatches);
-  }
-
-  return results.map(ex => ({ id: ex.title, label: ex.title }));
+  return results.map(result => ({
+    id: result.item.title,
+    label: result.item.title,
+  }));
 }
 
 export async function getExerciseById(exercise_id: string): Promise<ExerciseApi | null> {

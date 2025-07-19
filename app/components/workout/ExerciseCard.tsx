@@ -87,8 +87,8 @@ export default function ExerciseCard({ exercise }: { exercise: EnrichedExerciseS
 
   return (
     <View style={[styles.cardBase, { backgroundColor: '#444' }]}>
-      <View style={{ backgroundColor: '#444', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <Text style={styles.text}>{exercise.info?.name ?? 'Loading...'}</Text>
+      <View style={{ backgroundColor: '#444', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, width: '75%' }}>
+        <Text style={styles.text} adjustsFontSizeToFit numberOfLines={1}>{exercise.info?.title ?? 'Loading...'}</Text>
         <MaterialIcons name="info-outline" size={24} color="#fff" />
       </View>
 
