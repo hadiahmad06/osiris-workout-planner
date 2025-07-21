@@ -7,6 +7,7 @@ import { ExerciseApi } from "@/utils/schema/Exercise";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from "uuid";
 import { getExerciseById } from "@/repositories/workouts/Exercise";
+import { insertWorkout } from "@/repositories/workouts/Workout";
 
 
 export interface EnrichedExerciseSession extends ExerciseSession {
@@ -148,6 +149,29 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return newSelectedIndex;
   };
 
+  const pushWorkout = async () => {
+    if (!workout) return;
+
+    const now = Date.now();
+    const start = new Date(workout.date).getTime();
+    const duration = Math.floor((now - start) / 1000); // in seconds
+
+    const toPush = {
+      ...workout,
+      duration,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    insertWorkout(toPush);
+
+    setWorkout(null);
+    // setExercises([]);
+    // setSets([]);
+    // ONLY INSERTING WORKOUT FOR TESTING RIGHT NOW!!
+
+  };
+
   return (
     <WorkoutContext.Provider
       value={{
@@ -155,6 +179,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         exercises,
         sets,
         startWorkout,
+        pushWorkout,
         setWorkout,
         addExercise,
         updateExercise,

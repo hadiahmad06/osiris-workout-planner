@@ -35,7 +35,7 @@ export default function AddExerciseCard() {
       style={[styles.cardBase, { backgroundColor: '#666' }]}
     >
       <ScrollView
-        style={{ flex: 1, alignSelf: 'stretch' }}
+        style={{ marginBottom: 15, flex: 1, alignSelf: 'stretch' }}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
@@ -97,7 +97,7 @@ export default function AddExerciseCard() {
           )}
         </MotiView>
       </ScrollView>
-      <View style={styles.spacer} />
+      {/* <View style={styles.spacer} /> */}
       <KeyboardStickyView offset={{ opened: 300 }}>
         <TouchableWithoutFeedback onPress={() => inputRef.current?.focus()}>
           <MotiView 

@@ -1,7 +1,7 @@
 import { WorkoutSession } from "@/utils/schema/WorkoutSession";
 import { useEffect, useState } from "react";
 import { HistoryContext } from "./HistoryContext";
-import { getRecentWorkouts } from "@/repositories/workouts/WorkoutRepository";
+import { getRecentWorkouts } from "@/repositories/workouts/Workout";
 
 
 export const HistoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

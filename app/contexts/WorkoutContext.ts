@@ -11,6 +11,7 @@ type WorkoutContextType = {
   sets: Record<string, SetSession[]>; // key = exercise_session_id
   setWorkout: (workout: WorkoutSession | null) => void;
   startWorkout: (title?: string, exercises?: string[]) => Promise<void>;
+  pushWorkout: () => Promise<void>;
   addExercise: (exerciseId: string) => void;
   updateExercise: (exercise: ExerciseSession) => void;
   removeExercise: (exerciseId: string) => void;
