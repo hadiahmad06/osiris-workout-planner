@@ -2,10 +2,10 @@ import Colors from '@/constants/Colors';
 import { useWorkout } from '@/contexts/WorkoutContext';
 import { EnrichedExerciseSession } from '@/contexts/WorkoutProvider';
 import { ExerciseSession } from '@/utils/schema/ExerciseSession';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { View, TextInput, Text, StyleSheet, useColorScheme, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { KeyboardAvoidingView, KeyboardStickyView, useKeyboardAnimation } from 'react-native-keyboard-controller';
-import Carousel from 'react-native-reanimated-carousel';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import { MotiView } from 'moti';
 import Animated from 'react-native';
@@ -19,14 +19,24 @@ export default function WorkoutSession() {
   const colorScheme = useColorScheme();
   const { width, height } = Dimensions.get('window');
 
-  const slides: ExerciseSlide[] = [...exercises, 'plus'];
-  const inputRef = useRef<TextInput>(null);
-  const { height: keyboardHeight, progress } = useKeyboardAnimation();
+  const [currentExerciseId, setCurrentExerciseId] = useState<string | null>(null);
 
-  const scale = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 2],
-  });
+  const slides: ExerciseSlide[] = useMemo(() => [...exercises, 'plus'], [exercises]);
+  // const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const carouselRef = useRef<ICarouselInstance>(null);
+
+  useEffect(() => {
+    carouselRef.current?.scrollTo({index: slides.length-2});
+  }, [])
+
+  useEffect(() => {
+    if (!currentExerciseId) return;
+    const index = exercises.findIndex(ex => ex.id === currentExerciseId);
+    if (index !== -1) {
+      carouselRef.current?.scrollTo({ index });
+    }
+  }, [exercises]);
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -43,11 +53,20 @@ export default function WorkoutSession() {
       >
         <Carousel
           loop
+          ref={carouselRef}
           width={width}
           autoPlay={false}
           data={slides}
           scrollAnimationDuration={500}
           mode="parallax"
+          onSnapToItem={(index) => {
+            const item = slides[index];
+            if (item !== 'plus') {
+              setCurrentExerciseId(item.id);
+            } else {
+              setCurrentExerciseId(null);
+            }
+          }}
           modeConfig={{
             parallaxScrollingScale: 0.85,
             parallaxScrollingOffset: 80,
