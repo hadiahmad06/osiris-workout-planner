@@ -10,9 +10,10 @@ import Toggle from '@/components/common/Toggle';
 import { useWorkout } from '@/contexts/WorkoutContext';
 import { useHistory } from '@/contexts/HistoryContext';
 
-import { format, isToday } from 'date-fns';
+import { format, isToday, setWeek } from 'date-fns';
 import { CompleteWorkoutSession } from '@/utils/schema/WorkoutSession';
 import { Easing } from 'react-native-reanimated';
+import { WeekCarousel } from '@/components/today/WeekCarousel';
 
 type WorkoutDayStatus = {
   date: string;
@@ -33,13 +34,7 @@ export default function TabOneScreen() {
     return now;
   });
 
-  const [weekAnimationDirection, setWeekAnimationDirection] = useState<'left' | 'right' | null>(null);
-
   const [loadedWorkouts, setLoadedWorkouts] = useState<CompleteWorkoutSession[] | null>(null);
-  const [weekStatuses, setWeekStatuses] = useState<boolean[]>([]);
-  
-  const [bubbleWidth, setBubbleWidth] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const selectedDate = new Date(startOfWeek);
   selectedDate.setDate(startOfWeek.getDate() + selectedDateOffset);
@@ -52,27 +47,6 @@ export default function TabOneScreen() {
     const res = await getWorkoutsInRange(startOfWeek, endOfWeek);
     return res;
   };
-
-  useEffect(() => {
-    fetchWorkoutsInRange().then((res) => {
-      const statuses = Array.from({ length: 7 }, (_, i) => {
-        const day = new Date(startOfWeek);
-        day.setDate(startOfWeek.getDate() + i);
-        return res.some((w) => new Date(w.date).toDateString() === day.toDateString());
-      });
-      setWeekStatuses(statuses);
-    });
-  }, [startOfWeek])
-
-  useEffect(() => {
-    setIsAnimating(true);
-
-    const shrinkTimeout = setTimeout(() => {
-      setIsAnimating(false);
-    }, 200); // adjust this value as needed
-
-    return () => clearTimeout(shrinkTimeout);
-  }, [selectedDateOffset]);
 
   useEffect(() => {
     if (selectedToggle === 'today') {
@@ -98,128 +72,13 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{formattedTitle}</Text>
-      <View style={styles.weekNav}>
-        <FontAwesome
-          name="chevron-left"
-          style={styles.arrow}
-          onPress={() => {
-            setWeekAnimationDirection('left');
-            setStartOfWeek(prev => {
-              const newDate = new Date(prev);
-              newDate.setDate(prev.getDate() - 7);
-              return newDate;
-            });
-          }}
-        />
-        <View style={styles.weekContainerWrapper}>
-          <MotiView
-            key={startOfWeek.toISOString()}
-            from={{
-              translateX: weekAnimationDirection === 'left' ? -100 : 100,
-              opacity: 0,
-            }}
-            animate={{
-              translateX: 0,
-              opacity: 1,
-            }}
-            transition={{
-              type: 'timing',
-              duration: 300,
-            }}
-            style={styles.weekContainer}
-            onDidAnimate={() => setWeekAnimationDirection(null)}
-          >
-            {Array.from({ length: 7 }).map((_, index) => {
-              const date = new Date();
-              date.setDate(date.getDate() - date.getDay() + index); // Start from Sunday
-              const dayName = date.getDate().toString();
-
-              return (
-                <TouchableOpacity
-                  key={index}
-                  activeOpacity={0.7}
-                  onPress={() => setSelectedDateOffset(index)}
-                  style={[
-                    styles.dateBubble,
-                    weekStatuses[index] && styles.activeDateBubble,
-                    { position: 'relative' },
-                  ]}
-                >
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    style={[
-                      styles.dateText,
-                      weekStatuses[index] && styles.activeDateText,
-                    ]}
-                  >
-                    {dayName}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </MotiView>
-          <View
-            style={{
-              position: 'absolute',
-              height: 14,
-              width: '100%',
-              top: '100%'
-            }}
-            onLayout={(event) => {
-              const totalWidth = event.nativeEvent.layout.width;
-              const gap = 4;
-              const usableWidth = totalWidth - gap * 6;
-              const calcBubbleWidth = usableWidth / 7;
-              setBubbleWidth(calcBubbleWidth);
-            }}
-          >
-            <MotiView
-              from={{ translateX: 0 }}
-              // IF WEEK CONTAINER GAP IS CHANGED THIS WILL BREAK
-              animate={{ translateX: (bubbleWidth + 4) * selectedDateOffset }}
-              transition={{
-                type: 'timing',
-                duration: 400,
-                easing: Easing.out(Easing.ease),
-              }}
-              style={{
-                position: 'relative',
-                width: bubbleWidth,
-                height: 6,
-                top: 6,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <MotiView
-                from={{ scaleX: 0.75 }}
-                animate={{ scaleX: isAnimating ? 3 : 0.75 }}
-                transition={{ type: 'timing', duration: 200 }}
-                style={{
-                  position: 'relative',
-                  width: '20%',
-                  height: 6,
-                  borderRadius: 999,
-                  backgroundColor: '#ccc',
-                }}
-              />
-            </MotiView>
-          </View>
-        </View>
-        <FontAwesome
-          name="chevron-right"
-          style={styles.arrow}
-          onPress={() => {
-            setWeekAnimationDirection('right');
-            setStartOfWeek(prev => {
-              const newDate = new Date(prev);
-              newDate.setDate(prev.getDate() + 7);
-              return newDate;
-            });
-          }}
-        />
-      </View>
+      <WeekCarousel 
+        startOfWeek={startOfWeek} 
+        setStartOfWeek={setStartOfWeek} 
+        selectedDateOffset={selectedDateOffset} 
+        setSelectedDateOffset={setSelectedDateOffset}
+        fetchWorkoutsInRange={fetchWorkoutsInRange}
+      />
       <View style={styles.summaryContainer}>
         <View style={styles.summaryHeader}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Summary</Text>
@@ -306,52 +165,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     marginVertical: 20,
-  },
-  weekNav: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
-  weekContainerWrapper: {
-    flex: 1,
-    overflow: 'visible',
-    position: 'relative',
-  },
-  weekContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  arrow: {
-    alignSelf: 'center',
-    paddingTop: 2,  
-    color: '#fff',
-    fontSize: 20,
-    paddingHorizontal: 10,
-  },
-  dateBubble: {
-    flex: 1,
-    backgroundColor: '#222',
-    borderRadius: 20,
-    paddingVertical: 6,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  activeDateBubble: {
-    backgroundColor: '#6a5acd',
-  },
-  dateText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    includeFontPadding: false,
-    textAlignVertical: 'center',
-  },
-  activeDateText: {
-    fontWeight: 'bold',
-    color: '#fff',
   },
   summaryContainer: {
     flex: 1,
