@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { MotiView } from 'moti';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-import { Text, View } from '@/components/Themed';
+import { Text } from '@/components/Themed';
 import Toggle from '@/components/common/Toggle';
 import { useWorkout } from '@/contexts/WorkoutContext';
 import { useHistory } from '@/contexts/HistoryContext';
 
 import { format, isToday } from 'date-fns';
 import { CompleteWorkoutSession } from '@/utils/schema/WorkoutSession';
+import { Easing } from 'react-native-reanimated';
 
 type WorkoutDayStatus = {
   date: string;
@@ -24,15 +25,22 @@ export default function TabOneScreen() {
   const router = useRouter();
 
   const [selectedToggle, setSelectedToggle] = useState<'today' | 'week'>('today');
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [loadedWorkouts, setLoadedWorkouts] = useState<CompleteWorkoutSession[] | null>(null);
+  const [selectedDateOffset, setSelectedDateOffset] = useState(new Date().getDay());
   const [startOfWeek, setStartOfWeek] = useState(() => {
     const now = new Date();
     now.setDate(now.getDate() - now.getDay());
     now.setHours(0, 0, 0, 0);
     return now;
   });
-  const [weekStatuses, setWeekStatuses] = useState<WorkoutDayStatus[]>();
+
+  const [loadedWorkouts, setLoadedWorkouts] = useState<CompleteWorkoutSession[] | null>(null);
+  const [weekStatuses, setWeekStatuses] = useState<boolean[]>([]);
+  
+  const [bubbleWidth, setBubbleWidth] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const selectedDate = new Date(startOfWeek);
+  selectedDate.setDate(startOfWeek.getDate() + selectedDateOffset);
   
   const fetchWorkoutsInRange = async () => {
     const endOfWeek = new Date(startOfWeek);
@@ -44,8 +52,25 @@ export default function TabOneScreen() {
   };
 
   useEffect(() => {
-    fetchWorkoutsInRange().then();
-  }, [])
+    fetchWorkoutsInRange().then((res) => {
+      const statuses = Array.from({ length: 7 }, (_, i) => {
+        const day = new Date(startOfWeek);
+        day.setDate(startOfWeek.getDate() + i);
+        return res.some((w) => new Date(w.date).toDateString() === day.toDateString());
+      });
+      setWeekStatuses(statuses);
+    });
+  }, [startOfWeek])
+
+  useEffect(() => {
+    setIsAnimating(true);
+
+    const shrinkTimeout = setTimeout(() => {
+      setIsAnimating(false);
+    }, 200); // adjust this value as needed
+
+    return () => clearTimeout(shrinkTimeout);
+  }, [selectedDateOffset]);
 
   useEffect(() => {
     if (selectedToggle === 'today') {
@@ -58,7 +83,7 @@ export default function TabOneScreen() {
         setLoadedWorkouts(res);
       });
     }
-  }, [selectedToggle, selectedDate]);
+  }, [startOfWeek, selectedToggle, selectedDateOffset]);
 
   const formattedTitle = isToday(selectedDate)
     ? 'Today'
@@ -84,10 +109,11 @@ export default function TabOneScreen() {
                 <TouchableOpacity
                   key={index}
                   activeOpacity={0.7}
-                  onPress={() => setSelectedDate(date)}
+                  onPress={() => setSelectedDateOffset(index)}
                   style={[
                     styles.dateBubble,
-                    date.toDateString() === selectedDate.toDateString() && styles.activeDateBubble,
+                    weekStatuses[index] && styles.activeDateBubble,
+                    { position: 'relative' },
                   ]}
                 >
                   <Text
@@ -95,7 +121,7 @@ export default function TabOneScreen() {
                     adjustsFontSizeToFit
                     style={[
                       styles.dateText,
-                      date.toDateString() === selectedDate.toDateString() && styles.activeDateText,
+                      weekStatuses[index] && styles.activeDateText,
                     ]}
                   >
                     {dayName}
@@ -103,6 +129,53 @@ export default function TabOneScreen() {
                 </TouchableOpacity>
               );
             })}
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              height: 14,
+              width: '100%',
+              top: '100%'
+            }}
+            onLayout={(event) => {
+              const totalWidth = event.nativeEvent.layout.width;
+              const gap = 4;
+              const usableWidth = totalWidth - gap * 6;
+              const calcBubbleWidth = usableWidth / 7;
+              setBubbleWidth(calcBubbleWidth);
+            }}
+          >
+            <MotiView
+              from={{ translateX: 0 }}
+              // IF WEEK CONTAINER GAP IS CHANGED THIS WILL BREAK
+              animate={{ translateX: (bubbleWidth + 4) * selectedDateOffset }}
+              transition={{
+                type: 'timing',
+                duration: 400,
+                easing: Easing.out(Easing.ease),
+              }}
+              style={{
+                position: 'relative',
+                width: bubbleWidth,
+                height: 6,
+                top: 6,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <MotiView
+                from={{ scaleX: 0.75 }}
+                animate={{ scaleX: isAnimating ? 3 : 0.75 }}
+                transition={{ type: 'timing', duration: 200 }}
+                style={{
+                  position: 'relative',
+                  width: '20%',
+                  height: 6,
+                  borderRadius: 999,
+                  backgroundColor: '#ccc',
+                }}
+              />
+            </MotiView>
           </View>
         </View>
         <FontAwesome name="chevron-right" style={styles.arrow} />
@@ -141,9 +214,13 @@ export default function TabOneScreen() {
         
         { !workout ? (
           <View style={styles.actionRow}>
-            <View style={styles.actionButtonSecondary}>
-              <Text style={styles.actionButtonText}>Mark Rest Day</Text>
-            </View>
+            {!isToday(selectedDate) && (
+              <TouchableOpacity style={styles.actionButtonSecondary}>
+                <Text style={styles.actionButtonText}>
+                  Log Workout {format(selectedDate, 'M/d')}
+                </Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               onPress={async () => {
                 router.push('/(tabs)/today/workout-session')
@@ -198,7 +275,8 @@ const styles = StyleSheet.create({
   },
   weekContainerWrapper: {
     flex: 1,
-    overflow: 'hidden',
+    overflow: 'visible',
+    position: 'relative',
   },
   weekContainer: {
     flexDirection: 'row',
@@ -239,7 +317,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 16,
     paddingHorizontal: 20,
-    paddingTop: 12,
+    // paddingTop: 12,
   },
   summaryHeader: {
     flexDirection: 'row',

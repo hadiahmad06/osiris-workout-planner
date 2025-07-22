@@ -4,9 +4,9 @@ import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite'
 
 const db = openDatabaseSync('main.db');
 
-db.execAsync(`
-  DROP TABLE IF EXISTS workouts;
-  CREATE TABLE IF NOT EXISTS workouts (
+db.execAsync(
+  // DROP TABLE IF EXISTS workouts;
+  `CREATE TABLE IF NOT EXISTS workouts (
     id TEXT PRIMARY KEY NOT NULL,
     date TEXT NOT NULL,
     duration INTEGER NOT NULL,
