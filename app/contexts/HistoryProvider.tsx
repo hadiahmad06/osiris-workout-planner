@@ -1,21 +1,28 @@
-import { WorkoutSession } from "@/utils/schema/WorkoutSession";
+import { CompleteWorkoutSession, WorkoutSession } from "@/utils/schema/WorkoutSession";
 import { useEffect, useState } from "react";
 import { HistoryContext } from "./HistoryContext";
-import { getRecentWorkouts } from "@/repositories/workouts/Workout";
+import { getRecentWorkouts, getWorkoutsInTimeRange } from "@/repositories/workouts/Workout";
 
 
 export const HistoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [workouts, setWorkouts] = useState<WorkoutSession[]>([]);
+  const [workouts, setWorkouts] = useState<CompleteWorkoutSession[]>([]);
 
   const fetchWorkouts = async () => {
     // TODO: fetch from SQLite
     setWorkouts( await getRecentWorkouts() );
   };
 
-  const getWorkoutByDate = (date: string) => workouts.find(w => w.date === date);
+const getWorkoutsInRange = async (startDate: Date, endDate?: Date) => {
+  const start = new Date(startDate);
+  start.setHours(0, 0, 0, 0);
+  const startTime = start.toISOString();
 
-  const getWorkoutsInRange = (startDate: string, endDate: string) =>
-    workouts.filter(w => w.date >= startDate && w.date <= endDate);
+  const end = new Date(endDate ?? startDate);
+  end.setHours(23, 59, 59, 999);
+  const endTime = end.toISOString();
+
+  return await getWorkoutsInTimeRange(startTime, endTime);
+};
 
   useEffect(() => {
     fetchWorkouts();
@@ -25,7 +32,6 @@ export const HistoryProvider: React.FC<{ children: React.ReactNode }> = ({ child
     <HistoryContext.Provider value={{ 
         workouts, 
         fetchWorkouts, 
-        getWorkoutByDate, 
         getWorkoutsInRange 
     }}>
       {children}

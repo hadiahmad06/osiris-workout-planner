@@ -149,6 +149,13 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return newSelectedIndex;
   };
 
+  const cancelWorkout = () => {
+    setWorkout(null);
+    // setExercises([]);
+    // setSets([]);
+    // ONLY DELETING WORKOUT FOR TESTING RIGHT NOW!!
+  }
+
   const pushWorkout = async () => {
     if (!workout) return;
 
@@ -161,6 +168,9 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
       duration,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      setsCount: Object.values(sets).reduce((acc, curr) => acc + curr.length, 0),
+      exercisesCount: exercises.length,
+      muscleDistribution: {}
     };
 
     insertWorkout(toPush);
@@ -180,6 +190,7 @@ export const WorkoutProvider: React.FC<{ children: React.ReactNode }> = ({ child
         sets,
         startWorkout,
         pushWorkout,
+        cancelWorkout,
         setWorkout,
         addExercise,
         updateExercise,

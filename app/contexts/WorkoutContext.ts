@@ -12,6 +12,7 @@ type WorkoutContextType = {
   setWorkout: (workout: WorkoutSession | null) => void;
   startWorkout: (title?: string, exercises?: string[]) => Promise<void>;
   pushWorkout: () => Promise<void>;
+  cancelWorkout: () => void;
   addExercise: (exerciseId: string) => void;
   updateExercise: (exercise: ExerciseSession) => void;
   removeExercise: (exerciseId: string) => void;

@@ -3,7 +3,6 @@ import { ExerciseApi, ExerciseApiSchema, ExerciseQueryResultSchema } from "@/uti
 import Constants from 'expo-constants';
 
 const { RAPID_API_KEY } = Constants.expoConfig?.extra ?? {};
-console.log(RAPID_API_KEY);
 const url = 'https://exercisedb-api1.p.rapidapi.com/api/v1/';
 
 import exercise_data from '@/utils/data/exercise_data.json';

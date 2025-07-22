@@ -1,40 +1,63 @@
 import { CompleteWorkoutSession, WorkoutSession } from '@/utils/schema/WorkoutSession';
 import { openDatabaseSync, SQLiteDatabase } from 'expo-sqlite'
 
-const db = openDatabaseSync('main.db');
-// console.log(db, { depth: 2 })
 
-export async function getRecentWorkouts(limit: number = 30): Promise<WorkoutSession[]> {
+const db = openDatabaseSync('main.db');
+
+db.execAsync(`
+  DROP TABLE IF EXISTS workouts;
+  CREATE TABLE IF NOT EXISTS workouts (
+    id TEXT PRIMARY KEY NOT NULL,
+    date TEXT NOT NULL,
+    duration INTEGER NOT NULL,
+    title TEXT,
+    notes TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    setsCount INTEGER NOT NULL,
+    exercisesCount INTEGER NOT NULL,
+    muscleDistribution TEXT NOT NULL
+  );
+`);
+
+
+export async function getRecentWorkouts(limit: number = 30): Promise<CompleteWorkoutSession[]> {
   const statement = await db.prepareAsync(
     'SELECT * FROM workouts ORDER BY date DESC LIMIT $limit'
   );
   try {
     const result = await statement.executeAsync({ $limit: limit });
-    return await result.getAllAsync() as WorkoutSession[];
+    return await result.getAllAsync() as CompleteWorkoutSession[];
   } finally {
     await statement.finalizeAsync();
   }
 }
 
-export async function getWorkoutByDate(date: string): Promise<WorkoutSession | null> {
-  const statement = await db.prepareAsync(
-    'SELECT * FROM workouts WHERE date = $date LIMIT 1'
-  );
+export async function getWorkoutsInTimeRange(startTime: string, endTime: string): Promise<CompleteWorkoutSession[]> {
   try {
-    const result = await statement.executeAsync({ $date: date });
-    const first = await result.getFirstAsync();
-    return first ? first as WorkoutSession : null;
-  } finally {
-    await statement.finalizeAsync();
+    const statement = await db.prepareAsync(
+      'SELECT * FROM workouts WHERE date BETWEEN $startTime AND $endTime'
+    );
+
+    const result = await statement.executeAsync({
+      $startTime: startTime,
+      $endTime: endTime
+    });
+    
+    return await result.getAllAsync() as CompleteWorkoutSession[];
+  } catch (err) {
+    console.error("Failed to get workouts by time range:", err);
+    return [];
   }
 }
 
 export async function insertWorkout(workout: CompleteWorkoutSession): Promise<void> {
-  const statement = await db.prepareAsync(
-    `INSERT INTO workouts (id, date, duration, title, notes, created_at, updated_at)
-     VALUES ($id, $date, $duration, $title, $notes, $created_at, $updated_at)`
-  );
+  let statement;
   try {
+    statement = await db.prepareAsync(
+      `INSERT INTO workouts (id, date, duration, title, notes, created_at, updated_at, setsCount, exercisesCount, muscleDistribution)
+       VALUES ($id, $date, $duration, $title, $notes, $created_at, $updated_at, $setsCount, $exercisesCount, $muscleDistribution)`
+    );
     await statement.executeAsync({
       $id: workout.id,
       $date: workout.date,
@@ -43,9 +66,16 @@ export async function insertWorkout(workout: CompleteWorkoutSession): Promise<vo
       $notes: workout.notes ?? null,
       $created_at: workout.created_at,
       $updated_at: workout.updated_at,
+      $setsCount: workout.setsCount,
+      $exercisesCount: workout.exercisesCount,
+      $muscleDistribution: JSON.stringify(workout.muscleDistribution),
     });
+  } catch (err) {
+    console.error("Failed to insert workout:", err);
   } finally {
-    await statement.finalizeAsync();
+    if (statement) {
+      await statement.finalizeAsync();
+    }
   }
 }
 

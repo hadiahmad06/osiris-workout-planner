@@ -1,12 +1,11 @@
-import { WorkoutSession } from '@/utils/schema/WorkoutSession';
+import { CompleteWorkoutSession, WorkoutSession } from '@/utils/schema/WorkoutSession';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 
 type HistoryContextType = {
-  workouts: WorkoutSession[];
+  workouts: CompleteWorkoutSession[];
   fetchWorkouts: () => Promise<void>;
-  getWorkoutByDate: (date: string) => WorkoutSession | undefined;
-  getWorkoutsInRange: (startDate: string, endDate: string) => WorkoutSession[];
+  getWorkoutsInRange: (startDate: Date, endDate?: Date) => Promise<CompleteWorkoutSession[]>;
 };
 
 export const HistoryContext = createContext<HistoryContextType | undefined>(undefined);

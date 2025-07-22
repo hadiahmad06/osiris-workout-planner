@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { MotiView } from 'moti';
 
@@ -8,38 +8,101 @@ import { useRouter } from 'expo-router';
 import { Text, View } from '@/components/Themed';
 import Toggle from '@/components/common/Toggle';
 import { useWorkout } from '@/contexts/WorkoutContext';
+import { useHistory } from '@/contexts/HistoryContext';
+
+import { format, isToday } from 'date-fns';
+import { CompleteWorkoutSession } from '@/utils/schema/WorkoutSession';
+
+type WorkoutDayStatus = {
+  date: string;
+  completed: boolean;
+}
 
 export default function TabOneScreen() {
-  const { workout, startWorkout } = useWorkout();
-  const [selectedToggle, setSelectedToggle] = useState<'today' | 'week'>('today');
+  const { workouts, getWorkoutsInRange } = useHistory()
+  const { workout, startWorkout, cancelWorkout } = useWorkout();
   const router = useRouter();
+
+  const [selectedToggle, setSelectedToggle] = useState<'today' | 'week'>('today');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loadedWorkouts, setLoadedWorkouts] = useState<CompleteWorkoutSession[] | null>(null);
+  const [startOfWeek, setStartOfWeek] = useState(() => {
+    const now = new Date();
+    now.setDate(now.getDate() - now.getDay());
+    now.setHours(0, 0, 0, 0);
+    return now;
+  });
+  const [weekStatuses, setWeekStatuses] = useState<WorkoutDayStatus[]>();
+  
+  const fetchWorkoutsInRange = async () => {
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    const res = await getWorkoutsInRange(startOfWeek, endOfWeek);
+    return res;
+  };
+
+  useEffect(() => {
+    fetchWorkoutsInRange().then();
+  }, [])
+
+  useEffect(() => {
+    if (selectedToggle === 'today') {
+      const startDate = new Date(selectedDate);
+      getWorkoutsInRange( startDate ).then((res) => {
+        setLoadedWorkouts(res);
+      });
+    } else {
+      fetchWorkoutsInRange().then((res) => {
+        setLoadedWorkouts(res);
+      });
+    }
+  }, [selectedToggle, selectedDate]);
+
+  const formattedTitle = isToday(selectedDate)
+    ? 'Today'
+    : format(selectedDate, 'EEEE, MMMM d');
+
+  const totalDuration = loadedWorkouts?.reduce((acc, w) => acc + w.duration, 0) ?? 0;
+  const totalSets = loadedWorkouts?.reduce((acc, w) => acc + w.setsCount, 0) ?? 0;
+  const totalExercises = loadedWorkouts?.reduce((acc, w) => acc + w.exercisesCount, 0) ?? 0;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Today</Text>
+      <Text style={styles.title}>{formattedTitle}</Text>
       <View style={styles.weekNav}>
         <FontAwesome name="chevron-left" style={styles.arrow} />
         <View style={styles.weekContainerWrapper}>
           <View style={styles.weekContainer}>
-            {['26', '27', '28', '29', '30', '31', '1'].map((date, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.dateBubble,
-                  date === '29' && styles.activeDateBubble,
-                ]}
-              >
-                <Text
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
+            {Array.from({ length: 7 }).map((_, index) => {
+              const date = new Date();
+              date.setDate(date.getDate() - date.getDay() + index); // Start from Sunday
+              const dayName = date.getDate().toString();
+
+              return (
+                <TouchableOpacity
+                  key={index}
+                  activeOpacity={0.7}
+                  onPress={() => setSelectedDate(date)}
                   style={[
-                    styles.dateText,
-                    date === '29' && styles.activeDateText,
+                    styles.dateBubble,
+                    date.toDateString() === selectedDate.toDateString() && styles.activeDateBubble,
                   ]}
                 >
-                  {date}
-                </Text>
-              </View>
-            ))}
+                  <Text
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                    style={[
+                      styles.dateText,
+                      date.toDateString() === selectedDate.toDateString() && styles.activeDateText,
+                    ]}
+                  >
+                    {dayName}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
         <FontAwesome name="chevron-right" style={styles.arrow} />
@@ -58,6 +121,16 @@ export default function TabOneScreen() {
           />
         </View>
 
+
+        {loadedWorkouts && (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+            <Text style={{ fontSize: 14, color: '#ccc', fontWeight: 600}}>
+              {totalDuration ? `${Math.floor(totalDuration / 60) > 0 ? `${Math.floor(totalDuration / 60)} hr` : ''}${totalDuration % 60 > 0 ? ` ${totalDuration % 60} min` : ''}` : '0 min'}
+              {` • ${loadedWorkouts.length} Workout${loadedWorkouts.length !== 1 ? 's' : ''} • ${totalExercises} Exercise${totalExercises !== 1 ? 's' : ''} • ${totalSets} Set${totalSets !== 1 ? 's' : ''}`}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.summaryCard}>
           <Text style={styles.summaryLabel}>[Muscle Diagram]</Text>
         </View>
@@ -74,7 +147,7 @@ export default function TabOneScreen() {
             <TouchableOpacity
               onPress={async () => {
                 router.push('/(tabs)/today/workout-session')
-                await startWorkout(undefined, ['K6NnTv0']);
+                await startWorkout(undefined, ['Bench Press']);
               }}
               style={styles.actionButtonPrimary}
             >
@@ -83,9 +156,12 @@ export default function TabOneScreen() {
           </View>
         ) : (
           <View style={styles.actionRow}>
-            <View style={styles.actionButtonCancel}>
+            <TouchableOpacity
+              onPress={cancelWorkout}
+              style={styles.actionButtonCancel}
+            >
               <Text style={styles.actionButtonText}>Cancel Workout</Text>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => router.push('/(tabs)/today/workout-session')}
               style={styles.actionButtonPrimary}
