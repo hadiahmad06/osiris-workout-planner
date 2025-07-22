@@ -33,6 +33,8 @@ export default function TabOneScreen() {
     return now;
   });
 
+  const [weekAnimationDirection, setWeekAnimationDirection] = useState<'left' | 'right' | null>(null);
+
   const [loadedWorkouts, setLoadedWorkouts] = useState<CompleteWorkoutSession[] | null>(null);
   const [weekStatuses, setWeekStatuses] = useState<boolean[]>([]);
   
@@ -97,9 +99,36 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>{formattedTitle}</Text>
       <View style={styles.weekNav}>
-        <FontAwesome name="chevron-left" style={styles.arrow} />
+        <FontAwesome
+          name="chevron-left"
+          style={styles.arrow}
+          onPress={() => {
+            setWeekAnimationDirection('left');
+            setStartOfWeek(prev => {
+              const newDate = new Date(prev);
+              newDate.setDate(prev.getDate() - 7);
+              return newDate;
+            });
+          }}
+        />
         <View style={styles.weekContainerWrapper}>
-          <View style={styles.weekContainer}>
+          <MotiView
+            key={startOfWeek.toISOString()}
+            from={{
+              translateX: weekAnimationDirection === 'left' ? -100 : 100,
+              opacity: 0,
+            }}
+            animate={{
+              translateX: 0,
+              opacity: 1,
+            }}
+            transition={{
+              type: 'timing',
+              duration: 300,
+            }}
+            style={styles.weekContainer}
+            onDidAnimate={() => setWeekAnimationDirection(null)}
+          >
             {Array.from({ length: 7 }).map((_, index) => {
               const date = new Date();
               date.setDate(date.getDate() - date.getDay() + index); // Start from Sunday
@@ -129,7 +158,7 @@ export default function TabOneScreen() {
                 </TouchableOpacity>
               );
             })}
-          </View>
+          </MotiView>
           <View
             style={{
               position: 'absolute',
@@ -178,7 +207,18 @@ export default function TabOneScreen() {
             </MotiView>
           </View>
         </View>
-        <FontAwesome name="chevron-right" style={styles.arrow} />
+        <FontAwesome
+          name="chevron-right"
+          style={styles.arrow}
+          onPress={() => {
+            setWeekAnimationDirection('right');
+            setStartOfWeek(prev => {
+              const newDate = new Date(prev);
+              newDate.setDate(prev.getDate() + 7);
+              return newDate;
+            });
+          }}
+        />
       </View>
       <View style={styles.summaryContainer}>
         <View style={styles.summaryHeader}>
